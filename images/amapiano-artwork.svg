@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a001a"/>
+      <stop offset="20%" stop-color="#1a0040"/>
+      <stop offset="42%" stop-color="#4a0080"/>
+      <stop offset="58%" stop-color="#ff4500"/>
+      <stop offset="70%" stop-color="#ff8c00"/>
+      <stop offset="80%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ffe066"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="55%" r="30%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="30%" stop-color="#ffd700" stop-opacity="0.7"/>
+      <stop offset="70%" stop-color="#ff6600" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff4500" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d1810"/>
+      <stop offset="100%" stop-color="#0a0504"/>
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b44aff"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="rimGlow">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGlow"><feGaussianBlur stdDeviation="18"/></filter>
+    <clipPath id="circleClip"><circle cx="300" cy="300" r="300"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#circleClip)">
+
+    <!-- Sky gradient -->
+    <rect width="600" height="600" fill="url(#skyGrad)"/>
+
+    <!-- Stars -->
+    <g fill="#fff" opacity="0.6">
+      <circle cx="75" cy="45" r="1.5"/><circle cx="145" cy="75" r="1"/>
+      <circle cx="215" cy="28" r="1.8"/><circle cx="345" cy="55" r="1.2"/>
+      <circle cx="415" cy="38" r="1.5"/><circle cx="495" cy="70" r="1"/>
+      <circle cx="545" cy="28" r="1.3"/><circle cx="95" cy="115" r="0.8"/>
+      <circle cx="275" cy="95" r="1.5"/><circle cx="455" cy="105" r="1"/>
+      <circle cx="175" cy="145" r="0.7"/><circle cx="385" cy="125" r="1.2"/>
+      <circle cx="525" cy="115" r="0.9"/><circle cx="55" cy="165" r="1.1"/>
+      <circle cx="470" cy="150" r="1.4"/>
+    </g>
+
+    <!-- Sun — large, behind the woman -->
+    <circle cx="300" cy="340" r="110" fill="#ffd700" opacity="0.85"/>
+    <circle cx="300" cy="340" r="110" fill="url(#sunGlow)"/>
+    <circle cx="300" cy="340" r="135" fill="none" stroke="#ff8c00" stroke-width="0.8" opacity="0.25"/>
+    <circle cx="300" cy="340" r="160" fill="none" stroke="#ff6600" stroke-width="0.4" opacity="0.15"/>
+
+    <!-- Retro scan lines on sun -->
+    <g opacity="0.1">
+      <line x1="190" y1="290" x2="410" y2="290" stroke="#0a001a" stroke-width="2"/>
+      <line x1="195" y1="305" x2="405" y2="305" stroke="#0a001a" stroke-width="2"/>
+      <line x1="192" y1="320" x2="408" y2="320" stroke="#0a001a" stroke-width="2"/>
+      <line x1="195" y1="335" x2="405" y2="335" stroke="#0a001a" stroke-width="2.5"/>
+      <line x1="198" y1="350" x2="402" y2="350" stroke="#0a001a" stroke-width="2"/>
+      <line x1="200" y1="365" x2="400" y2="365" stroke="#0a001a" stroke-width="2"/>
+      <line x1="205" y1="380" x2="395" y2="380" stroke="#0a001a" stroke-width="2"/>
+      <line x1="210" y1="395" x2="390" y2="395" stroke="#0a001a" stroke-width="2"/>
+    </g>
+
+    <!-- Ground -->
+    <path d="M0 430 Q100 410 200 422 Q300 408 400 418 Q500 408 600 430 L600 600 L0 600 Z" fill="url(#groundGrad)"/>
+    <path d="M0 430 Q80 400 160 420 Q240 395 340 412 Q420 395 500 418 Q560 408 600 425 L600 430 L0 430 Z" fill="#1a0e08" opacity="0.5"/>
+
+    <!-- Acacia tree left -->
+    <g fill="#140c06">
+      <rect x="55" y="355" width="5" height="75"/>
+      <ellipse cx="57" cy="350" rx="48" ry="18"/>
+      <ellipse cx="35" cy="354" rx="25" ry="10"/>
+      <ellipse cx="82" cy="352" rx="27" ry="11"/>
+    </g>
+    <!-- Acacia tree right -->
+    <g fill="#0f0804">
+      <rect x="528" y="365" width="4" height="60"/>
+      <ellipse cx="530" cy="360" rx="35" ry="14"/>
+      <ellipse cx="512" cy="364" rx="18" ry="8"/>
+      <ellipse cx="550" cy="362" rx="20" ry="9"/>
+    </g>
+
+    <!-- Birds -->
+    <g stroke="#1a0e08" stroke-width="1.5" fill="none" opacity="0.3">
+      <path d="M130 240 L137 233 L144 240"/>
+      <path d="M152 230 L160 222 L168 230"/>
+      <path d="M460 225 L467 218 L474 225"/>
+      <path d="M478 235 L484 229 L490 235"/>
+    </g>
+
+    <!-- ======================================== -->
+    <!-- WOMAN SILHOUETTE — LARGE, BOLD, CENTERED -->
+    <!-- Standing in front of the sun             -->
+    <!-- ======================================== -->
+
+    <!-- Complete woman silhouette as one bold shape -->
+    <!-- Head at ~y=120, shoulders ~y=280, waist cuts off at ~y=490 -->
+    <path d="
+      M300 120
+      C296 120 292 122 290 126
+      C286 132 284 140 284 150
+      C284 158 286 165 290 170
+      C292 174 294 177 296 182
+      C298 188 298 194 296 200
+      C294 206 292 210 292 216
+      C292 222 290 228 288 235
+      C286 242 282 250 278 258
+      C272 268 264 276 254 282
+      C240 292 226 300 214 312
+      C202 326 194 342 190 362
+      C188 378 186 396 186 420
+      L186 500
+      L414 500
+      L414 420
+      C414 396 412 378 410 362
+      C406 342 398 326 386 312
+      C376 300 362 292 348 282
+      C338 276 330 268 324 258
+      C320 250 316 242 314 235
+      C312 228 310 222 310 216
+      C310 210 308 206 306 200
+      C304 194 304 188 306 182
+      C308 177 310 174 312 170
+      C316 165 318 158 318 150
+      C318 140 316 132 312 126
+      C310 122 306 120 300 120
+      Z
+    " fill="#050508"/>
+
+    <!-- FLOWING HAIR — dramatic long hair blowing LEFT -->
+    <!-- Layer 1: Main thick mass -->
+    <path d="
+      M290 126
+      C282 120 268 115 250 118
+      C228 124 200 140 170 162
+      C140 184 112 198 82 202
+      C60 205 48 195 52 182
+      C58 172 72 168 90 175
+      C108 168 130 155 155 140
+      C180 124 205 112 232 108
+      C255 105 275 110 286 118
+      Z
+    " fill="#050508"/>
+
+    <!-- Layer 2: Second wave of hair, wider -->
+    <path d="
+      M286 132
+      C272 122 248 112 222 115
+      C192 122 158 145 125 172
+      C98 196 72 210 42 205
+      C22 200 18 185 30 178
+      C42 172 60 178 80 188
+      C100 180 125 162 155 142
+      C185 122 212 110 242 108
+      C265 106 280 115 286 126
+      Z
+    " fill="#050508"/>
+
+    <!-- Layer 3: Wispy top strands -->
+    <path d="
+      M292 122
+      C280 108 258 98 232 102
+      C200 108 168 128 135 155
+      C108 178 78 192 48 185
+      C30 180 28 168 40 162
+      C52 158 68 165 86 175
+      C112 160 140 140 172 122
+      C200 105 228 98 252 100
+      C272 102 285 110 292 118
+      Z
+    " fill="#080810"/>
+
+    <!-- Layer 4: Thin flyaway strands -->
+    <path d="M270 112 C240 100 200 102 158 128 C128 148 98 168 68 168"
+          fill="none" stroke="#050508" stroke-width="6" stroke-linecap="round"/>
+    <path d="M262 108 C230 95 185 100 140 130 C112 150 82 165 52 162"
+          fill="none" stroke="#050508" stroke-width="4" stroke-linecap="round"/>
+    <path d="M255 105 C222 92 175 98 128 128 C100 148 70 162 42 155"
+          fill="none" stroke="#070710" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Hair glow — rim light from the sun behind -->
+    <!-- Orange/gold glow on main hair edge -->
+    <path d="
+      M290 126 C282 120 268 115 250 118
+      C228 124 200 140 170 162
+      C140 184 112 198 82 202
+    " fill="none" stroke="#ff8c00" stroke-width="2.5" opacity="0.45" filter="url(#rimGlow)"/>
+
+    <!-- Second hair edge glow -->
+    <path d="
+      M286 132 C272 122 248 112 222 115
+      C192 122 158 145 125 172
+      C98 196 72 210 42 205
+    " fill="none" stroke="#ffd700" stroke-width="1.8" opacity="0.3" filter="url(#rimGlow)"/>
+
+    <!-- Top strands glow -->
+    <path d="
+      M292 122 C280 108 258 98 232 102
+      C200 108 168 128 135 155
+      C108 178 78 192 48 185
+    " fill="none" stroke="#ffd700" stroke-width="1.2" opacity="0.25" filter="url(#rimGlow)"/>
+
+    <!-- Neon purple/blue on hair tips -->
+    <path d="M82 202 C60 205 48 195 52 182" fill="none" stroke="#b44aff" stroke-width="3" opacity="0.55" filter="url(#glow)"/>
+    <path d="M42 205 C22 200 18 185 30 178" fill="none" stroke="#b44aff" stroke-width="2.5" opacity="0.45" filter="url(#glow)"/>
+    <path d="M48 185 C30 180 28 168 40 162" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.4" filter="url(#glow)"/>
+    <path d="M68 168" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.35" filter="url(#glow)"/>
+
+    <!-- Flyaway strands neon tips -->
+    <circle cx="68" cy="168" r="3" fill="#b44aff" opacity="0.4" filter="url(#glow)"/>
+    <circle cx="52" cy="162" r="2.5" fill="#00d4ff" opacity="0.35" filter="url(#glow)"/>
+    <circle cx="42" cy="155" r="2" fill="#b44aff" opacity="0.3" filter="url(#glow)"/>
+
+    <!-- Face profile rim light (right side, from sun) -->
+    <path d="
+      M312 126 C316 132 318 140 318 150
+      C318 158 316 165 312 170
+      C310 174 308 177 306 182
+      C304 188 304 194 306 200
+    " fill="none" stroke="#ff8c00" stroke-width="1.8" opacity="0.35" filter="url(#rimGlow)"/>
+
+    <!-- Neck/chin contour light -->
+    <path d="M306 200 C308 206 310 210 310 216 C310 222 312 228 314 235"
+          fill="none" stroke="#ffd700" stroke-width="1" opacity="0.2"/>
+
+    <!-- Earring — bright, visible -->
+    <circle cx="310" cy="208" r="4.5" fill="#b44aff" filter="url(#glow)" opacity="0.9"/>
+    <circle cx="310" cy="218" r="3.5" fill="#00d4ff" filter="url(#glow)" opacity="0.8"/>
+    <line x1="310" y1="212" x2="310" y2="215" stroke="#b44aff" stroke-width="1" opacity="0.6"/>
+
+    <!-- Necklace — across chest -->
+    <path d="M288 258 C292 270 305 275 324 268" fill="none" stroke="#b44aff" stroke-width="2.5" filter="url(#glow)" opacity="0.5"/>
+    <circle cx="305" cy="273" r="4" fill="#00d4ff" filter="url(#glow)" opacity="0.65"/>
+    <circle cx="296" cy="270" r="2.5" fill="#b44aff" filter="url(#glow)" opacity="0.5"/>
+    <circle cx="315" cy="270" r="2.5" fill="#b44aff" filter="url(#glow)" opacity="0.5"/>
+
+    <!-- Shoulder contour rim lights -->
+    <path d="M278 258 C264 268 254 282 240 292" fill="none" stroke="#ff6600" stroke-width="1.2" opacity="0.2"/>
+    <path d="M324 258 C338 268 348 282 362 292" fill="none" stroke="#ff6600" stroke-width="1.2" opacity="0.2"/>
+
+    <!-- Neon light rays radiating from behind woman -->
+    <g opacity="0.07" filter="url(#bigGlow)">
+      <line x1="300" y1="300" x2="80" y2="50" stroke="#b44aff" stroke-width="12"/>
+      <line x1="300" y1="300" x2="520" y2="50" stroke="#00d4ff" stroke-width="12"/>
+      <line x1="300" y1="300" x2="50" y2="200" stroke="#b44aff" stroke-width="8"/>
+      <line x1="300" y1="300" x2="550" y2="180" stroke="#00d4ff" stroke-width="8"/>
+    </g>
+
+    <!-- ===== TONY-T LOGO ===== -->
+    <g transform="translate(300, 535)" text-anchor="middle">
+      <rect x="-118" y="-32" width="236" height="58" rx="29" fill="#050508" opacity="0.8"/>
+      <rect x="-118" y="-32" width="236" height="58" rx="29" fill="none" stroke="url(#logoGrad)" stroke-width="2" opacity="0.65"/>
+      <text font-family="'Arial Black','Helvetica Neue',sans-serif" font-size="36" font-weight="900" letter-spacing="5" fill="url(#logoGrad)" filter="url(#glow)" y="13">TONY-T</text>
+    </g>
+
+    <!-- AMAPIANO MIX subtitle -->
+    <g transform="translate(300, 575)" text-anchor="middle">
+      <text font-family="'Arial',sans-serif" font-size="12" font-weight="400" letter-spacing="7" fill="#00d4ff" opacity="0.7" y="0">AMAPIANO MIX</text>
+    </g>
+
+    <!-- Circle border -->
+    <circle cx="300" cy="300" r="298" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" opacity="0.3"/>
+    <circle cx="300" cy="300" r="293" fill="none" stroke="url(#logoGrad)" stroke-width="0.5" opacity="0.15"/>
+
+  </g>
+</svg>
