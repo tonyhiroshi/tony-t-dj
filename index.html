@@ -1582,6 +1582,39 @@
       <audio id="audioPlayer2" preload="metadata" src="audio/dj-mix-90s-rnb.mp3"></audio>
     </div>
 
+    <!-- Featured Player 3: R&B -->
+    <div class="featured-player reveal" id="playlist-play-rnb-mix" style="margin-top:2rem;">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork3">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>DJ PLAY R&B <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
+          <div class="player-meta">Tony-T / Recorded 2026.9.13 / 44:43</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn3" onclick="togglePlay3()">
+              <svg id="playIcon3" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar3" onclick="seekAudio3(event)">
+                <div class="progress-fill" id="progressFill3"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime3">00:00</span>
+                <span id="totalTime3">44:43</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider3" min="0" max="1" step="0.05" value="1" oninput="setVolume3(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer3" preload="metadata" src="audio/dj-mix-play-rnb.mp3"></audio>
+    </div>
+
     <div class="playlist-grid">
       <div class="playlist-card reveal" id="playlist-rnb">
         <div class="playlist-label">R&B</div>
@@ -1900,7 +1933,7 @@ function pauseCustomPlayer() {
 
 // When user clicks any Spotify iframe, pause all custom players
 document.querySelectorAll('.playlist-card').forEach(card => {
-  card.addEventListener('mousedown', () => { pauseCustomPlayer(); if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2(); });
+  card.addEventListener('mousedown', () => { pauseCustomPlayer(); if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2(); if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3(); });
 });
 window.addEventListener('blur', () => {
   // If focus left the window (likely clicked into an iframe), pause all MIX players
@@ -1909,6 +1942,9 @@ window.addEventListener('blur', () => {
   }
   if (typeof audio2 !== 'undefined' && !audio2.paused) {
     setTimeout(() => { pauseCustomPlayer2(); }, 150);
+  }
+  if (typeof audio3 !== 'undefined' && !audio3.paused) {
+    setTimeout(() => { pauseCustomPlayer3(); }, 150);
   }
 });
 
@@ -1924,6 +1960,7 @@ function togglePlay() {
   if (audio.paused) {
     stopAllSpotify();
     if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2();
+    if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3();
     audio.play();
     playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
     playerArtwork.classList.add('playing');
@@ -1982,6 +2019,7 @@ function togglePlay2() {
   if (audio2.paused) {
     stopAllSpotify();
     pauseCustomPlayer(); // stop MIX 1
+    if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3();
     // stop originals
     originals.forEach((t, i) => {
       if (!t.audio.paused) {
@@ -2022,6 +2060,69 @@ function seekAudio2(e) {
 }
 function setVolume2(v) { audio2.volume = v; }
 audio2.volume = 1.0;
+
+// ===== AUDIO PLAYER 3 (R&B) =====
+const audio3 = document.getElementById('audioPlayer3');
+const playBtn3 = document.getElementById('playBtn3');
+const playIcon3 = document.getElementById('playIcon3');
+const progressFill3 = document.getElementById('progressFill3');
+const currentTimeEl3 = document.getElementById('currentTime3');
+const totalTimeEl3 = document.getElementById('totalTime3');
+const playerArtwork3 = document.getElementById('playerArtwork3');
+
+function pauseCustomPlayer3() {
+  if (!audio3.paused) {
+    audio3.pause();
+    playIcon3.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+    playerArtwork3.classList.remove('playing');
+  }
+}
+
+function togglePlay3() {
+  if (audio3.paused) {
+    stopAllSpotify();
+    pauseCustomPlayer(); // stop MIX 1
+    pauseCustomPlayer2(); // stop MIX 2
+    // stop originals
+    originals.forEach((t, i) => {
+      if (!t.audio.paused) {
+        t.audio.pause();
+        document.getElementById('origPlayIcon' + (i+1)).innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+        document.getElementById('originalPlayer' + (i+1)).classList.remove('playing');
+      }
+    });
+    audio3.play();
+    playIcon3.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    playerArtwork3.classList.add('playing');
+  } else {
+    audio3.pause();
+    playIcon3.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+    playerArtwork3.classList.remove('playing');
+  }
+}
+
+audio3.addEventListener('timeupdate', () => {
+  if (audio3.duration) {
+    progressFill3.style.width = (audio3.currentTime / audio3.duration * 100) + '%';
+    currentTimeEl3.textContent = formatTime(audio3.currentTime);
+  }
+});
+audio3.addEventListener('loadedmetadata', () => {
+  totalTimeEl3.textContent = formatTime(audio3.duration);
+});
+audio3.addEventListener('ended', () => {
+  playIcon3.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+  playerArtwork3.classList.remove('playing');
+  progressFill3.style.width = '0%';
+  currentTimeEl3.textContent = '00:00';
+});
+function seekAudio3(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio3.currentTime = pct * audio3.duration;
+}
+function setVolume3(v) { audio3.volume = v; }
+audio3.volume = 1.0;
 
 // Artwork lightbox for 90s R&B
 function openArtwork2() {
@@ -2129,9 +2230,10 @@ function toggleOriginal(idx) {
   const icon = document.getElementById('origPlayIcon' + (idx+1));
   const player = document.getElementById('originalPlayer' + (idx+1));
   if (t.audio.paused) {
-    // Stop both DJ MIX players
+    // Stop all DJ MIX players
     pauseCustomPlayer();
     if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2();
+    if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3();
     // Stop all Spotify
     stopAllSpotify();
     // Stop other originals
@@ -2169,6 +2271,7 @@ togglePlay = function() {
     }
   });
   if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2();
+  if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3();
   _origTogglePlay();
 };
 
