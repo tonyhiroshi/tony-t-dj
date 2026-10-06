@@ -8,7 +8,7 @@ $mime = @{
   ".html" = "text/html; charset=utf-8"; ".js" = "text/javascript; charset=utf-8";
   ".json" = "application/json; charset=utf-8"; ".svg" = "image/svg+xml";
   ".css" = "text/css; charset=utf-8"; ".png" = "image/png";
-  ".jpg" = "image/jpeg"; ".jpeg" = "image/jpeg"; ".gif" = "image/gif";
+  ".jpg" = "image/jpeg"; ".jpeg" = "image/jpeg"; ".gif" = "image/gif"; ".webp" = "image/webp";
   ".mp3" = "audio/mpeg"; ".wav" = "audio/wav"; ".txt" = "text/plain; charset=utf-8";
   ".ico" = "image/x-icon"; ".webmanifest" = "application/manifest+json";
 }
