@@ -16,14 +16,13 @@
     --neon-purple: #b44aff;
     --neon-blue: #00d4ff;
     --neon-pink: #ff2d95;
-    /* 白背景で文字に使う読みやすい差し色（深いティール） */
-    --accent-ink: #0e7490;
-    /* 変数名はダーク時代のままだが、白基調に振り直している */
-    --dark-bg: #f4f5fb;      /* ページのベース色（ほぼ白） */
-    --dark-card: #ffffff;    /* カードは純白 */
-    --dark-card2: #eef0f7;   /* うっすらグレーのサブ面 */
-    --text: #17172b;         /* 本文（濃紺グレー） */
-    --text-dim: #5f6178;     /* サブ文字 */
+    /* 文字に使う差し色（黒基調ではネオンブルー） */
+    --accent-ink: #00d4ff;
+    --dark-bg: #0a0a14;
+    --dark-card: #12121e;
+    --dark-card2: #1a1a2e;
+    --text: #e0e0f0;
+    --text-dim: #8888aa;
   }
 
   html { scroll-behavior: smooth; scroll-padding-top: 0px; }
@@ -34,18 +33,6 @@
     color: var(--text);
     overflow-x: hidden;
     line-height: 1.6;
-  }
-  /* 背景専用の固定レイヤー（background-attachment:fixed の代わり。描画が軽い） */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 80% 60% at 15% 0%, rgba(180,74,255,0.10) 0%, transparent 55%),
-      radial-gradient(ellipse 80% 60% at 95% 8%, rgba(0,212,255,0.08) 0%, transparent 55%),
-      linear-gradient(180deg, #ffffff 0%, #eef0f8 100%);
   }
 
   /* ===== PARTICLE CANVAS ===== */
@@ -66,12 +53,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 3rem;
-    background: rgba(255,255,255,0.72);
+    background: rgba(10,10,20,0.85);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(180,74,255,0.15);
     transition: all 0.3s;
   }
-  nav.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 24px rgba(80,60,140,0.08); }
+  nav.scrolled { background: rgba(10,10,20,0.95); }
   .nav-logo {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.5rem;
@@ -209,10 +196,10 @@
     font-weight: 900;
     line-height: 1;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, #17172b 0%, var(--neon-purple) 55%, var(--neon-blue) 100%);
+    background: linear-gradient(135deg, #fff 0%, var(--neon-purple) 50%, var(--neon-blue) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 8px 24px rgba(180,74,255,0.25));
+    filter: drop-shadow(0 0 40px rgba(180,74,255,0.3));
     opacity: 0;
     animation: fadeInUp 1s 0.5s forwards;
   }
@@ -360,8 +347,8 @@
     align-items: center;
   }
   .about-circle {
-    width: 300px; height: 300px;
-    border-radius: 50%;
+    width: 300px; height: 533px; /* 写真(9:16)全体を見せる縦長フレーム */
+    border-radius: 24px;
     background: linear-gradient(135deg, rgba(180,74,255,0.15), rgba(0,212,255,0.1));
     border: 2px solid rgba(180,74,255,0.3);
     display: flex;
@@ -385,7 +372,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: inherit;
   }
   .about-circle-inner {
     position: relative;
@@ -508,7 +495,7 @@
   .original-vinyl {
     position: absolute;
     width: 60px; height: 60px;
-    border: 2px solid rgba(23,23,43,0.14);
+    border: 2px solid rgba(255,255,255,0.08);
     border-radius: 50%;
     animation: spin 3s linear infinite paused;
   }
@@ -568,7 +555,7 @@
   .original-progress-wrap {
     flex: 1;
     height: 6px;
-    background: rgba(23,23,43,0.08);
+    background: rgba(255,255,255,0.1);
     border-radius: 3px;
     cursor: pointer;
     overflow: hidden;
@@ -693,6 +680,8 @@
     animation: spin 3s linear infinite paused;
   }
   .player-artwork.playing .vinyl-spin { animation-play-state: running; }
+  /* 丸いアートワークは四隅に枠の背景色を出さない */
+  #playerArtwork2, #playerArtwork3 { background: transparent; }
   .player-info h3 {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.4rem;
@@ -778,7 +767,7 @@
   }
   @media (max-width: 700px) {
     .player-layout { grid-template-columns: 1fr; }
-    .player-artwork { width: 100%; height: 80px; border-radius: 10px; }
+    .player-artwork { width: 200px; height: 200px; margin: 0 auto; } /* 狭い画面でも正方形のままアートワーク全体を見せる */
     .volume-control { display: none; }
   }
 
@@ -827,7 +816,7 @@
   .event-flyer { text-align: center; margin-bottom: 2.5rem; }
   .event-flyer img {
     width: 100%; max-width: 440px; border-radius: 14px; cursor: pointer; display: block; margin: 0 auto;
-    box-shadow: 0 10px 40px rgba(23,23,43,0.18); transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .event-flyer img:hover { transform: translateY(-4px); box-shadow: 0 16px 50px rgba(180,74,255,0.28); }
   .event-flyer-cap { margin-top: 1rem; }
@@ -1006,7 +995,7 @@
       position: fixed; top: 0; right: -100%;
       width: 70%; height: 100vh;
       flex-direction: column;
-      background: rgba(255,255,255,0.98);
+      background: rgba(10,10,20,0.98);
       padding: 5rem 2rem; transition: right 0.3s;
       border-left: 1px solid rgba(180,74,255,0.2);
     }
@@ -1021,7 +1010,7 @@
   }
   @media (max-width: 600px) {
     section { padding: 4rem 1.2rem; }
-    .about-circle { width: 200px; height: 200px; }
+    .about-circle { width: 220px; height: 391px; }
     .about-circle-inner { font-size: 2.5rem; }
     .about-stats { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
@@ -1031,12 +1020,6 @@
   ::-webkit-scrollbar-track { background: var(--dark-bg); }
   ::-webkit-scrollbar-thumb { background: linear-gradient(var(--neon-purple), var(--neon-blue)); border-radius: 3px; }
 
-  /* 白基調用: 白カードを背景から浮かせるソフトシャドウ（hover時は各要素の紫グローが上書き） */
-  .stat-item, .playlist-card, .original-card, .mix-card, .featured-player,
-  .event-card, .filter-btn, .social-link, .gallery-item,
-  .form-group input, .form-group textarea {
-    box-shadow: 0 6px 24px rgba(80,60,140,0.07);
-  }
 </style>
 </head>
 <body>
@@ -1492,7 +1475,7 @@
     <div class="about-grid">
       <div class="about-visual reveal">
         <div class="about-circle">
-          <img src="images/about-artwork.png" alt="DJ TONY-T" class="about-profile-img">
+          <img src="images/tony-t-profile.jpg" alt="DJ TONY-T" class="about-profile-img">
         </div>
       </div>
       <div class="about-text reveal">
@@ -1595,7 +1578,8 @@
     <div class="featured-player reveal" id="playlist-play-rnb-mix" style="margin-top:2rem;">
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
-        <div class="player-artwork" id="playerArtwork3">
+        <div class="player-artwork" id="playerArtwork3" style="cursor:pointer" onclick="openArtwork3()">
+          <img src="images/play-rnb-artwork.png" alt="DJ PLAY R&B Artwork">
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
@@ -2156,6 +2140,13 @@ function openArtwork2() {
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightboxImg');
   lbImg.src = 'images/90srnb-artwork.png';
+  lb.classList.add('active');
+}
+
+// Artwork lightbox for DJ PLAY R&B
+function openArtwork3() {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightboxImg').src = 'images/play-rnb-artwork.png';
   lb.classList.add('active');
 }
 
