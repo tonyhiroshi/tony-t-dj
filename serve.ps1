@@ -43,8 +43,30 @@ try {
       if ((Test-Path $file -PathType Leaf) -and ($file.StartsWith($root))) {
         $ext = [System.IO.Path]::GetExtension($file).ToLower()
         $ctx.Response.ContentType = if ($mime.ContainsKey($ext)) { $mime[$ext] } else { "application/octet-stream" }
-        $bytes = [System.IO.File]::ReadAllBytes($file)
-        $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+        # Range support (HTTP 206) so audio seeking works like on GitHub Pages
+        $fs = [System.IO.File]::OpenRead($file)
+        try {
+          $len = $fs.Length
+          $start = 0; $end = $len - 1
+          $ctx.Response.Headers.Add("Accept-Ranges", "bytes")
+          $range = $ctx.Request.Headers["Range"]
+          if ($range -and $range -match '^bytes=(\d*)-(\d*)$') {
+            if ($Matches[1] -ne '') { $start = [int64]$Matches[1]; if ($Matches[2] -ne '') { $end = [Math]::Min([int64]$Matches[2], $len - 1) } }
+            elseif ($Matches[2] -ne '') { $start = [Math]::Max(0, $len - [int64]$Matches[2]) }
+            $ctx.Response.StatusCode = 206
+            $ctx.Response.Headers.Add("Content-Range", "bytes $start-$end/$len")
+          }
+          $count = $end - $start + 1
+          $ctx.Response.ContentLength64 = $count
+          $fs.Seek($start, [System.IO.SeekOrigin]::Begin) | Out-Null
+          $buf = New-Object byte[] 65536
+          while ($count -gt 0) {
+            $n = $fs.Read($buf, 0, [int][Math]::Min($buf.Length, $count))
+            if ($n -le 0) { break }
+            $ctx.Response.OutputStream.Write($buf, 0, $n)
+            $count -= $n
+          }
+        } finally { $fs.Dispose() }
       } else {
         $ctx.Response.StatusCode = 404
         $msg = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found: " + $path)

@@ -558,7 +558,7 @@
     background: rgba(255,255,255,0.1);
     border-radius: 3px;
     cursor: pointer;
-    overflow: hidden;
+    position: relative;
   }
   .original-progress-fill {
     height: 100%;
@@ -728,8 +728,22 @@
     border-radius: 3px;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
   }
+  /* シークバー: 上下に広い当たり判定・つまみ表示・ドラッグ対応 */
+  .progress-bar, .original-progress-wrap { touch-action: none; user-select: none; }
+  .progress-bar::before, .original-progress-wrap::before {
+    content: ''; position: absolute; left: 0; right: 0; top: -10px; bottom: -10px;
+  }
+  .progress-fill, .original-progress-fill { position: relative; }
+  .progress-fill::after, .original-progress-fill::after {
+    content: ''; position: absolute; right: -7px; top: 50%;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #fff; box-shadow: 0 0 10px rgba(180,74,255,0.8);
+    transform: translateY(-50%) scale(0.75); transition: transform 0.15s;
+  }
+  .progress-bar:hover .progress-fill::after, .original-progress-wrap:hover .original-progress-fill::after,
+  .seeking .progress-fill::after, .seeking .original-progress-fill::after { transform: translateY(-50%) scale(1.1); }
+  .seeking .progress-fill, .seeking .original-progress-fill { transition: none; }
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
@@ -1191,7 +1205,7 @@
               <button class="original-play-btn" id="origPlayBtn1" onclick="toggleOriginal(0)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon1"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 0)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress1"></div>
               </div>
               <span class="original-time" id="origTime1">00:00</span>
@@ -1215,7 +1229,7 @@
               <button class="original-play-btn" id="origPlayBtn2" onclick="toggleOriginal(1)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon2"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 1)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress2"></div>
               </div>
               <span class="original-time" id="origTime2">00:00</span>
@@ -1239,7 +1253,7 @@
               <button class="original-play-btn" id="origPlayBtn3" onclick="toggleOriginal(2)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon3"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 2)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress3"></div>
               </div>
               <span class="original-time" id="origTime3">00:00</span>
@@ -1263,7 +1277,7 @@
               <button class="original-play-btn" id="origPlayBtn4" onclick="toggleOriginal(3)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon4"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 3)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress4"></div>
               </div>
               <span class="original-time" id="origTime4">00:00</span>
@@ -1287,7 +1301,7 @@
               <button class="original-play-btn" id="origPlayBtn5" onclick="toggleOriginal(4)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon5"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 4)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress5"></div>
               </div>
               <span class="original-time" id="origTime5">00:00</span>
@@ -1311,7 +1325,7 @@
               <button class="original-play-btn" id="origPlayBtn6" onclick="toggleOriginal(5)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon6"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 5)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress6"></div>
               </div>
               <span class="original-time" id="origTime6">00:00</span>
@@ -1335,7 +1349,7 @@
               <button class="original-play-btn" id="origPlayBtn7" onclick="toggleOriginal(6)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon7"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 6)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress7"></div>
               </div>
               <span class="original-time" id="origTime7">00:00</span>
@@ -1359,7 +1373,7 @@
               <button class="original-play-btn" id="origPlayBtn8" onclick="toggleOriginal(7)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon8"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 7)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress8"></div>
               </div>
               <span class="original-time" id="origTime8">00:00</span>
@@ -1383,7 +1397,7 @@
               <button class="original-play-btn" id="origPlayBtn9" onclick="toggleOriginal(8)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon9"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 8)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress9"></div>
               </div>
               <span class="original-time" id="origTime9">00:00</span>
@@ -1407,7 +1421,7 @@
               <button class="original-play-btn" id="origPlayBtn10" onclick="toggleOriginal(9)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon10"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 9)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress10"></div>
               </div>
               <span class="original-time" id="origTime10">00:00</span>
@@ -1431,7 +1445,7 @@
               <button class="original-play-btn" id="origPlayBtn11" onclick="toggleOriginal(10)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon11"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 10)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress11"></div>
               </div>
               <span class="original-time" id="origTime11">00:00</span>
@@ -1455,7 +1469,7 @@
               <button class="original-play-btn" id="origPlayBtn12" onclick="toggleOriginal(11)">
                 <svg viewBox="0 0 24 24" id="origPlayIcon12"><polygon points="5,3 19,12 5,21"/></svg>
               </button>
-              <div class="original-progress-wrap" onclick="seekOriginal(event, 11)">
+              <div class="original-progress-wrap">
                 <div class="original-progress-fill" id="origProgress12"></div>
               </div>
               <span class="original-time" id="origTime12">00:00</span>
@@ -1522,7 +1536,7 @@
               <svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
             </button>
             <div class="progress-container">
-              <div class="progress-bar" id="progressBar" onclick="seekAudio(event)">
+              <div class="progress-bar" id="progressBar">
                 <div class="progress-fill" id="progressFill"></div>
               </div>
               <div class="time-display">
@@ -1556,7 +1570,7 @@
               <svg id="playIcon2" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
             </button>
             <div class="progress-container">
-              <div class="progress-bar" id="progressBar2" onclick="seekAudio2(event)">
+              <div class="progress-bar" id="progressBar2">
                 <div class="progress-fill" id="progressFill2"></div>
               </div>
               <div class="time-display">
@@ -1590,7 +1604,7 @@
               <svg id="playIcon3" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
             </button>
             <div class="progress-container">
-              <div class="progress-bar" id="progressBar3" onclick="seekAudio3(event)">
+              <div class="progress-bar" id="progressBar3">
                 <div class="progress-fill" id="progressFill3"></div>
               </div>
               <div class="time-display">
@@ -1924,6 +1938,9 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// ドラッグ中のaudio（timeupdateで表示を上書きしないため）
+const seekDragging = new Set();
+
 // ===== AUDIO PLAYER =====
 const audio = document.getElementById('audioPlayer');
 const playBtn = document.getElementById('playBtn');
@@ -1987,7 +2004,7 @@ function formatTime(s) {
   return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 audio.addEventListener('timeupdate', () => {
-  if (audio.duration) {
+  if (audio.duration && !seekDragging.has(audio)) {
     progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
     currentTimeEl.textContent = formatTime(audio.currentTime);
   }
@@ -2001,11 +2018,6 @@ audio.addEventListener('ended', () => {
   progressFill.style.width = '0%';
   currentTimeEl.textContent = '00:00';
 });
-function seekAudio(e) {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audio.currentTime = pct * audio.duration;
-}
 function setVolume(v) { audio.volume = v; }
 audio.volume = 1.0;
 
@@ -2050,7 +2062,7 @@ function togglePlay2() {
 }
 
 audio2.addEventListener('timeupdate', () => {
-  if (audio2.duration) {
+  if (audio2.duration && !seekDragging.has(audio2)) {
     progressFill2.style.width = (audio2.currentTime / audio2.duration * 100) + '%';
     currentTimeEl2.textContent = formatTime(audio2.currentTime);
   }
@@ -2064,11 +2076,6 @@ audio2.addEventListener('ended', () => {
   progressFill2.style.width = '0%';
   currentTimeEl2.textContent = '00:00';
 });
-function seekAudio2(e) {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audio2.currentTime = pct * audio2.duration;
-}
 function setVolume2(v) { audio2.volume = v; }
 audio2.volume = 1.0;
 
@@ -2113,7 +2120,7 @@ function togglePlay3() {
 }
 
 audio3.addEventListener('timeupdate', () => {
-  if (audio3.duration) {
+  if (audio3.duration && !seekDragging.has(audio3)) {
     progressFill3.style.width = (audio3.currentTime / audio3.duration * 100) + '%';
     currentTimeEl3.textContent = formatTime(audio3.currentTime);
   }
@@ -2127,11 +2134,6 @@ audio3.addEventListener('ended', () => {
   progressFill3.style.width = '0%';
   currentTimeEl3.textContent = '00:00';
 });
-function seekAudio3(e) {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audio3.currentTime = pct * audio3.duration;
-}
 function setVolume3(v) { audio3.volume = v; }
 audio3.volume = 1.0;
 
@@ -2236,7 +2238,7 @@ originals.forEach((t, i) => {
   t.audio = new Audio(t.src);
   t.audio.volume = 1.0;
   t.audio.addEventListener('timeupdate', () => {
-    if (t.audio.duration) {
+    if (t.audio.duration && !seekDragging.has(t.audio)) {
       document.getElementById('origProgress' + (i+1)).style.width = (t.audio.currentTime / t.audio.duration * 100) + '%';
       const m = Math.floor(t.audio.currentTime / 60);
       const s = Math.floor(t.audio.currentTime % 60);
@@ -2278,12 +2280,6 @@ function toggleOriginal(idx) {
     icon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
     player.classList.remove('playing');
   }
-}
-
-function seekOriginal(e, idx) {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  originals[idx].audio.currentTime = pct * originals[idx].audio.duration;
 }
 
 // Update DJ MIX togglePlay to also stop originals + MIX 2
@@ -2367,6 +2363,43 @@ if (contactForm) {
     }
   });
 }
+
+// ===== SEEK BAR (クリック＆ドラッグで任意の位置へ) =====
+function enableSeek(bar, audioEl, fill, timeEl) {
+  const pctAt = (e) => {
+    const r = bar.getBoundingClientRect();
+    return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+  };
+  const preview = (p) => {
+    fill.style.width = (p * 100) + '%';
+    if (timeEl) timeEl.textContent = formatTime(p * audioEl.duration);
+  };
+  const stop = () => { seekDragging.delete(audioEl); bar.classList.remove('seeking'); };
+  bar.addEventListener('pointerdown', (e) => {
+    if (!audioEl.duration) return;
+    e.preventDefault();
+    bar.setPointerCapture(e.pointerId);
+    seekDragging.add(audioEl);
+    bar.classList.add('seeking');
+    preview(pctAt(e));
+  });
+  bar.addEventListener('pointermove', (e) => {
+    if (seekDragging.has(audioEl)) preview(pctAt(e));
+  });
+  bar.addEventListener('pointerup', (e) => {
+    if (!seekDragging.has(audioEl)) return;
+    audioEl.currentTime = pctAt(e) * audioEl.duration;
+    stop();
+  });
+  bar.addEventListener('pointercancel', stop);
+}
+enableSeek(document.getElementById('progressBar'), audio, progressFill, currentTimeEl);
+enableSeek(document.getElementById('progressBar2'), audio2, progressFill2, currentTimeEl2);
+enableSeek(document.getElementById('progressBar3'), audio3, progressFill3, currentTimeEl3);
+originals.forEach((t, i) => {
+  const fill = document.getElementById('origProgress' + (i+1));
+  enableSeek(fill.parentElement, t.audio, fill, document.getElementById('origTime' + (i+1)));
+});
 </script>
 </body>
 </html>
