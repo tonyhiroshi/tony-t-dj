@@ -1520,8 +1520,42 @@
     <h2 class="section-title reveal">Music</h2>
     <div class="section-line reveal"></div>
 
+    <!-- Featured Player 3: R&B -->
+    <div class="featured-player reveal" id="playlist-play-rnb-mix">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork3" style="cursor:pointer" onclick="openArtwork3()">
+          <img src="images/play-rnb-artwork.png" alt="DJ PLAY R&B Artwork">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>DJ PLAY R&B <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
+          <div class="player-meta">Tony-T / Recorded 2026.9.13 / 44:43</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn3" onclick="togglePlay3()">
+              <svg id="playIcon3" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar3">
+                <div class="progress-fill" id="progressFill3"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime3">00:00</span>
+                <span id="totalTime3">44:43</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider3" min="0" max="1" step="0.05" value="1" oninput="setVolume3(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer3" preload="metadata" src="audio/dj-mix-play-rnb.mp3"></audio>
+    </div>
+
     <!-- Featured Player -->
-    <div class="featured-player reveal" id="playlist-amapiano-mix">
+    <div class="featured-player reveal" id="playlist-amapiano-mix" style="margin-top:2rem;">
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork" style="cursor:pointer" onclick="openArtwork()">
@@ -1586,40 +1620,6 @@
         </div>
       </div>
       <audio id="audioPlayer2" preload="metadata" src="audio/dj-mix-90s-rnb.mp3"></audio>
-    </div>
-
-    <!-- Featured Player 3: R&B -->
-    <div class="featured-player reveal" id="playlist-play-rnb-mix" style="margin-top:2rem;">
-      <div class="featured-label">&#9654; Now Playing</div>
-      <div class="player-layout">
-        <div class="player-artwork" id="playerArtwork3" style="cursor:pointer" onclick="openArtwork3()">
-          <img src="images/play-rnb-artwork.png" alt="DJ PLAY R&B Artwork">
-          <div class="vinyl-spin"></div>
-        </div>
-        <div class="player-info">
-          <h3>DJ PLAY R&B <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
-          <div class="player-meta">Tony-T / Recorded 2026.9.13 / 44:43</div>
-          <div class="player-controls">
-            <button class="play-btn" id="playBtn3" onclick="togglePlay3()">
-              <svg id="playIcon3" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-            </button>
-            <div class="progress-container">
-              <div class="progress-bar" id="progressBar3">
-                <div class="progress-fill" id="progressFill3"></div>
-              </div>
-              <div class="time-display">
-                <span id="currentTime3">00:00</span>
-                <span id="totalTime3">44:43</span>
-              </div>
-            </div>
-            <div class="volume-control">
-              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <input type="range" class="volume-slider" id="volumeSlider3" min="0" max="1" step="0.05" value="1" oninput="setVolume3(this.value)">
-            </div>
-          </div>
-        </div>
-      </div>
-      <audio id="audioPlayer3" preload="metadata" src="audio/dj-mix-play-rnb.mp3"></audio>
     </div>
 
     <div class="playlist-grid">
