@@ -1183,6 +1183,172 @@
   </div>
 </section>
 
+<!-- MUSIC -->
+<section id="music">
+  <div class="container">
+    <h2 class="section-title reveal">Music</h2>
+    <div class="section-line reveal"></div>
+
+    <!-- Featured Player 3: R&B -->
+    <div class="featured-player reveal" id="playlist-play-rnb-mix">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork3" style="cursor:pointer" onclick="openArtwork3()">
+          <img src="images/play-rnb-artwork.png" alt="DJ PLAY R&B Artwork">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>DJ PLAY R&B <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
+          <div class="player-meta">Tony-T / Recorded 2026.9.13 / 44:43</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn3" onclick="togglePlay3()">
+              <svg id="playIcon3" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar3">
+                <div class="progress-fill" id="progressFill3"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime3">00:00</span>
+                <span id="totalTime3">44:43</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider3" min="0" max="1" step="0.05" value="1" oninput="setVolume3(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer3" preload="metadata" src="audio/dj-mix-play-rnb.mp3"></audio>
+    </div>
+
+    <!-- Featured Player 2: 90s R&B -->
+    <div class="featured-player reveal" id="playlist-90srnb-mix" style="margin-top:2rem;">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork2" style="cursor:pointer" onclick="openArtwork2()">
+          <img src="images/90srnb-artwork.png" alt="DJ TONY-T MIX 90s R&B Artwork">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>DJ TONY-T MIX 90's R&B <span style="font-size:0.55em;color:#dc8cc8;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
+          <div class="player-meta">Tony-T / 49:01</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn2" onclick="togglePlay2()">
+              <svg id="playIcon2" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar2">
+                <div class="progress-fill" id="progressFill2"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime2">00:00</span>
+                <span id="totalTime2">49:01</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider2" min="0" max="1" step="0.05" value="1" oninput="setVolume2(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer2" preload="metadata" src="audio/dj-mix-90s-rnb.mp3"></audio>
+    </div>
+
+    <!-- Featured Player -->
+    <div class="featured-player reveal" id="playlist-amapiano-mix" style="margin-top:2rem;">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork" style="cursor:pointer" onclick="openArtwork()">
+          <img src="images/amapiano-artwork.png" alt="DJ TONY-T MIX AMAPIANO Artwork">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>DJ TONY-T MIX AMAPIANO <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
+          <div class="player-meta">Tony-T / Recorded 2026.1.24 / 52:45</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">
+              <svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime">00:00</span>
+                <span id="totalTime">52:45</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" oninput="setVolume(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer" preload="metadata" src="audio/dj-mix-amapiano.mp3"></audio>
+    </div>
+
+    <div class="playlist-grid">
+      <div class="playlist-card reveal" id="playlist-rnb">
+        <div class="playlist-label">R&B</div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3SsPWyQnAh1ccWEXZPYaCY?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <div class="playlist-card reveal" id="playlist-amapiano">
+        <div class="playlist-label">Amapiano</div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/74QpABGrU1VAdBlnaJqATL?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <div class="playlist-card reveal" id="playlist-hiphop">
+        <div class="playlist-label">HipHop</div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX48TTZL62Yht?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <div class="playlist-card reveal" id="playlist-house">
+        <div class="playlist-label">House</div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6vDGVr652ztNWKZuHvsFvx?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <div class="playlist-card reveal" id="playlist-reggae">
+        <div class="playlist-label">Reggae</div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6buyfbddoaTUTXGZok6zno?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title reveal">About</h2>
+    <div class="section-line reveal"></div>
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-circle">
+          <img src="images/tony-t-profile.jpg" alt="DJ TONY-T" class="about-profile-img">
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <p>西小山「AJITO」を拠点に、毎月第3土曜のオールナイトパーティ「FUN TIME」でフロアを沸かせるDJ Tony-T。R&B、Amapiano、HipHop、House、Reggaeを縦横無尽にクロスオーバーさせ、独自のグルーヴを生み出す。</p>
+        <p>OZISAN'S BLOCK PARTYをはじめとする地元西小山のイベントシーンでも活躍。ジャンルの壁を越えた選曲と、フロアの空気を読み切るミックスで、一度体感したら忘れられない夜を約束する。</p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">AJITO</div>
+            <div class="stat-label">Resident</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" style="font-size:1.2rem">FUN TIME</div>
+            <div class="stat-label">Monthly Party</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Genres</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ORIGINAL TRACKS -->
 <section id="originals">
   <div class="container">
@@ -1476,172 +1642,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <h2 class="section-title reveal">About</h2>
-    <div class="section-line reveal"></div>
-    <div class="about-grid">
-      <div class="about-visual reveal">
-        <div class="about-circle">
-          <img src="images/tony-t-profile.jpg" alt="DJ TONY-T" class="about-profile-img">
-        </div>
-      </div>
-      <div class="about-text reveal">
-        <p>西小山「AJITO」を拠点に、毎月第3土曜のオールナイトパーティ「FUN TIME」でフロアを沸かせるDJ Tony-T。R&B、Amapiano、HipHop、House、Reggaeを縦横無尽にクロスオーバーさせ、独自のグルーヴを生み出す。</p>
-        <p>OZISAN'S BLOCK PARTYをはじめとする地元西小山のイベントシーンでも活躍。ジャンルの壁を越えた選曲と、フロアの空気を読み切るミックスで、一度体感したら忘れられない夜を約束する。</p>
-        <div class="about-stats">
-          <div class="stat-item">
-            <div class="stat-number">AJITO</div>
-            <div class="stat-label">Resident</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number" style="font-size:1.2rem">FUN TIME</div>
-            <div class="stat-label">Monthly Party</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">5</div>
-            <div class="stat-label">Genres</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MUSIC -->
-<section id="music">
-  <div class="container">
-    <h2 class="section-title reveal">Music</h2>
-    <div class="section-line reveal"></div>
-
-    <!-- Featured Player 3: R&B -->
-    <div class="featured-player reveal" id="playlist-play-rnb-mix">
-      <div class="featured-label">&#9654; Now Playing</div>
-      <div class="player-layout">
-        <div class="player-artwork" id="playerArtwork3" style="cursor:pointer" onclick="openArtwork3()">
-          <img src="images/play-rnb-artwork.png" alt="DJ PLAY R&B Artwork">
-          <div class="vinyl-spin"></div>
-        </div>
-        <div class="player-info">
-          <h3>DJ PLAY R&B <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
-          <div class="player-meta">Tony-T / Recorded 2026.9.13 / 44:43</div>
-          <div class="player-controls">
-            <button class="play-btn" id="playBtn3" onclick="togglePlay3()">
-              <svg id="playIcon3" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-            </button>
-            <div class="progress-container">
-              <div class="progress-bar" id="progressBar3">
-                <div class="progress-fill" id="progressFill3"></div>
-              </div>
-              <div class="time-display">
-                <span id="currentTime3">00:00</span>
-                <span id="totalTime3">44:43</span>
-              </div>
-            </div>
-            <div class="volume-control">
-              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <input type="range" class="volume-slider" id="volumeSlider3" min="0" max="1" step="0.05" value="1" oninput="setVolume3(this.value)">
-            </div>
-          </div>
-        </div>
-      </div>
-      <audio id="audioPlayer3" preload="metadata" src="audio/dj-mix-play-rnb.mp3"></audio>
-    </div>
-
-    <!-- Featured Player 2: 90s R&B -->
-    <div class="featured-player reveal" id="playlist-90srnb-mix" style="margin-top:2rem;">
-      <div class="featured-label">&#9654; Now Playing</div>
-      <div class="player-layout">
-        <div class="player-artwork" id="playerArtwork2" style="cursor:pointer" onclick="openArtwork2()">
-          <img src="images/90srnb-artwork.png" alt="DJ TONY-T MIX 90s R&B Artwork">
-          <div class="vinyl-spin"></div>
-        </div>
-        <div class="player-info">
-          <h3>DJ TONY-T MIX 90's R&B <span style="font-size:0.55em;color:#dc8cc8;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
-          <div class="player-meta">Tony-T / 49:01</div>
-          <div class="player-controls">
-            <button class="play-btn" id="playBtn2" onclick="togglePlay2()">
-              <svg id="playIcon2" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-            </button>
-            <div class="progress-container">
-              <div class="progress-bar" id="progressBar2">
-                <div class="progress-fill" id="progressFill2"></div>
-              </div>
-              <div class="time-display">
-                <span id="currentTime2">00:00</span>
-                <span id="totalTime2">49:01</span>
-              </div>
-            </div>
-            <div class="volume-control">
-              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <input type="range" class="volume-slider" id="volumeSlider2" min="0" max="1" step="0.05" value="1" oninput="setVolume2(this.value)">
-            </div>
-          </div>
-        </div>
-      </div>
-      <audio id="audioPlayer2" preload="metadata" src="audio/dj-mix-90s-rnb.mp3"></audio>
-    </div>
-
-    <!-- Featured Player -->
-    <div class="featured-player reveal" id="playlist-amapiano-mix" style="margin-top:2rem;">
-      <div class="featured-label">&#9654; Now Playing</div>
-      <div class="player-layout">
-        <div class="player-artwork" id="playerArtwork" style="cursor:pointer" onclick="openArtwork()">
-          <img src="images/amapiano-artwork.png" alt="DJ TONY-T MIX AMAPIANO Artwork">
-          <div class="vinyl-spin"></div>
-        </div>
-        <div class="player-info">
-          <h3>DJ TONY-T MIX AMAPIANO <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
-          <div class="player-meta">Tony-T / Recorded 2026.1.24 / 52:45</div>
-          <div class="player-controls">
-            <button class="play-btn" id="playBtn" onclick="togglePlay()">
-              <svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-            </button>
-            <div class="progress-container">
-              <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
-              </div>
-              <div class="time-display">
-                <span id="currentTime">00:00</span>
-                <span id="totalTime">52:45</span>
-              </div>
-            </div>
-            <div class="volume-control">
-              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" oninput="setVolume(this.value)">
-            </div>
-          </div>
-        </div>
-      </div>
-      <audio id="audioPlayer" preload="metadata" src="audio/dj-mix-amapiano.mp3"></audio>
-    </div>
-
-    <div class="playlist-grid">
-      <div class="playlist-card reveal" id="playlist-rnb">
-        <div class="playlist-label">R&B</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3SsPWyQnAh1ccWEXZPYaCY?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-amapiano">
-        <div class="playlist-label">Amapiano</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/74QpABGrU1VAdBlnaJqATL?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-hiphop">
-        <div class="playlist-label">HipHop</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX48TTZL62Yht?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-house">
-        <div class="playlist-label">House</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6vDGVr652ztNWKZuHvsFvx?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-reggae">
-        <div class="playlist-label">Reggae</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6buyfbddoaTUTXGZok6zno?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </div>
   </div>
