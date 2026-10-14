@@ -454,6 +454,31 @@
     padding-left: 0.2rem;
   }
 
+  /* ===== SPOTIFY GENRE TABS ===== */
+  .spotify-tabs-wrap { margin-top: 3rem; scroll-margin-top: 90px; }
+  .spotify-tabs {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .spotify-tab {
+    font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-dim); background: var(--dark-card);
+    border: 1px solid rgba(180,74,255,0.25); border-radius: 999px;
+    padding: 0.6rem 1.2rem; cursor: pointer; transition: all 0.3s;
+  }
+  .spotify-tab:hover { color: var(--accent-ink); border-color: rgba(0,212,255,0.5); }
+  .spotify-tab.active {
+    color: #fff; border-color: transparent;
+    background: linear-gradient(135deg, #b44aff, #00d4ff);
+    box-shadow: 0 6px 24px rgba(180,74,255,0.3);
+  }
+  .spotify-tabs-wrap .playlist-grid { display: block; max-width: 720px; margin: 0 auto; }
+  .spotify-tabs-wrap .playlist-card { display: none; }
+  .spotify-tabs-wrap .playlist-card.active { display: block; animation: tabFade 0.4s ease; }
+  @keyframes tabFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 600px) { .spotify-tab { font-size: 0.65rem; padding: 0.5rem 0.9rem; letter-spacing: 1px; } }
+
   /* ===== ORIGINAL TRACKS ===== */
   .originals-grid {
     display: grid;
@@ -1622,26 +1647,36 @@
       </div>
     </div>
 
-    <div class="playlist-grid" style="margin-top:3rem;">
-      <div class="playlist-card reveal" id="playlist-rnb">
-        <div class="playlist-label">R&B</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3SsPWyQnAh1ccWEXZPYaCY?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <!-- SPOTIFY (genre tabs) -->
+    <div class="spotify-tabs-wrap reveal">
+      <div class="spotify-tabs" role="tablist">
+        <button type="button" class="spotify-tab active" data-target="playlist-rnb" role="tab" aria-selected="true">R&B</button>
+        <button type="button" class="spotify-tab" data-target="playlist-amapiano" role="tab" aria-selected="false">Amapiano</button>
+        <button type="button" class="spotify-tab" data-target="playlist-hiphop" role="tab" aria-selected="false">HipHop</button>
+        <button type="button" class="spotify-tab" data-target="playlist-house" role="tab" aria-selected="false">House</button>
+        <button type="button" class="spotify-tab" data-target="playlist-reggae" role="tab" aria-selected="false">Reggae</button>
       </div>
-      <div class="playlist-card reveal" id="playlist-amapiano">
-        <div class="playlist-label">Amapiano</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/74QpABGrU1VAdBlnaJqATL?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-hiphop">
-        <div class="playlist-label">HipHop</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX48TTZL62Yht?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-house">
-        <div class="playlist-label">House</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6vDGVr652ztNWKZuHvsFvx?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <div class="playlist-card reveal" id="playlist-reggae">
-        <div class="playlist-label">Reggae</div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6buyfbddoaTUTXGZok6zno?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="playlist-grid">
+        <div class="playlist-card active" id="playlist-rnb">
+          <div class="playlist-label">R&B</div>
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3SsPWyQnAh1ccWEXZPYaCY?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <div class="playlist-card" id="playlist-amapiano">
+          <div class="playlist-label">Amapiano</div>
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/74QpABGrU1VAdBlnaJqATL?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <div class="playlist-card" id="playlist-hiphop">
+          <div class="playlist-label">HipHop</div>
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX48TTZL62Yht?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <div class="playlist-card" id="playlist-house">
+          <div class="playlist-label">House</div>
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6vDGVr652ztNWKZuHvsFvx?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <div class="playlist-card" id="playlist-reggae">
+          <div class="playlist-label">Reggae</div>
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6buyfbddoaTUTXGZok6zno?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
       </div>
     </div>
   </div>
@@ -2400,6 +2435,27 @@ originals.forEach((t, i) => {
   const fill = document.getElementById('origProgress' + (i+1));
   enableSeek(fill.parentElement, t.audio, fill, document.getElementById('origTime' + (i+1)));
 });
+
+// ===== SPOTIFY GENRE TABS =====
+(function(){
+  const wrap = document.querySelector('.spotify-tabs-wrap');
+  if (!wrap) return;
+  const tabs = wrap.querySelectorAll('.spotify-tab');
+  const cards = wrap.querySelectorAll('.playlist-card');
+  function showGenre(id){
+    if (!wrap.querySelector('#' + id)) return false;
+    cards.forEach(c => c.classList.toggle('active', c.id === id));
+    tabs.forEach(t => { const on = t.dataset.target === id; t.classList.toggle('active', on); t.setAttribute('aria-selected', on); });
+    return true;
+  }
+  tabs.forEach(t => t.addEventListener('click', () => showGenre(t.dataset.target)));
+  // トップのジャンルボタン等から #playlist-xxx へ飛んだときも該当タブを開く
+  document.querySelectorAll('a[href^="#playlist-"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    if (showGenre(id)) { e.preventDefault(); wrap.scrollIntoView({behavior:'smooth', block:'start'}); }
+  }));
+  if (location.hash.startsWith('#playlist-')) showGenre(location.hash.slice(1));
+})();
 </script>
 </body>
 </html>
