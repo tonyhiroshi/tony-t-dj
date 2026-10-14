@@ -419,12 +419,18 @@
     margin-top: 0.3rem;
   }
 
-  .stat-sub-venues {
-    display: flex; flex-direction: column; gap: 0.15rem;
-    margin-top: 0.35rem;
-    font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.5px; line-height: 1.35;
-    color: var(--accent-ink);
+  .venue-list {
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .venue-chip {
+    display: block;
+    font-family: 'Orbitron', sans-serif; font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.5px; line-height: 1.3;
+    color: #fff;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,212,255,0.35);
+    background: linear-gradient(135deg, rgba(180,74,255,0.18), rgba(0,212,255,0.12));
   }
 
   /* ===== MUSIC ===== */
@@ -1347,12 +1353,12 @@
         <p>OZISAN'S BLOCK PARTYをはじめとする地元西小山のイベントシーンでも活躍。ジャンルの壁を越えた選曲と、フロアの空気を読み切るミックスで、一度体感したら忘れられない夜を約束する。</p>
         <div class="about-stats">
           <div class="stat-item">
-            <div class="stat-number">AJITO</div>
-            <div class="stat-sub-venues">
-              <span>BAR TRIO</span>
-              <span>Craft Village NISHIKOYAMA</span>
+            <div class="venue-list">
+              <span class="venue-chip">AJITO</span>
+              <span class="venue-chip">BAR TRIO</span>
+              <span class="venue-chip">Craft Village NISHIKOYAMA</span>
             </div>
-            <div class="stat-label">Resident</div>
+            <div class="stat-label">DJ Venues</div>
           </div>
           <div class="stat-item">
             <div class="stat-number" style="font-size:1.2rem">FUN TIME</div>
