@@ -1025,6 +1025,10 @@
   .reveal.active { opacity: 1; transform: translateY(0); }
 
   /* ===== RESPONSIVE ===== */
+  @media (min-width: 901px) and (max-width: 1150px) {
+    .nav-links { gap: 1.1rem; }
+    .nav-links a { font-size: 0.8rem; letter-spacing: 1px; }
+  }
   @media (max-width: 1024px) {
     .gallery-grid { grid-template-columns: repeat(3, 1fr); }
   }
@@ -1070,9 +1074,10 @@
   <div class="nav-logo">TONY-T</div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
     <li><a href="#music">Music</a></li>
+    <li><a href="#about">About</a></li>
     <li><a href="#originals">Originals</a></li>
+    <li><a href="#playlists">Spotify</a></li>
     <li><a href="#events">Events</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact">Contact</a></li>
