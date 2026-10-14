@@ -433,6 +433,16 @@
     background: linear-gradient(135deg, rgba(180,74,255,0.18), rgba(0,212,255,0.12));
   }
 
+  .event-chip {
+    border-color: rgba(255,60,172,0.4);
+    background: linear-gradient(135deg, rgba(255,60,172,0.18), rgba(180,74,255,0.12));
+  }
+  .event-chip small {
+    display: block; margin-top: 0.15rem;
+    font-family: inherit; font-size: 0.6rem; font-weight: 400;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim);
+  }
+
   /* ===== MUSIC ===== */
   #music { background: linear-gradient(180deg, transparent, rgba(180,74,255,0.03), transparent); }
   .music-grid {
@@ -1361,8 +1371,11 @@
             <div class="stat-label">DJ Venues</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number" style="font-size:1.2rem">FUN TIME</div>
-            <div class="stat-label">Monthly Party</div>
+            <div class="venue-list">
+              <span class="venue-chip event-chip">FUN TIME<small>Monthly Party</small></span>
+              <span class="venue-chip event-chip">OZISAN'S BLOCK PARTY</span>
+            </div>
+            <div class="stat-label">Events</div>
           </div>
           <div class="stat-item">
             <div class="stat-number">5</div>
