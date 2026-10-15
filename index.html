@@ -2657,7 +2657,7 @@ originals.forEach((t, i) => {
     const items = [...tl.querySelectorAll('li')];
     function label(){
       items.forEach(li => {
-        if (li.dataset.start) li.querySelector('.tl-time').textContent = fmt(+li.dataset.start);
+        if (li.dataset.start) li.querySelector('.tl-time').textContent = fmt(+li.dataset.start) + '〜';
       });
     }
     label();
