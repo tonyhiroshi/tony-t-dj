@@ -2655,19 +2655,13 @@ originals.forEach((t, i) => {
     const player = tl.closest('.featured-player');
     const audioEl = player && player.querySelector('audio');
     const items = [...tl.querySelectorAll('li')];
-    const total = () => (audioEl && audioEl.duration) || null;
     function label(){
-      items.forEach((li, idx) => {
-        if (!li.dataset.start) return;
-        const st = +li.dataset.start;
-        const next = items[idx+1] && items[idx+1].dataset.start;
-        let end = next ? (+next - 1) : (idx === items.length-1 && total() ? total() : null);
-        li.querySelector('.tl-time').textContent = fmt(st) + '〜' + (end != null ? fmt(end) : '');
+      items.forEach(li => {
+        if (li.dataset.start) li.querySelector('.tl-time').textContent = fmt(+li.dataset.start);
       });
     }
     label();
     if (!audioEl) return;
-    audioEl.addEventListener('loadedmetadata', label);
     items.forEach(li => li.addEventListener('click', () => {
       if (!li.dataset.start) return;
       audioEl.currentTime = +li.dataset.start;
