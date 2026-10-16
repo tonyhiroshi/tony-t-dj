@@ -7,6 +7,8 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
+<!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
+<meta name="site-version" content="202610162319">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -3017,27 +3019,36 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   $('mpClose').addEventListener('click', () => { dismissed = true; update(); });
 })();
 
-// ===== UPDATE NOTICE: 公開中のページがより新しければお知らせを出す =====
+// ===== UPDATE NOTICE: 公開中のページの版番号が新しいときだけお知らせを出す =====
 (function(){
   const bar = document.getElementById('updateBar'); if (!bar || location.protocol === 'file:') return;
-  const shownAt = Date.parse(document.lastModified) || 0;
-  let dismissed = false, last = 0;
+  const meta = document.querySelector('meta[name="site-version"]');
+  const mine = meta ? meta.content : '';
+  if (!mine) return;
+  const KEY = 'tonyt-dismissed-version';
+  const getDismissed = () => { try { return localStorage.getItem(KEY) || ''; } catch(e) { return ''; } };
+  let last = 0, latest = '';
   async function check(){
-    if (dismissed || Date.now() - last < 60000) return; last = Date.now();
+    if (Date.now() - last < 60000) return; last = Date.now();
     try {
-      const res = await fetch(location.pathname + '?check=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
-      const lm = Date.parse(res.headers.get('Last-Modified') || '');
-      if (lm && shownAt && lm > shownAt + 1000) bar.classList.add('show');
+      const res = await fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) return;
+      const m = (await res.text()).match(/<meta name="site-version" content="(\d+)"/);
+      latest = m ? m[1] : '';
+      // 公開中の版がいま見ている版より新しく、かつ「×」で閉じた版でなければ表示
+      if (latest && latest > mine && latest !== getDismissed()) bar.classList.add('show');
     } catch (e) {}
   }
   document.getElementById('updateBtn').addEventListener('click', () => {
-    location.replace(location.pathname + '?v=' + Date.now() + location.hash);
+    location.replace(location.pathname + '?v=' + (latest || Date.now()) + location.hash);
   });
-  document.getElementById('updateClose').addEventListener('click', () => { dismissed = true; bar.classList.remove('show'); });
+  document.getElementById('updateClose').addEventListener('click', () => {
+    bar.classList.remove('show');
+    try { localStorage.setItem(KEY, latest); } catch(e) {}
+  });
   setTimeout(check, 3000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
   window.addEventListener('pageshow', e => { if (e.persisted) check(); });
-  setInterval(check, 10 * 60 * 1000);
 })();
 </script>
 </body>
