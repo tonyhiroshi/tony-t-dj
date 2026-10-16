@@ -212,6 +212,14 @@
     opacity: 0;
     animation: fadeInUp 1s 0.7s forwards;
   }
+  .hero-genre-line {
+    font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent-ink);
+    gap: 0.2rem 0.7rem; align-items: center; line-height: 1.8;
+    text-shadow: 0 0 12px rgba(0,212,255,0.35);
+  }
+  .hero-genre-line i { font-style: normal; color: rgba(180,74,255,0.8); }
+  @media (max-width: 600px) { .hero-genre-line { font-size: 0.8rem; letter-spacing: 2px; gap: 0.1rem 0.5rem; max-width: 300px; margin-left: auto; margin-right: auto; padding: 0 16px; } }
   .genre-tag {
     padding: 0.4rem 1.2rem;
     border: 1px solid rgba(180,74,255,0.4);
@@ -1254,16 +1262,12 @@
       <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
       <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
     </div>
-    <div class="hero-genres">
-      <a href="#playlist-rnb" class="genre-tag">R&B</a>
-      <a href="#playlist-amapiano-mix" class="genre-tag">Amapiano</a>
-      <a href="#playlist-hiphop" class="genre-tag">HipHop</a>
-      <a href="#playlist-house" class="genre-tag">House</a>
-      <a href="#playlist-reggae" class="genre-tag">Reggae</a>
-    </div>
-    <a href="#gallery" class="hero-cta">
+    <p class="hero-genres hero-genre-line" aria-label="Play genres">
+      <span>R&amp;B</span><i>·</i><span>Amapiano</span><i>·</i><span>HipHop</span><i>·</i><span>House</span><i>·</i><span>Reggae</span>
+    </p>
+    <a href="#music" class="hero-cta">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-      View Gallery
+      Listen to Mixes
     </a>
   </div>
   <div class="scroll-indicator">
