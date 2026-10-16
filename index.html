@@ -1510,6 +1510,58 @@
       </details>
     </div>
 
+    <!-- Featured Player 5: JAPANESE MIX -->
+    <div class="featured-player reveal" id="playlist-japanese-mix" style="margin-top:2rem;">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork5" style="cursor:pointer" onclick="openArtwork5()">
+          <img src="images/japanese-artwork.png" alt="DJ TONY-T JAPANESE MIX Artwork">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>JAPANESE MIX <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
+          <div class="player-meta">Tony-T / Recorded 2025.7.18 / 37:49</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn5" onclick="togglePlay5()">
+              <svg id="playIcon5" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar5">
+                <div class="progress-fill" id="progressFill5"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime5">00:00</span>
+                <span id="totalTime5">37:49</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider5" min="0" max="1" step="0.05" value="1" oninput="setVolume5(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer5" preload="metadata" src="audio/dj-mix-japanese.mp3"></audio>
+      <details class="tracklist">
+        <summary>Track List <span class="tl-count">13 tracks</span></summary>
+        <ol>
+          <li><span class="tl-time"></span><span class="tl-title">蛍火</span><span class="tl-artist">PUNPEE</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">BIRD</span><span class="tl-artist">BSC</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Regency</span><span class="tl-artist">KANDYTOWN ft. MASATO, RYOHU &amp; KIKUMARU</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">I Am</span><span class="tl-artist">KANDYTOWN ft. IO, DONY JOINT, Gottz, Holly Q &amp; KEIJU</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Struggle Dayz</span><span class="tl-artist">MUD</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Your Breeze</span><span class="tl-artist">IO ft. Yo-Sea</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Fruit Juice</span><span class="tl-artist">BIM</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Malibu Dream</span><span class="tl-artist">Tiji Jojo</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">OMW</span><span class="tl-artist">BAD HOP ft. Benjazzy &amp; G-k.i.d</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Coming Home</span><span class="tl-artist">KANDYTOWN ft. MUD &amp; Gottz</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Money Baby</span><span class="tl-artist">KEIJU ft. Awich</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">Notion</span><span class="tl-artist">Neetz ft. 唾奇, PES &amp; MUD</span></li>
+          <li><span class="tl-time"></span><span class="tl-title">99 Steps</span><span class="tl-artist">STUTS</span></li>
+        </ol>
+      </details>
+    </div>
+
     <!-- Featured Player -->
     <div class="featured-player reveal" id="playlist-amapiano-mix" style="margin-top:2rem;">
       <div class="featured-label">&#9654; Now Playing</div>
@@ -2257,7 +2309,7 @@ function pauseCustomPlayer() {
 
 // When user clicks any Spotify iframe, pause all custom players
 document.querySelectorAll('.playlist-card').forEach(card => {
-  card.addEventListener('mousedown', () => { pauseCustomPlayer(); if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2(); if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3(); if (typeof pauseCustomPlayer4 === 'function') pauseCustomPlayer4(); });
+  card.addEventListener('mousedown', () => { pauseCustomPlayer(); if (typeof pauseCustomPlayer2 === 'function') pauseCustomPlayer2(); if (typeof pauseCustomPlayer3 === 'function') pauseCustomPlayer3(); if (typeof pauseCustomPlayer4 === 'function') pauseCustomPlayer4(); if (typeof pauseCustomPlayer5 === 'function') pauseCustomPlayer5(); });
 });
 window.addEventListener('blur', () => {
   // If focus left the window (likely clicked into an iframe), pause all MIX players
@@ -2272,6 +2324,9 @@ window.addEventListener('blur', () => {
   }
   if (typeof audio4 !== 'undefined' && !audio4.paused) {
     setTimeout(() => { pauseCustomPlayer4(); }, 150);
+  }
+  if (typeof audio5 !== 'undefined' && !audio5.paused) {
+    setTimeout(() => { pauseCustomPlayer5(); }, 150);
   }
 });
 
@@ -2490,6 +2545,63 @@ audio4.volume = 1.0;
 function openArtwork4() {
   const lb = document.getElementById('lightbox');
   document.getElementById('lightboxImg').src = 'images/play-20261011-artwork.png';
+  lb.classList.add('active');
+}
+
+// ===== AUDIO PLAYER 5 (JAPANESE MIX) =====
+const audio5 = document.getElementById('audioPlayer5');
+const playIcon5 = document.getElementById('playIcon5');
+const progressFill5 = document.getElementById('progressFill5');
+const currentTimeEl5 = document.getElementById('currentTime5');
+const totalTimeEl5 = document.getElementById('totalTime5');
+const playerArtwork5 = document.getElementById('playerArtwork5');
+
+function pauseCustomPlayer5() {
+  if (!audio5.paused) audio5.pause();
+  playIcon5.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+  playerArtwork5.classList.remove('playing');
+}
+
+function togglePlay5() {
+  if (audio5.paused) {
+    stopAllSpotify();
+    pauseCustomPlayer(); pauseCustomPlayer2(); pauseCustomPlayer3(); pauseCustomPlayer4();
+    originals.forEach((t, i) => {
+      if (!t.audio.paused) {
+        t.audio.pause();
+        document.getElementById('origPlayIcon' + (i+1)).innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+        document.getElementById('originalPlayer' + (i+1)).classList.remove('playing');
+      }
+    });
+    audio5.play();
+    playIcon5.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    playerArtwork5.classList.add('playing');
+  } else {
+    pauseCustomPlayer5();
+  }
+}
+// 他のプレイヤーが再生を始めたらこのプレイヤーは止める
+document.addEventListener('play', e => { if (e.target !== audio5 && !audio5.paused) pauseCustomPlayer5(); }, true);
+
+audio5.addEventListener('timeupdate', () => {
+  if (audio5.duration && !seekDragging.has(audio5)) {
+    progressFill5.style.width = (audio5.currentTime / audio5.duration * 100) + '%';
+    currentTimeEl5.textContent = formatTime(audio5.currentTime);
+  }
+});
+audio5.addEventListener('loadedmetadata', () => { totalTimeEl5.textContent = formatTime(audio5.duration); });
+audio5.addEventListener('ended', () => {
+  pauseCustomPlayer5();
+  progressFill5.style.width = '0%';
+  currentTimeEl5.textContent = '00:00';
+});
+function setVolume5(v) { audio5.volume = v; }
+audio5.volume = 1.0;
+
+// Artwork lightbox for JAPANESE MIX
+function openArtwork5() {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightboxImg').src = 'images/japanese-artwork.png';
   lb.classList.add('active');
 }
 
@@ -2753,6 +2865,7 @@ enableSeek(document.getElementById('progressBar'), audio, progressFill, currentT
 enableSeek(document.getElementById('progressBar2'), audio2, progressFill2, currentTimeEl2);
 enableSeek(document.getElementById('progressBar3'), audio3, progressFill3, currentTimeEl3);
 enableSeek(document.getElementById('progressBar4'), audio4, progressFill4, currentTimeEl4);
+enableSeek(document.getElementById('progressBar5'), audio5, progressFill5, currentTimeEl5);
 originals.forEach((t, i) => {
   const fill = document.getElementById('origProgress' + (i+1));
   enableSeek(fill.parentElement, t.audio, fill, document.getElementById('origTime' + (i+1)));
