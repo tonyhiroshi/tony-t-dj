@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610171142">
+<meta name="site-version" content="202610171149">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -2392,13 +2392,40 @@ window.addEventListener('blur', () => {
   }
 });
 
+// Spotifyを触ったときだけ止める（毎回5つのプレイヤーを読み込み直すと再生ボタンの反応が重くなるため）
+let spotifyTouched = false;
 function stopAllSpotify() {
+  if (!spotifyTouched) return;
+  spotifyTouched = false;
   document.querySelectorAll('.playlist-card iframe').forEach(iframe => {
     const src = iframe.getAttribute('src');
     iframe.setAttribute('src', '');
     setTimeout(() => { iframe.setAttribute('src', src); }, 50);
   });
 }
+document.querySelectorAll('.playlist-card').forEach(card => {
+  ['mousedown','touchstart','pointerdown'].forEach(ev => card.addEventListener(ev, () => { spotifyTouched = true; }, { passive: true }));
+});
+window.addEventListener('blur', () => { if (document.activeElement && document.activeElement.tagName === 'IFRAME') spotifyTouched = true; });
+
+// ===== 再生の立ち上がりを速くする =====
+// ・ミックスやオリジナル曲が画面に近づいたら、先頭部分と長さ情報だけ先読み
+// ・再生ボタンに指が触れた瞬間から読み込みを始める
+(function(){
+  const warm = au => { if (au && au.preload === 'none') au.preload = 'metadata'; };
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('audio').forEach(warm);
+    io.unobserve(e.target);
+  }), { rootMargin: '400px 0px' });
+  document.querySelectorAll('.featured-player').forEach(fp => io.observe(fp));
+  document.querySelectorAll('.featured-player .play-btn').forEach(btn => {
+    btn.addEventListener('pointerdown', () => {
+      const au = btn.closest('.featured-player').querySelector('audio');
+      if (au && au.paused) au.preload = 'auto';
+    }, { passive: true });
+  });
+})();
 
 function togglePlay() {
   if (audio.paused) {
@@ -3143,6 +3170,21 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   setTimeout(check, 3000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
   window.addEventListener('pageshow', e => { if (e.persisted) check(); });
+})();
+
+// ===== オリジナル曲も画面に近づいたら先読み、指が触れたら読み込み開始 =====
+(function(){
+  if (typeof originals === 'undefined') return;
+  const sec = document.getElementById('originals'); if (!sec) return;
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) {
+    originals.forEach(t => { if (t.audio && t.audio.preload === 'none') t.audio.preload = 'metadata'; });
+    io.disconnect();
+  } }, { rootMargin: '400px 0px' });
+  io.observe(sec);
+  originals.forEach((t, i) => {
+    const b = document.getElementById('origPlayBtn' + (i+1));
+    if (b) b.addEventListener('pointerdown', () => { if (t.audio && t.audio.paused) t.audio.preload = 'auto'; }, { passive: true });
+  });
 })();
 </script>
 </body>
