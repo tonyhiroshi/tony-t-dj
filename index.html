@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610171015">
+<meta name="site-version" content="202610171026">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -583,6 +583,17 @@
   .np-eq .np-title:empty { display: none; }
   @media (max-width: 600px) { .np-eq .np-title { max-width: 180px; } }
   @media (prefers-reduced-motion: reduce) { .np-eq.playing .bars i { animation: none; height: 12px; } }
+
+  .update-mini { position: fixed; right: 16px; bottom: 16px; z-index: 2600; width: 46px; height: 46px; border-radius: 50%;
+    border: none; cursor: pointer; display: none; place-items: center;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); box-shadow: 0 6px 24px rgba(180,74,255,0.45);
+    transition: bottom 0.35s ease; }
+  .update-mini.show { display: grid; animation: umPop 0.35s ease; }
+  .update-mini svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; }
+  .update-mini::after { content: ''; position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; border-radius: 50%;
+    background: #ff2d95; box-shadow: 0 0 0 2px #0a0a14; }
+  .mini-player.show ~ .update-mini { bottom: 96px; }
+  @keyframes umPop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
   /* ===== MUSIC ===== */
   #music { background: linear-gradient(180deg, transparent, rgba(180,74,255,0.03), transparent); }
@@ -2265,6 +2276,9 @@
   <button class="ub-btn" id="updateBtn">更新</button>
   <button class="ub-close" id="updateClose" aria-label="閉じる">&times;</button>
 </div>
+<button class="update-mini" id="updateMini" aria-label="新しい情報があります。押すと更新します" title="新しい情報があります（押すと更新）">
+  <svg viewBox="0 0 24 24"><path d="M5 18v-6M9 18V7M13 18v-9M17 18V5M21 18v-4"/></svg>
+</button>
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">TONY-T</div>
@@ -3063,14 +3077,14 @@ document.querySelectorAll('.featured-player').forEach(fp => {
 })();
 
 // ===== UPDATE NOTICE: 公開中のページの版番号が新しいときだけお知らせを出す =====
+// ×で閉じても消えきらず、右下に小さな更新ボタン（ピンクの点付き）が残る。次に開いたときはまたバーで知らせる。
 (function(){
-  const bar = document.getElementById('updateBar'); if (!bar || location.protocol === 'file:') return;
+  const bar = document.getElementById('updateBar'); const mini = document.getElementById('updateMini');
+  if (!bar || !mini || location.protocol === 'file:') return;
   const meta = document.querySelector('meta[name="site-version"]');
   const mine = meta ? meta.content : '';
   if (!mine) return;
-  const KEY = 'tonyt-dismissed-version';
-  const getDismissed = () => { try { return localStorage.getItem(KEY) || ''; } catch(e) { return ''; } };
-  let last = 0, latest = '';
+  let last = 0, latest = '', minimized = false;
   async function check(){
     if (Date.now() - last < 60000) return; last = Date.now();
     try {
@@ -3078,16 +3092,16 @@ document.querySelectorAll('.featured-player').forEach(fp => {
       if (!res.ok) return;
       const m = (await res.text()).match(/<meta name="site-version" content="(\d+)"/);
       latest = m ? m[1] : '';
-      // 公開中の版がいま見ている版より新しく、かつ「×」で閉じた版でなければ表示
-      if (latest && latest > mine && latest !== getDismissed()) bar.classList.add('show');
+      if (latest && latest > mine) {
+        if (minimized) mini.classList.add('show'); else bar.classList.add('show');
+      }
     } catch (e) {}
   }
-  document.getElementById('updateBtn').addEventListener('click', () => {
-    location.replace(location.pathname + '?v=' + (latest || Date.now()) + location.hash);
-  });
+  const go = () => location.replace(location.pathname + '?v=' + (latest || Date.now()) + location.hash);
+  document.getElementById('updateBtn').addEventListener('click', go);
+  mini.addEventListener('click', go);
   document.getElementById('updateClose').addEventListener('click', () => {
-    bar.classList.remove('show');
-    try { localStorage.setItem(KEY, latest); } catch(e) {}
+    minimized = true; bar.classList.remove('show'); mini.classList.add('show');
   });
   setTimeout(check, 3000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
