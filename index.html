@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610171005">
+<meta name="site-version" content="202610171015">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -560,6 +560,29 @@
   .update-bar .ub-btn { border: none; cursor: pointer; font-weight: 700; font-size: 0.82rem; letter-spacing: 2px;
     color: #0a0a14; background: var(--neon-blue); border-radius: 999px; padding: 0.5rem 1rem; }
   .update-bar .ub-close { background: none; border: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; padding: 0 0.2rem; }
+
+  /* ===== NOW PLAYING EQ（Shareの横） ===== */
+  .np-row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.9rem; }
+  .np-row .share-btn { margin-top: 0; }
+  .np-eq { display: inline-flex; align-items: center; gap: 0.55rem; min-width: 0; max-width: 100%; border-radius: 999px;
+    opacity: 0.35; transition: opacity 0.3s; }
+  .np-eq.on { opacity: 1; }
+  .np-eq .bars { display: inline-flex; align-items: flex-end; gap: 3px; height: 18px; flex: none; }
+  .np-eq .bars i { display: block; width: 3px; height: 4px; border-radius: 2px;
+    background: linear-gradient(to top, var(--neon-purple), var(--neon-blue)); }
+  .np-eq.playing .bars i { animation: npEq 0.9s ease-in-out infinite; }
+  .np-eq.playing .bars i:nth-child(1){ animation-duration: .85s; animation-delay: -.2s }
+  .np-eq.playing .bars i:nth-child(2){ animation-duration: .65s; animation-delay: -.5s }
+  .np-eq.playing .bars i:nth-child(3){ animation-duration: 1.0s; animation-delay: -.1s }
+  .np-eq.playing .bars i:nth-child(4){ animation-duration: .7s;  animation-delay: -.35s }
+  .np-eq.playing .bars i:nth-child(5){ animation-duration: .9s;  animation-delay: -.6s }
+  .np-eq.playing .bars i:nth-child(6){ animation-duration: .6s;  animation-delay: -.25s }
+  .np-eq.playing .bars i:nth-child(7){ animation-duration: .8s;  animation-delay: -.45s }
+  @keyframes npEq { 0%,100% { height: 4px; } 50% { height: 18px; } }
+  .np-eq .np-title { font-size: 0.82rem; color: var(--accent-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  .np-eq .np-title:empty { display: none; }
+  @media (max-width: 600px) { .np-eq .np-title { max-width: 180px; } }
+  @media (prefers-reduced-motion: reduce) { .np-eq.playing .bars i { animation: none; height: 12px; } }
 
   /* ===== MUSIC ===== */
   #music { background: linear-gradient(180deg, transparent, rgba(180,74,255,0.03), transparent); }
@@ -2980,7 +3003,27 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     try { await navigator.clipboard.writeText(url); showToast('リンクをコピーしました'); }
     catch(e) { prompt('このリンクをコピーしてください', url); }
   });
-  info.appendChild(btn);
+  const row = document.createElement('div'); row.className = 'np-row';
+  const eq = document.createElement('span'); eq.className = 'np-eq'; eq.setAttribute('aria-hidden','true');
+  eq.innerHTML = '<span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="np-title"></span>';
+  row.appendChild(btn); row.appendChild(eq); info.appendChild(row);
+  eq.style.cursor = 'pointer'; eq.title = 'トラックリストで再生中の曲を見る';
+  eq.addEventListener('click', () => {
+    const tl = fp.querySelector('.tracklist'); if (!tl) return;
+    tl.open = true;
+    (tl.querySelector('li.now') || tl).scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  const au = fp.querySelector('audio');
+  if (au) {
+    const sync = () => {
+      const started = !au.paused || au.currentTime > 0;
+      eq.classList.toggle('playing', !au.paused);
+      eq.classList.toggle('on', started);
+      const now = fp.querySelector('.tracklist li.now .tl-title');
+      eq.querySelector('.np-title').textContent = started && now ? now.textContent : '';
+    };
+    ['play','pause','ended','timeupdate','seeked'].forEach(ev => au.addEventListener(ev, sync));
+  }
 });
 
 // ===== MINI PLAYER =====
