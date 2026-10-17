@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610171032">
+<meta name="site-version" content="202610171037">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -571,6 +571,7 @@
   .np-eq .bars i { display: block; width: 3px; height: 3px; border-radius: 2px;
     background: linear-gradient(to top, var(--neon-purple), var(--neon-blue)); }
   .np-eq.playing .bars i { animation: npEq 0.9s ease-in-out infinite; }
+  .np-eq.live .bars i { animation: none !important; transition: none; }
   @keyframes npEq { 0%,100% { height: 3px; } 50% { height: var(--h, 26px); } }
   .np-eq .np-title { font-size: 0.82rem; color: var(--accent-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
   .np-eq .np-title:empty { display: none; }
@@ -3038,6 +3039,39 @@ document.querySelectorAll('.featured-player').forEach(fp => {
       eq.querySelector('.np-title').textContent = started && now ? now.textContent : '';
     };
     ['play','pause','ended','timeupdate','seeked'].forEach(ev => au.addEventListener(ev, sync));
+    // ---- 曲の音に合わせて棒を動かす（事前に解析したスペクトルデータを再生位置に合わせて表示） ----
+    const bars = [...eq.querySelectorAll('.bars i')];
+    const src = (au.getAttribute('src') || '').replace(/^audio\//, 'audio/eq/').replace(/\.mp3$/, '.json');
+    let spec = null, loading = false, raf = 0;
+    const levels = new Float32Array(bars.length);
+    const load = () => {
+      if (spec || loading) return; loading = true;
+      fetch(src).then(r => r.ok ? r.json() : null).then(j => {
+        if (!j) return;
+        const a = j.data, n = a.length, v = new Uint8Array(n);
+        for (let k = 0; k < n; k++) { const c = a.charCodeAt(k); v[k] = c < 58 ? c - 48 : c - 87; }
+        spec = { fps: j.fps, bands: j.bands, v, frames: Math.floor(n / j.bands) };
+        eq.classList.add('live'); if (!au.paused) loop();
+      }).catch(() => {});
+    };
+    const loop = () => {
+      cancelAnimationFrame(raf);
+      if (!spec) return;
+      const t = au.currentTime * spec.fps, f0 = Math.min(spec.frames - 1, Math.floor(t)), fr = t - f0;
+      const f1 = Math.min(spec.frames - 1, f0 + 1), B = spec.bands, N = bars.length;
+      for (let k = 0; k < N; k++) {
+        const pos = k / (N - 1) * (B - 1), b0 = Math.floor(pos), b1 = Math.min(B - 1, b0 + 1), bf = pos - b0;
+        const val = (x => (spec.v[f0 * B + x] * (1 - fr) + spec.v[f1 * B + x] * fr))(b0) * (1 - bf)
+                  + (x => (spec.v[f0 * B + x] * (1 - fr) + spec.v[f1 * B + x] * fr))(b1) * bf;
+        const target = au.paused ? 0 : Math.pow(val / 35, 1.8);   // メリハリを強める
+        levels[k] += (target - levels[k]) * (target > levels[k] ? 0.6 : 0.25);   // 上がりは速く、下がりはゆっくり
+        bars[k].style.height = (3 + levels[k] * 23).toFixed(1) + 'px';
+      }
+      if (!au.paused || levels.some(x => x > 0.02)) raf = requestAnimationFrame(loop);
+    };
+    au.addEventListener('play', () => { load(); loop(); });
+    au.addEventListener('seeked', loop);
+    au.addEventListener('pause', loop);
   }
 });
 
