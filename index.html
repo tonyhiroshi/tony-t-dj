@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610170240">
+<meta name="site-version" content="202610170346">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -151,6 +151,24 @@
     opacity: 0;
     animation: fadeInUp 1s 0.3s forwards;
   }
+  /* ===== NIGHT HERO: ビニールの月と西小山のネオン夜景 ===== */
+  .vinyl-moon { width: 132px; height: 132px; margin: 0 auto 0.6rem; opacity: 0; animation: fadeInUp 1.2s 0.2s forwards; }
+  .vinyl-moon svg { width: 100%; height: 100%; overflow: visible; }
+  .vinyl-moon .vm-spin { transform-origin: 100px 100px; animation: vmSpin 14s linear infinite; }
+  .vinyl-moon .vm-halo { transform-origin: 100px 100px; animation: vmPulse 4s ease-in-out infinite; }
+  @keyframes vmSpin { to { transform: rotate(360deg); } }
+  @keyframes vmPulse { 0%,100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+  .hero-skyline { position: absolute; left: 0; right: 0; bottom: 0; height: min(24vh, 200px); z-index: 1; pointer-events: none;
+    opacity: 0; animation: fadeIn 1.6s 0.6s forwards; }
+  .hero-skyline svg { width: 100%; height: 100%; display: block; }
+  .hero-skyline .sk-win { opacity: 0.15; animation: skWin 5s ease-in-out infinite; }
+  @keyframes skWin { 0%,100% { opacity: 0.12; } 40%,60% { opacity: 0.9; } }
+  .hero-skyline .sk-sign { animation: skFlicker 6s linear infinite; }
+  @keyframes skFlicker { 0%,18%,22%,62%,64%,100% { opacity: 1; } 20%,63% { opacity: 0.35; } }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @media (max-width: 600px) { .vinyl-moon { width: 104px; height: 104px; } .hero-skyline { height: 20vh; } }
+  @media (prefers-reduced-motion: reduce) { .vinyl-moon .vm-spin, .vinyl-moon .vm-halo, .hero-skyline .sk-win, .hero-skyline .sk-sign { animation: none; } .hero-skyline .sk-win { opacity: 0.6; } }
+
   .cactus-row {
     display: flex;
     justify-content: center;
@@ -1235,106 +1253,44 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-content">
-    <div class="cactus-row" id="cactus-crew"></div>
-    <script>
-    // Generate 7 unique cactus characters
-    (function(){
-      const crew = document.getElementById('cactus-crew');
-      const chars = [
-        { body:'#1abc9c', dark:'#16a085', pot:'#e74c3c', potRim:'#ff6b6b', acc:'hat', speed:1.4, delay:0, note:'♪' },
-        { body:'#2ecc71', dark:'#27ae60', pot:'#8e2de2', potRim:'#b44aff', acc:'headphones', speed:1.1, delay:0.15, note:'♫' },
-        { body:'#00b894', dark:'#00a381', pot:'#fd79a8', potRim:'#e84393', acc:'sunglasses', speed:1.3, delay:0.3, note:'♪' },
-        { body:'#2ecc71', dark:'#27ae60', pot:'#8e2de2', potRim:'#b44aff', acc:'headphones+sunglasses', speed:1.0, delay:0.1, big:true, note:'♫' },
-        { body:'#55efc4', dark:'#3ae0a5', pot:'#0984e3', potRim:'#74b9ff', acc:'bowtie', speed:1.2, delay:0.25, note:'♪' },
-        { body:'#a3cb38', dark:'#8fb830', pot:'#fdcb6e', potRim:'#ffeaa7', acc:'crown', speed:1.35, delay:0.4, note:'♫' },
-        { body:'#2ecc71', dark:'#27ae60', pot:'#6c5ce7', potRim:'#a29bfe', acc:'cap', speed:1.15, delay:0.05, note:'♪' },
-      ];
-      chars.forEach((c,i) => {
-        const div = document.createElement('div');
-        div.className = 'cactus-dj' + (c.big ? ' big' : '');
-        div.style.setProperty('--groove-speed', c.speed+'s');
-        div.style.setProperty('--groove-delay', c.delay+'s');
-        let accSvg = '';
-        // Accessories
-        if (c.acc.includes('headphones')) {
-          accSvg += `<g class="cactus-headphone">
-            <path d="M32 44 Q32 28 50 28 Q68 28 68 44" stroke="#b44aff" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <rect x="28" y="40" width="7" height="10" rx="3" fill="#b44aff"/><rect x="65" y="40" width="7" height="10" rx="3" fill="#b44aff"/>
-            <rect x="29.5" y="42" width="4" height="6" rx="2" fill="#8e2de2"/><rect x="66.5" y="42" width="4" height="6" rx="2" fill="#8e2de2"/>
-          </g>`;
-        }
-        if (c.acc.includes('sunglasses')) {
-          accSvg += `<rect x="39" y="48" width="10" height="6" rx="2" fill="rgba(180,74,255,0.35)" stroke="#b44aff" stroke-width="0.8"/>
-            <rect x="51" y="48" width="10" height="6" rx="2" fill="rgba(180,74,255,0.35)" stroke="#b44aff" stroke-width="0.8"/>
-            <line x1="49" y1="51" x2="51" y2="51" stroke="#b44aff" stroke-width="0.8"/>`;
-        }
-        if (c.acc === 'hat') {
-          accSvg += `<rect x="36" y="30" width="28" height="4" rx="2" fill="#e74c3c"/>
-            <rect x="40" y="20" width="20" height="12" rx="4" fill="#c0392b"/>
-            <rect x="42" y="22" width="16" height="8" rx="3" fill="#e74c3c"/>`;
-        }
-        if (c.acc === 'crown') {
-          accSvg += `<polygon points="38,32 42,22 46,30 50,18 54,30 58,22 62,32" fill="#ffd23f" stroke="#f39c12" stroke-width="0.8"/>
-            <circle cx="42" cy="23" r="1.5" fill="#e74c3c"/><circle cx="50" cy="19" r="1.5" fill="#0984e3"/><circle cx="58" cy="23" r="1.5" fill="#e74c3c"/>`;
-        }
-        if (c.acc === 'cap') {
-          accSvg += `<ellipse cx="50" cy="35" rx="18" ry="5" fill="#6c5ce7"/>
-            <rect x="36" y="22" width="28" height="14" rx="6" fill="#6c5ce7"/>
-            <rect x="55" y="32" width="16" height="4" rx="2" fill="#6c5ce7"/>
-            <rect x="38" y="24" width="24" height="10" rx="5" fill="#7c6df7"/>`;
-        }
-        if (c.acc === 'bowtie') {
-          accSvg += `<polygon points="43,68 50,72 43,76" fill="#e74c3c"/>
-            <polygon points="57,68 50,72 57,76" fill="#e74c3c"/>
-            <circle cx="50" cy="72" r="2" fill="#c0392b"/>`;
-        }
-        // Eyes: vary style
-        let eyes;
-        if (i % 3 === 0) eyes = `<circle cx="44" cy="53" r="2.5" fill="#1a1a2e"/><circle cx="56" cy="53" r="2.5" fill="#1a1a2e"/>
-          <circle cx="44.8" cy="52.5" r="0.8" fill="white"/><circle cx="56.8" cy="52.5" r="0.8" fill="white"/>`;
-        else if (i % 3 === 1) eyes = `<line x1="42" y1="53" x2="47" y2="53" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="53" y1="53" x2="58" y2="53" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>`;
-        else eyes = `<circle cx="44" cy="52" r="3" fill="#1a1a2e"/><circle cx="56" cy="52" r="3" fill="#1a1a2e"/>
-          <circle cx="45" cy="51" r="1.2" fill="white"/><circle cx="57" cy="51" r="1.2" fill="white"/>`;
-        // Mouth vary
-        let mouth;
-        if (i % 4 === 0) mouth = `<path d="M44 60 Q50 65 56 60" stroke="#1a1a2e" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
-        else if (i % 4 === 1) mouth = `<ellipse cx="50" cy="61" rx="4" ry="3" fill="#1a1a2e"/><ellipse cx="50" cy="60.5" rx="3" ry="1.5" fill="#e74c3c"/>`;
-        else if (i % 4 === 2) mouth = `<line x1="45" y1="61" x2="55" y2="61" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>`;
-        else mouth = `<path d="M44 59 Q50 66 56 59" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round"/>`;
-        div.innerHTML = `<svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
-          <g class="cactus-body">
-            <rect x="35" y="35" width="30" height="50" rx="15" fill="${c.body}"/>
-            <rect x="37" y="37" width="26" height="46" rx="13" fill="${c.dark}"/>
-            <line x1="38" y1="50" x2="33" y2="48" stroke="#55efc4" stroke-width="0.8" stroke-linecap="round"/>
-            <line x1="62" y1="50" x2="67" y2="48" stroke="#55efc4" stroke-width="0.8" stroke-linecap="round"/>
-            <line x1="38" y1="62" x2="33" y2="60" stroke="#55efc4" stroke-width="0.8" stroke-linecap="round"/>
-            <line x1="62" y1="62" x2="67" y2="60" stroke="#55efc4" stroke-width="0.8" stroke-linecap="round"/>
-            <g class="cactus-arm-l">
-              <rect x="14" y="48" width="21" height="12" rx="6" fill="${c.body}"/>
-              <rect x="12" y="36" width="12" height="18" rx="6" fill="${c.body}"/>
-              <rect x="14" y="38" width="8" height="14" rx="4" fill="${c.dark}"/>
-            </g>
-            <g class="cactus-arm-r">
-              <rect x="65" y="48" width="21" height="12" rx="6" fill="${c.body}"/>
-              <rect x="76" y="34" width="12" height="20" rx="6" fill="${c.body}"/>
-              <rect x="78" y="36" width="8" height="16" rx="4" fill="${c.dark}"/>
-            </g>
-            ${c.acc.includes('sunglasses') ? '' : eyes}
-            ${c.acc.includes('sunglasses') ? '' : mouth}
-            ${accSvg}
-            ${c.acc.includes('sunglasses') ? mouth : ''}
+    <div class="vinyl-moon" aria-hidden="true">
+      <svg viewBox="0 0 200 200">
+        <defs>
+          <radialGradient id="vmGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="55%" stop-color="#b44aff" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#b44aff" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="vmDisc" cx="40%" cy="35%" r="70%">
+            <stop offset="0%" stop-color="#2a2140"/>
+            <stop offset="100%" stop-color="#0b0b14"/>
+          </radialGradient>
+          <linearGradient id="vmEdge" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e9d5ff"/>
+            <stop offset="50%" stop-color="#b44aff"/>
+            <stop offset="100%" stop-color="#00d4ff"/>
+          </linearGradient>
+          <clipPath id="vmClip"><circle cx="100" cy="100" r="62"/></clipPath>
+          <mask id="vmCrescent">
+            <rect width="200" height="200" fill="white"/>
+            <circle cx="128" cy="78" r="62" fill="black"/>
+          </mask>
+        </defs>
+        <circle cx="100" cy="100" r="98" fill="url(#vmGlow)" class="vm-halo"/>
+        <g class="vm-spin">
+          <circle cx="100" cy="100" r="62" fill="url(#vmDisc)"/>
+          <g fill="none" stroke="#ffffff" stroke-opacity="0.07">
+            <circle cx="100" cy="100" r="56"/><circle cx="100" cy="100" r="50"/><circle cx="100" cy="100" r="44"/><circle cx="100" cy="100" r="38"/><circle cx="100" cy="100" r="32"/>
           </g>
-          <g class="cactus-note1"><text x="72" y="32" fill="#00d4ff" font-size="12" font-weight="bold">${c.note}</text></g>
-          <g class="cactus-note2"><text x="18" y="28" fill="#b44aff" font-size="10" font-weight="bold">${c.note === '♪' ? '♫' : '♪'}</text></g>
-          <rect x="33" y="83" width="34" height="14" rx="4" fill="${c.pot}"/>
-          <rect x="31" y="81" width="38" height="5" rx="2.5" fill="${c.potRim}"/>
-          <rect x="35" y="83" width="30" height="2" rx="1" fill="rgba(255,255,255,0.15)"/>
-        </svg>`;
-        crew.appendChild(div);
-      });
-    })();
-    </script>
+          <path d="M60 70 A50 50 0 0 1 92 52" stroke="#ffffff" stroke-opacity="0.18" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="18" fill="#b44aff"/>
+          <text x="100" y="105" text-anchor="middle" font-family="Orbitron, sans-serif" font-size="11" font-weight="900" fill="#fff">T</text>
+          <circle cx="100" cy="100" r="2.2" fill="#0a0a14"/>
+        </g>
+        <circle cx="128" cy="78" r="62" fill="#07070f" fill-opacity="0.55" clip-path="url(#vmClip)"/>
+        <circle cx="100" cy="100" r="62" fill="none" stroke="url(#vmEdge)" stroke-width="5" mask="url(#vmCrescent)" class="vm-rim" style="filter:drop-shadow(0 0 6px #b44aff)"/>
+        <circle cx="100" cy="100" r="62" fill="none" stroke="url(#vmEdge)" stroke-width="0.8" stroke-opacity="0.35"/>
+      </svg>
+    </div>
     <h1 class="hero-title">TONY-T</h1>
     <div class="equalizer">
       <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
@@ -1349,7 +1305,22 @@
       Listen to Mixes
     </a>
   </div>
-  <div class="scroll-indicator">
+  <div class="hero-skyline" aria-hidden="true">
+    <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="skFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a0a14" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#0a0a14" stop-opacity="0.85"/>
+        </linearGradient>
+      </defs>
+      <g class="sk-bld" fill="#0f0f1e" stroke="#b44aff" stroke-opacity="0.35" stroke-width="1"><rect x="0" y="158" width="64" height="102"/><rect x="66" y="121" width="96" height="139"/><rect x="162" y="174" width="80" height="86"/><rect x="244" y="91" width="80" height="169"/><rect x="328" y="141" width="56" height="119"/><rect x="384" y="54" width="72" height="206"/><rect x="456" y="150" width="56" height="110"/><rect x="516" y="111" width="72" height="149"/><rect x="592" y="165" width="48" height="95"/><rect x="644" y="64" width="96" height="196"/><rect x="740" y="114" width="80" height="146"/><rect x="822" y="150" width="48" height="110"/><rect x="870" y="93" width="80" height="167"/><rect x="952" y="143" width="72" height="117"/><rect x="1028" y="104" width="48" height="156"/><rect x="1078" y="146" width="80" height="114"/><rect x="1158" y="89" width="48" height="171"/></g>
+      <g><rect class="sk-win" x="50" y="172" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.36s;animation-duration:3.8s"/><rect class="sk-win" x="22" y="204" width="5" height="7" fill="#9be7ff" style="animation-delay:4.68s;animation-duration:3.3s"/><rect class="sk-win" x="50" y="220" width="5" height="7" fill="#ffd27a" style="animation-delay:2.51s;animation-duration:6.0s"/><rect class="sk-win" x="50" y="236" width="5" height="7" fill="#9be7ff" style="animation-delay:3.35s;animation-duration:6.2s"/><rect class="sk-win" x="130" y="135" width="5" height="7" fill="#ffd27a" style="animation-delay:0.56s;animation-duration:4.1s"/><rect class="sk-win" x="144" y="135" width="5" height="7" fill="#e0b3ff" style="animation-delay:4.21s;animation-duration:5.6s"/><rect class="sk-win" x="116" y="151" width="5" height="7" fill="#ffd27a" style="animation-delay:2.77s;animation-duration:3.7s"/><rect class="sk-win" x="144" y="151" width="5" height="7" fill="#e0b3ff" style="animation-delay:1.72s;animation-duration:6.0s"/><rect class="sk-win" x="102" y="167" width="5" height="7" fill="#ffd27a" style="animation-delay:2.7s;animation-duration:5.2s"/><rect class="sk-win" x="130" y="183" width="5" height="7" fill="#ffd27a" style="animation-delay:1.06s;animation-duration:3.9s"/><rect class="sk-win" x="144" y="183" width="5" height="7" fill="#9be7ff" style="animation-delay:4.99s;animation-duration:3.7s"/><rect class="sk-win" x="74" y="199" width="5" height="7" fill="#9be7ff" style="animation-delay:2.51s;animation-duration:4.5s"/><rect class="sk-win" x="74" y="215" width="5" height="7" fill="#e0b3ff" style="animation-delay:5.4s;animation-duration:6.1s"/><rect class="sk-win" x="144" y="215" width="5" height="7" fill="#ffd27a" style="animation-delay:5.91s;animation-duration:4.8s"/><rect class="sk-win" x="88" y="231" width="5" height="7" fill="#ffd27a" style="animation-delay:0.0s;animation-duration:3.6s"/><rect class="sk-win" x="130" y="231" width="5" height="7" fill="#9be7ff" style="animation-delay:1.25s;animation-duration:4.5s"/><rect class="sk-win" x="198" y="188" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.93s;animation-duration:6.9s"/><rect class="sk-win" x="226" y="188" width="5" height="7" fill="#9be7ff" style="animation-delay:0.61s;animation-duration:4.4s"/><rect class="sk-win" x="212" y="204" width="5" height="7" fill="#ffd27a" style="animation-delay:5.71s;animation-duration:4.4s"/><rect class="sk-win" x="198" y="220" width="5" height="7" fill="#ffd27a" style="animation-delay:5.07s;animation-duration:5.1s"/><rect class="sk-win" x="266" y="105" width="5" height="7" fill="#ffd27a" style="animation-delay:1.44s;animation-duration:4.6s"/><rect class="sk-win" x="280" y="105" width="5" height="7" fill="#ffd27a" style="animation-delay:2.96s;animation-duration:5.9s"/><rect class="sk-win" x="252" y="121" width="5" height="7" fill="#9be7ff" style="animation-delay:3.63s;animation-duration:4.4s"/><rect class="sk-win" x="252" y="137" width="5" height="7" fill="#ffd27a" style="animation-delay:1.23s;animation-duration:5.5s"/><rect class="sk-win" x="308" y="137" width="5" height="7" fill="#ffd27a" style="animation-delay:3.96s;animation-duration:6.6s"/><rect class="sk-win" x="266" y="153" width="5" height="7" fill="#e0b3ff" style="animation-delay:4.73s;animation-duration:4.3s"/><rect class="sk-win" x="308" y="153" width="5" height="7" fill="#ffd27a" style="animation-delay:0.95s;animation-duration:7.0s"/><rect class="sk-win" x="252" y="169" width="5" height="7" fill="#ffd27a" style="animation-delay:5.43s;animation-duration:6.2s"/><rect class="sk-win" x="252" y="185" width="5" height="7" fill="#ffd27a" style="animation-delay:3.29s;animation-duration:3.1s"/><rect class="sk-win" x="266" y="201" width="5" height="7" fill="#ffd27a" style="animation-delay:1.51s;animation-duration:4.2s"/><rect class="sk-win" x="266" y="217" width="5" height="7" fill="#e0b3ff" style="animation-delay:4.44s;animation-duration:6.6s"/><rect class="sk-win" x="308" y="217" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.91s;animation-duration:5.0s"/><rect class="sk-win" x="294" y="233" width="5" height="7" fill="#ffd27a" style="animation-delay:0.85s;animation-duration:5.5s"/><rect class="sk-win" x="350" y="171" width="5" height="7" fill="#9be7ff" style="animation-delay:3.36s;animation-duration:4.0s"/><rect class="sk-win" x="364" y="171" width="5" height="7" fill="#ffd27a" style="animation-delay:0.59s;animation-duration:4.8s"/><rect class="sk-win" x="420" y="84" width="5" height="7" fill="#ffd27a" style="animation-delay:0.73s;animation-duration:4.8s"/><rect class="sk-win" x="406" y="100" width="5" height="7" fill="#ffd27a" style="animation-delay:1.82s;animation-duration:3.5s"/><rect class="sk-win" x="420" y="116" width="5" height="7" fill="#ffd27a" style="animation-delay:2.81s;animation-duration:6.0s"/><rect class="sk-win" x="434" y="132" width="5" height="7" fill="#9be7ff" style="animation-delay:2.59s;animation-duration:5.1s"/><rect class="sk-win" x="420" y="148" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.2s;animation-duration:4.4s"/><rect class="sk-win" x="392" y="164" width="5" height="7" fill="#ffd27a" style="animation-delay:1.99s;animation-duration:5.5s"/><rect class="sk-win" x="406" y="164" width="5" height="7" fill="#ffd27a" style="animation-delay:5.51s;animation-duration:3.9s"/><rect class="sk-win" x="420" y="164" width="5" height="7" fill="#ffd27a" style="animation-delay:1.63s;animation-duration:6.6s"/><rect class="sk-win" x="392" y="180" width="5" height="7" fill="#9be7ff" style="animation-delay:2.53s;animation-duration:6.6s"/><rect class="sk-win" x="392" y="212" width="5" height="7" fill="#ffd27a" style="animation-delay:5.37s;animation-duration:4.1s"/><rect class="sk-win" x="434" y="212" width="5" height="7" fill="#ffd27a" style="animation-delay:5.14s;animation-duration:3.3s"/><rect class="sk-win" x="478" y="164" width="5" height="7" fill="#ffd27a" style="animation-delay:3.16s;animation-duration:4.0s"/><rect class="sk-win" x="478" y="180" width="5" height="7" fill="#ffd27a" style="animation-delay:5.59s;animation-duration:5.5s"/><rect class="sk-win" x="478" y="196" width="5" height="7" fill="#9be7ff" style="animation-delay:2.08s;animation-duration:3.1s"/><rect class="sk-win" x="492" y="196" width="5" height="7" fill="#ffd27a" style="animation-delay:0.11s;animation-duration:5.0s"/><rect class="sk-win" x="524" y="141" width="5" height="7" fill="#ffd27a" style="animation-delay:1.38s;animation-duration:3.8s"/><rect class="sk-win" x="566" y="141" width="5" height="7" fill="#9be7ff" style="animation-delay:0.78s;animation-duration:3.3s"/><rect class="sk-win" x="538" y="157" width="5" height="7" fill="#9be7ff" style="animation-delay:3.99s;animation-duration:4.5s"/><rect class="sk-win" x="524" y="173" width="5" height="7" fill="#ffd27a" style="animation-delay:1.11s;animation-duration:4.1s"/><rect class="sk-win" x="538" y="205" width="5" height="7" fill="#ffd27a" style="animation-delay:2.29s;animation-duration:4.9s"/><rect class="sk-win" x="524" y="221" width="5" height="7" fill="#ffd27a" style="animation-delay:4.9s;animation-duration:3.6s"/><rect class="sk-win" x="524" y="237" width="5" height="7" fill="#ffd27a" style="animation-delay:5.75s;animation-duration:6.4s"/><rect class="sk-win" x="600" y="195" width="5" height="7" fill="#ffd27a" style="animation-delay:4.34s;animation-duration:5.6s"/><rect class="sk-win" x="680" y="78" width="5" height="7" fill="#ffd27a" style="animation-delay:4.12s;animation-duration:6.2s"/><rect class="sk-win" x="694" y="78" width="5" height="7" fill="#ffd27a" style="animation-delay:0.25s;animation-duration:5.5s"/><rect class="sk-win" x="652" y="94" width="5" height="7" fill="#ffd27a" style="animation-delay:0.11s;animation-duration:5.1s"/><rect class="sk-win" x="680" y="94" width="5" height="7" fill="#ffd27a" style="animation-delay:4.79s;animation-duration:6.0s"/><rect class="sk-win" x="708" y="94" width="5" height="7" fill="#ffd27a" style="animation-delay:4.42s;animation-duration:4.0s"/><rect class="sk-win" x="652" y="126" width="5" height="7" fill="#ffd27a" style="animation-delay:5.46s;animation-duration:4.1s"/><rect class="sk-win" x="694" y="126" width="5" height="7" fill="#9be7ff" style="animation-delay:0.88s;animation-duration:4.0s"/><rect class="sk-win" x="722" y="126" width="5" height="7" fill="#ffd27a" style="animation-delay:2.89s;animation-duration:4.9s"/><rect class="sk-win" x="652" y="158" width="5" height="7" fill="#ffd27a" style="animation-delay:5.36s;animation-duration:3.8s"/><rect class="sk-win" x="680" y="158" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.75s;animation-duration:6.3s"/><rect class="sk-win" x="666" y="174" width="5" height="7" fill="#9be7ff" style="animation-delay:0.54s;animation-duration:6.0s"/><rect class="sk-win" x="694" y="174" width="5" height="7" fill="#ffd27a" style="animation-delay:4.92s;animation-duration:5.0s"/><rect class="sk-win" x="680" y="190" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.02s;animation-duration:5.0s"/><rect class="sk-win" x="666" y="206" width="5" height="7" fill="#9be7ff" style="animation-delay:1.99s;animation-duration:4.3s"/><rect class="sk-win" x="694" y="206" width="5" height="7" fill="#9be7ff" style="animation-delay:5.56s;animation-duration:5.9s"/><rect class="sk-win" x="722" y="206" width="5" height="7" fill="#ffd27a" style="animation-delay:2.34s;animation-duration:6.5s"/><rect class="sk-win" x="694" y="222" width="5" height="7" fill="#9be7ff" style="animation-delay:0.61s;animation-duration:6.3s"/><rect class="sk-win" x="722" y="222" width="5" height="7" fill="#9be7ff" style="animation-delay:5.83s;animation-duration:4.7s"/><rect class="sk-win" x="652" y="238" width="5" height="7" fill="#ffd27a" style="animation-delay:2.24s;animation-duration:6.8s"/><rect class="sk-win" x="762" y="128" width="5" height="7" fill="#ffd27a" style="animation-delay:4.39s;animation-duration:4.8s"/><rect class="sk-win" x="804" y="128" width="5" height="7" fill="#e0b3ff" style="animation-delay:5.56s;animation-duration:3.5s"/><rect class="sk-win" x="804" y="160" width="5" height="7" fill="#e0b3ff" style="animation-delay:3.86s;animation-duration:3.3s"/><rect class="sk-win" x="776" y="192" width="5" height="7" fill="#9be7ff" style="animation-delay:3.34s;animation-duration:4.3s"/><rect class="sk-win" x="776" y="224" width="5" height="7" fill="#ffd27a" style="animation-delay:1.67s;animation-duration:6.9s"/><rect class="sk-win" x="776" y="240" width="5" height="7" fill="#e0b3ff" style="animation-delay:5.38s;animation-duration:4.5s"/><rect class="sk-win" x="858" y="164" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.55s;animation-duration:6.1s"/><rect class="sk-win" x="858" y="180" width="5" height="7" fill="#e0b3ff" style="animation-delay:5.58s;animation-duration:6.7s"/><rect class="sk-win" x="858" y="196" width="5" height="7" fill="#ffd27a" style="animation-delay:0.93s;animation-duration:5.1s"/><rect class="sk-win" x="878" y="107" width="5" height="7" fill="#ffd27a" style="animation-delay:4.69s;animation-duration:3.9s"/><rect class="sk-win" x="920" y="107" width="5" height="7" fill="#ffd27a" style="animation-delay:1.51s;animation-duration:5.5s"/><rect class="sk-win" x="934" y="107" width="5" height="7" fill="#ffd27a" style="animation-delay:1.8s;animation-duration:6.8s"/><rect class="sk-win" x="920" y="123" width="5" height="7" fill="#9be7ff" style="animation-delay:1.81s;animation-duration:4.8s"/><rect class="sk-win" x="906" y="155" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.99s;animation-duration:5.7s"/><rect class="sk-win" x="920" y="155" width="5" height="7" fill="#9be7ff" style="animation-delay:1.37s;animation-duration:4.7s"/><rect class="sk-win" x="878" y="171" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.03s;animation-duration:4.7s"/><rect class="sk-win" x="892" y="171" width="5" height="7" fill="#ffd27a" style="animation-delay:4.78s;animation-duration:6.0s"/><rect class="sk-win" x="906" y="171" width="5" height="7" fill="#ffd27a" style="animation-delay:5.82s;animation-duration:4.2s"/><rect class="sk-win" x="934" y="187" width="5" height="7" fill="#ffd27a" style="animation-delay:1.34s;animation-duration:4.7s"/><rect class="sk-win" x="892" y="203" width="5" height="7" fill="#ffd27a" style="animation-delay:2.36s;animation-duration:3.9s"/><rect class="sk-win" x="934" y="203" width="5" height="7" fill="#9be7ff" style="animation-delay:2.7s;animation-duration:5.8s"/><rect class="sk-win" x="934" y="219" width="5" height="7" fill="#ffd27a" style="animation-delay:5.62s;animation-duration:6.0s"/><rect class="sk-win" x="960" y="157" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.47s;animation-duration:3.3s"/><rect class="sk-win" x="988" y="157" width="5" height="7" fill="#9be7ff" style="animation-delay:5.79s;animation-duration:3.8s"/><rect class="sk-win" x="988" y="173" width="5" height="7" fill="#e0b3ff" style="animation-delay:4.23s;animation-duration:3.8s"/><rect class="sk-win" x="1002" y="173" width="5" height="7" fill="#ffd27a" style="animation-delay:2.19s;animation-duration:6.6s"/><rect class="sk-win" x="1002" y="205" width="5" height="7" fill="#9be7ff" style="animation-delay:1.17s;animation-duration:3.3s"/><rect class="sk-win" x="1002" y="221" width="5" height="7" fill="#9be7ff" style="animation-delay:4.48s;animation-duration:5.8s"/><rect class="sk-win" x="1050" y="118" width="5" height="7" fill="#e0b3ff" style="animation-delay:4.96s;animation-duration:3.4s"/><rect class="sk-win" x="1064" y="150" width="5" height="7" fill="#ffd27a" style="animation-delay:4.82s;animation-duration:6.0s"/><rect class="sk-win" x="1064" y="182" width="5" height="7" fill="#ffd27a" style="animation-delay:1.18s;animation-duration:6.0s"/><rect class="sk-win" x="1050" y="214" width="5" height="7" fill="#ffd27a" style="animation-delay:2.56s;animation-duration:3.4s"/><rect class="sk-win" x="1036" y="230" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.58s;animation-duration:5.0s"/><rect class="sk-win" x="1050" y="230" width="5" height="7" fill="#ffd27a" style="animation-delay:0.8s;animation-duration:4.8s"/><rect class="sk-win" x="1114" y="160" width="5" height="7" fill="#9be7ff" style="animation-delay:5.05s;animation-duration:4.2s"/><rect class="sk-win" x="1086" y="176" width="5" height="7" fill="#ffd27a" style="animation-delay:1.48s;animation-duration:4.0s"/><rect class="sk-win" x="1128" y="176" width="5" height="7" fill="#ffd27a" style="animation-delay:0.39s;animation-duration:4.0s"/><rect class="sk-win" x="1142" y="192" width="5" height="7" fill="#e0b3ff" style="animation-delay:2.85s;animation-duration:6.3s"/><rect class="sk-win" x="1100" y="208" width="5" height="7" fill="#ffd27a" style="animation-delay:1.76s;animation-duration:3.5s"/><rect class="sk-win" x="1142" y="208" width="5" height="7" fill="#ffd27a" style="animation-delay:0.45s;animation-duration:5.1s"/><rect class="sk-win" x="1142" y="224" width="5" height="7" fill="#ffd27a" style="animation-delay:3.58s;animation-duration:5.5s"/><rect class="sk-win" x="1086" y="240" width="5" height="7" fill="#9be7ff" style="animation-delay:2.04s;animation-duration:3.2s"/><rect class="sk-win" x="1100" y="240" width="5" height="7" fill="#ffd27a" style="animation-delay:4.39s;animation-duration:6.7s"/><rect class="sk-win" x="1180" y="103" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.19s;animation-duration:5.0s"/><rect class="sk-win" x="1194" y="103" width="5" height="7" fill="#ffd27a" style="animation-delay:0.61s;animation-duration:4.6s"/><rect class="sk-win" x="1180" y="119" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.98s;animation-duration:5.8s"/><rect class="sk-win" x="1194" y="135" width="5" height="7" fill="#e0b3ff" style="animation-delay:4.47s;animation-duration:6.5s"/><rect class="sk-win" x="1180" y="167" width="5" height="7" fill="#ffd27a" style="animation-delay:4.37s;animation-duration:3.8s"/><rect class="sk-win" x="1166" y="183" width="5" height="7" fill="#9be7ff" style="animation-delay:0.68s;animation-duration:3.4s"/><rect class="sk-win" x="1194" y="183" width="5" height="7" fill="#e0b3ff" style="animation-delay:0.09s;animation-duration:5.2s"/><rect class="sk-win" x="1166" y="199" width="5" height="7" fill="#ffd27a" style="animation-delay:3.73s;animation-duration:4.5s"/><rect class="sk-win" x="1180" y="199" width="5" height="7" fill="#ffd27a" style="animation-delay:1.7s;animation-duration:5.1s"/><rect class="sk-win" x="1194" y="199" width="5" height="7" fill="#ffd27a" style="animation-delay:2.94s;animation-duration:6.2s"/><rect class="sk-win" x="1194" y="215" width="5" height="7" fill="#e0b3ff" style="animation-delay:5.48s;animation-duration:4.3s"/><rect class="sk-win" x="1166" y="231" width="5" height="7" fill="#ffd27a" style="animation-delay:4.27s;animation-duration:5.8s"/></g>
+      <g font-family="Orbitron, sans-serif" font-weight="900" letter-spacing="2"><text class="sk-sign" x="600" y="195" text-anchor="middle" fill="#ff2d95" font-size="22" style="filter:drop-shadow(0 0 6px #ff2d95);animation-delay:0s">AJITO</text><text class="sk-sign" x="800" y="144" text-anchor="middle" fill="#00d4ff" font-size="15" style="filter:drop-shadow(0 0 6px #00d4ff);animation-delay:1.3s">BAR TRIO</text><text class="sk-sign" x="365" y="171" text-anchor="middle" fill="#ffb347" font-size="12" style="filter:drop-shadow(0 0 6px #ffb347);animation-delay:2.1s">CRAFT VILLAGE</text></g>
+      <rect x="0" y="190" width="1200" height="70" fill="url(#skFade)"/>
+      <line x1="0" y1="259.5" x2="1200" y2="259.5" stroke="#00d4ff" stroke-opacity="0.35"/>
+    </svg>
+  </div>
+  <div class="scroll-indicator" style="display:none">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
   </div>
 </section>
