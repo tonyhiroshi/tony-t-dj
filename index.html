@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610171149">
+<meta name="site-version" content="202610180017">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -3148,7 +3148,25 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   const meta = document.querySelector('meta[name="site-version"]');
   const mine = meta ? meta.content : '';
   if (!mine) return;
-  let last = 0, latest = '', minimized = false;
+  let last = 0, latest = '', minimized = false, pending = false;
+  // 音楽を聴いている間はお知らせを出さない（試聴の邪魔をしない）。止めたら右下の小さなボタンだけ出す
+  const isPlaying = () => [...document.querySelectorAll('audio')].some(a => !a.paused)
+    || (typeof originals !== 'undefined' && originals.some(t => t.audio && !t.audio.paused));
+  let played = false;
+  function reveal(){
+    if (!pending) return;
+    if (isPlaying()) { bar.classList.remove('show'); mini.classList.remove('show'); return; }
+    if (minimized || played) { bar.classList.remove('show'); mini.classList.add('show'); }
+    else bar.classList.add('show');
+  }
+  document.addEventListener('play', () => { played = true; reveal(); }, true);
+  document.addEventListener('pause', () => setTimeout(reveal, 300), true);
+  document.addEventListener('ended', () => setTimeout(reveal, 300), true);
+  if (typeof originals !== 'undefined') originals.forEach(t => {
+    if (!t.audio) return;
+    t.audio.addEventListener('play', () => { played = true; reveal(); });
+    t.audio.addEventListener('pause', () => setTimeout(reveal, 300));
+  });
   async function check(){
     if (Date.now() - last < 60000) return; last = Date.now();
     try {
@@ -3156,9 +3174,7 @@ document.querySelectorAll('.featured-player').forEach(fp => {
       if (!res.ok) return;
       const m = (await res.text()).match(/<meta name="site-version" content="(\d+)"/);
       latest = m ? m[1] : '';
-      if (latest && latest > mine) {
-        if (minimized) mini.classList.add('show'); else bar.classList.add('show');
-      }
+      if (latest && latest > mine) { pending = true; reveal(); }
     } catch (e) {}
   }
   const go = () => location.replace(location.pathname + '?v=' + (latest || Date.now()) + location.hash);
