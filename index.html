@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610182133">
+<meta name="site-version" content="202610190911">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -576,9 +576,19 @@
   .np-eq.playing .bars i { animation: npEq 0.9s ease-in-out infinite; }
   .np-eq.live .bars i { animation: none !important; transition: none; }
   @keyframes npEq { 0%,100% { height: 3px; } 50% { height: var(--h, 26px); } }
-  .np-eq .np-title { font-size: 0.82rem; color: var(--accent-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  /* 曲名＋アーティストを右から左へ流す（電光掲示板風） */
+  .np-eq .np-title { position: relative; width: 300px; max-width: 100%; overflow: hidden; white-space: nowrap; font-size: 0.82rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%); }
   .np-eq .np-title:empty { display: none; }
-  @media (max-width: 600px) { .np-eq .np-title { max-width: 180px; } }
+  .np-eq .np-title .np-track { display: inline-block; padding-left: 100%; animation: npMarquee var(--dur, 12s) linear infinite; }
+  .np-eq:not(.playing) .np-title .np-track { animation-play-state: paused; }
+  .np-eq .np-title .t { color: #fff; font-weight: 600; }
+  .np-eq .np-title .a { color: var(--accent-ink); }
+  .np-eq .np-title .sep { color: var(--text-dim); margin: 0 0.5em; }
+  @keyframes npMarquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  @media (max-width: 600px) { .np-eq .np-title { width: 200px; } }
+  @media (prefers-reduced-motion: reduce) { .np-eq .np-title .np-track { animation: none; padding-left: 0; } }
   @media (prefers-reduced-motion: reduce) { .np-eq.playing .bars i { animation: none; height: 12px; } }
 
   .update-mini { position: fixed; right: 16px; bottom: 16px; z-index: 2600; width: 46px; height: 46px; border-radius: 50%;
@@ -2998,7 +3008,11 @@ originals.forEach((t, i) => {
     if (!audioEl) return;
     items.forEach(li => li.addEventListener('click', () => {
       if (!li.dataset.start) return;
-      audioEl.currentTime = +li.dataset.start;
+      const target = +li.dataset.start;
+      const seek = () => { try { audioEl.currentTime = target; } catch (e) {} };
+      // まだ音源を読み込んでいないときは、長さ情報が届いてから位置を合わせる
+      if (audioEl.readyState >= 1) seek();
+      else { audioEl.preload = 'auto'; audioEl.addEventListener('loadedmetadata', seek, { once: true }); audioEl.load(); }
       if (audioEl.paused) { const btn = player.querySelector('.play-btn'); if (btn) btn.click(); }
     }));
     audioEl.addEventListener('timeupdate', () => {
@@ -3066,7 +3080,22 @@ document.querySelectorAll('.featured-player').forEach(fp => {
       eq.classList.toggle('playing', !au.paused);
       eq.classList.toggle('on', started);
       const now = fp.querySelector('.tracklist li.now .tl-title');
-      eq.querySelector('.np-title').textContent = started && now ? now.textContent : '';
+      // 曲が変わったときだけ書き換える（毎回書き換えると流れる文字が先頭に戻ってしまうため）
+      const li = started ? fp.querySelector('.tracklist li.now') : null;
+      const key = li ? li.dataset.start || li.textContent : '';
+      const box = eq.querySelector('.np-title');
+      if (box.dataset.key !== key) {
+        box.dataset.key = key;
+        if (!li) { box.innerHTML = ''; }
+        else {
+          const esc = x => x.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+          const t = li.querySelector('.tl-title')?.textContent || '', a = li.querySelector('.tl-artist')?.textContent || '';
+          box.innerHTML = '<span class="np-track"><span class="t">' + esc(t) + '</span>' + (a ? '<span class="sep">／</span><span class="a">' + esc(a) + '</span>' : '') + '</span>';
+          const tr = box.firstChild;
+          // 文字の長さに合わせて流れる速さを一定に（1秒あたり約45px）
+          requestAnimationFrame(() => { tr.style.setProperty('--dur', Math.max(6, (tr.offsetWidth) / 45).toFixed(1) + 's'); });
+        }
+      }
     };
     ['play','pause','ended','timeupdate','seeked'].forEach(ev => au.addEventListener(ev, sync));
     // ---- 曲の音に合わせて棒を動かす（事前に解析したスペクトルデータを再生位置に合わせて表示） ----
