@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610191703">
+<meta name="site-version" content="202610191707">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -28,6 +28,8 @@
 <style>
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  /* iPhone/iPadのSafariが長い文字列だけ勝手に文字を拡大する機能を止める（流れる曲名の大きさが曲ごとに変わる原因） */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
   :root {
     --neon-purple: #b44aff;
@@ -586,7 +588,7 @@
   .np-eq .np-title .np-track { display: inline-block; padding-left: 100%; animation: npMarquee var(--dur, 12s) linear infinite; }
   .np-eq:not(.playing) .np-title .np-track { animation-play-state: paused; }
   /* 曲名・区切り・アーティスト名を同じ書体・同じ大きさ・同じ太さに統一（英字と日本語の見た目の差も揃える） */
-  .np-eq .np-title, .np-eq .np-title * { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', 'Segoe UI', sans-serif;
+  .np-eq .np-title, .np-eq .np-title * { -webkit-text-size-adjust: none; text-size-adjust: none; font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', 'Segoe UI', sans-serif;
     font-size: 0.74rem !important; font-weight: 500 !important; letter-spacing: 0.02em; line-height: 1.4; }
   .np-eq .np-title .t { color: #fff; }
   .np-eq .np-title .a { color: var(--accent-ink); }
