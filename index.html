@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610190911">
+<meta name="site-version" content="202610190959">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -601,6 +601,16 @@
     background: #ff2d95; box-shadow: 0 0 0 2px #0a0a14; }
   .mini-player.show ~ .update-mini { bottom: 96px; }
   @keyframes umPop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  /* ===== VOLUME：スピーカーで消音切替／iPhone・iPadは本体ボタンで音量 ===== */
+  .volume-control svg { cursor: pointer; transition: fill 0.2s; }
+  .volume-control svg:hover { fill: var(--accent-ink); }
+  .volume-control.muted svg { fill: #ff2d95; }
+  .volume-control .vol-note { display: none; font-size: 0.72rem; color: var(--text-dim); white-space: nowrap; }
+  .no-volume .volume-slider { display: none; }
+  .no-volume .volume-control .vol-note { display: inline; }
+  .volume-slider { cursor: pointer; }
+  .volume-slider::-webkit-slider-thumb { width: 14px !important; height: 14px !important; }
 
   /* ===== MUSIC ===== */
   #music { background: linear-gradient(180deg, transparent, rgba(180,74,255,0.03), transparent); }
@@ -3230,6 +3240,33 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   originals.forEach((t, i) => {
     const b = document.getElementById('origPlayBtn' + (i+1));
     if (b) b.addEventListener('pointerdown', () => { if (t.audio && t.audio.paused) t.audio.preload = 'auto'; }, { passive: true });
+  });
+})();
+
+// ===== VOLUME =====
+// iPhone・iPadのSafariは仕組み上ページから音量を変えられない（常に最大）。
+// その場合はスライダーを隠し「本体の音量ボタンで調整」と表示。スピーカーのアイコンはどの端末でも消音の切替に使える。
+(function(){
+  const probe = document.createElement('audio'); probe.volume = 0.5;
+  const canSetVolume = Math.abs(probe.volume - 0.5) < 0.01;
+  if (!canSetVolume) document.documentElement.classList.add('no-volume');
+  const ICON_ON = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>';
+  const ICON_OFF = '<path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>';
+  document.querySelectorAll('.featured-player').forEach(fp => {
+    const vc = fp.querySelector('.volume-control'), au = fp.querySelector('audio');
+    if (!vc || !au) return;
+    const icon = vc.querySelector('svg'), slider = vc.querySelector('.volume-slider');
+    icon.style.color = '#ff2d95';
+    const note = document.createElement('span'); note.className = 'vol-note'; note.textContent = '音量は本体ボタンで';
+    vc.appendChild(note);
+    icon.setAttribute('role', 'button'); icon.setAttribute('aria-label', '消音／消音解除');
+    const render = () => { vc.classList.toggle('muted', au.muted); icon.innerHTML = au.muted ? ICON_OFF : ICON_ON; };
+    icon.addEventListener('click', () => { au.muted = !au.muted; render(); });
+    if (slider) slider.addEventListener('input', () => {
+      au.volume = +slider.value;
+      if (au.muted && +slider.value > 0) { au.muted = false; render(); }
+    });
+    au.addEventListener('volumechange', render);
   });
 })();
 </script>
