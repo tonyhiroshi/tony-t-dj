@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610191627">
+<meta name="site-version" content="202610191703">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -3258,7 +3258,21 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
     || (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
   const canSetVolume = !isIOS && Math.abs(probe.volume - 0.5) < 0.01;
-  if (!canSetVolume) document.documentElement.classList.add('no-volume');
+  // iPhone・iPadでは音量を直接変えられないため、スライダーを動かしたときだけ
+  // Web Audioの「音量つまみ（GainNode）」を通して音量を下げる（動かさなければ普段どおり再生）
+  let actx = null;
+  const ensureGain = au => {
+    if (au._gain) return au._gain;
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+    if (!actx) actx = new AC();
+    try {
+      const src = actx.createMediaElementSource(au), g = actx.createGain();
+      src.connect(g); g.connect(actx.destination); au._gain = g;
+      au.addEventListener('play', () => { if (actx.state !== 'running') actx.resume(); });
+    } catch (e) { return null; }
+    return au._gain;
+  };
+  document.addEventListener('visibilitychange', () => { if (actx && document.visibilityState === 'visible' && actx.state !== 'running') actx.resume(); });
   const ICON_ON = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>';
   const ICON_OFF = '<path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>';
   document.querySelectorAll('.featured-player').forEach(fp => {
@@ -3272,7 +3286,8 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     const render = () => { vc.classList.toggle('muted', au.muted); icon.innerHTML = au.muted ? ICON_OFF : ICON_ON; };
     icon.addEventListener('click', () => { au.muted = !au.muted; render(); });
     if (slider) slider.addEventListener('input', () => {
-      au.volume = +slider.value;
+      if (canSetVolume) au.volume = +slider.value;
+      else { const g = (+slider.value < 1 || au._gain) ? ensureGain(au) : null; if (g) { g.gain.value = +slider.value; if (actx.state !== 'running') actx.resume(); } }
       if (au.muted && +slider.value > 0) { au.muted = false; render(); }
     });
     au.addEventListener('volumechange', render);
