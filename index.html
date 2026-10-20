@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610191707">
+<meta name="site-version" content="202610200424">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -496,7 +496,9 @@
   .tracklist .tl-time { grid-column: 3; grid-row: 1 / span 2; align-self: center; padding-left: 0.6rem;
     font-family: 'Orbitron', sans-serif; font-size: 0.68rem; color: var(--accent-ink); white-space: nowrap; }
   .tracklist li[data-start] { cursor: pointer; }
-  .tracklist li[data-start]:hover .tl-title { color: var(--accent-ink); }
+  /* マウスのある端末だけ、指した曲を青くする（スマホ・iPadでは押した後に青が残ってしまうため） */
+  @media (hover: hover) and (pointer: fine) { .tracklist li[data-start]:hover .tl-title { color: var(--accent-ink); } }
+  .tracklist li { -webkit-tap-highlight-color: transparent; }
   .tracklist li.now .tl-title { color: var(--accent-ink); }
   .tracklist li.now::before { color: var(--accent-ink); }
   .tracklist .tl-title { grid-column: 2; color: #fff; font-weight: 600; }
