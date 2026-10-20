@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610200526">
+<meta name="site-version" content="202610201221">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -3299,6 +3299,69 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     });
     au.addEventListener('volumechange', render);
   });
+})();
+
+// ===== MEDIA SESSION：カーナビ・ロック画面・Bluetooth機器にジャケットと曲名を表示 =====
+(function(){
+  if (!('mediaSession' in navigator)) return;
+  const abs = u => new URL(u, location.href).href;
+  const coverOf = img => {
+    const src = img ? img.getAttribute('src') : '';
+    const m = src.match(/images\/([^\/]+)\.(webp|png|jpg)$/);
+    const jpg = m ? 'images/cover/' + m[1] + '.jpg' : 'images/og-image.jpg';
+    return [96, 128, 192, 256, 384, 512].map(s => ({ src: abs(jpg), sizes: s + 'x' + s, type: 'image/jpeg' }));
+  };
+  let current = null, lastKey = '';
+  function setMeta(force){
+    if (!current) return;
+    const { kind, el, au } = current;
+    let title, artist, album, art;
+    if (kind === 'mix') {
+      const mixTitle = (el.querySelector('.player-info h3')?.childNodes[0]?.textContent || 'DJ Tony-T Mix').trim();
+      const li = el.querySelector('.tracklist li.now');
+      const meta = (el.querySelector('.player-meta')?.textContent || '').replace(/^Tony-T\s*\/\s*/, '');
+      if (li) {
+        title = li.querySelector('.tl-title')?.textContent || mixTitle;
+        artist = li.querySelector('.tl-artist')?.textContent || 'DJ Tony-T';
+        album = mixTitle + ' — DJ Tony-T';
+      } else { title = mixTitle; artist = 'DJ Tony-T'; album = meta; }
+      art = coverOf(el.querySelector('.player-artwork img'));
+    } else {
+      title = el.querySelector('.original-title')?.textContent.trim() || 'Tony-T Beat';
+      artist = 'Tony-T'; album = 'Original Tracks';
+      art = coverOf(el.querySelector('.original-artwork img'));
+    }
+    const key = title + '|' + artist + '|' + album;
+    if (!force && key === lastKey) return; lastKey = key;
+    try { navigator.mediaSession.metadata = new MediaMetadata({ title, artist, album, artwork: art }); } catch (e) {}
+  }
+  function updatePos(){
+    const au = current && current.au;
+    if (!au || !au.duration || !navigator.mediaSession.setPositionState) return;
+    try { navigator.mediaSession.setPositionState({ duration: au.duration, playbackRate: au.playbackRate || 1, position: Math.min(au.currentTime, au.duration) }); } catch (e) {}
+  }
+  const attach = (kind, el, au) => {
+    au.addEventListener('play', () => { current = { kind, el, au }; setMeta(true); navigator.mediaSession.playbackState = 'playing'; updatePos(); });
+    au.addEventListener('pause', () => { if (current && current.au === au) navigator.mediaSession.playbackState = 'paused'; });
+    au.addEventListener('timeupdate', () => { if (current && current.au === au) { setMeta(false); } });
+    au.addEventListener('seeked', updatePos); au.addEventListener('loadedmetadata', updatePos);
+  };
+  document.querySelectorAll('.featured-player').forEach(fp => { const au = fp.querySelector('audio'); if (au) attach('mix', fp, au); });
+  if (typeof originals !== 'undefined') originals.forEach((t, i) => { const el = document.getElementById('originalPlayer' + (i+1)); if (t.audio && el) attach('orig', el, t.audio); });
+
+  // カーナビやイヤホンのボタン操作
+  const tracks = () => current && current.kind === 'mix' ? [...current.el.querySelectorAll('.tracklist li[data-start]')] : [];
+  const handlers = {
+    play: () => { if (current && current.au.paused) { const b = current.el.querySelector('.play-btn, .original-play-btn'); b ? b.click() : current.au.play(); } },
+    pause: () => { if (current && !current.au.paused) { const b = current.el.querySelector('.play-btn, .original-play-btn'); b ? b.click() : current.au.pause(); } },
+    seekbackward: d => { if (current) { current.au.currentTime = Math.max(0, current.au.currentTime - ((d && d.seekOffset) || 10)); updatePos(); } },
+    seekforward: d => { if (current) { current.au.currentTime = Math.min(current.au.duration || 1e9, current.au.currentTime + ((d && d.seekOffset) || 10)); updatePos(); } },
+    seekto: d => { if (current && d && d.seekTime != null) { current.au.currentTime = d.seekTime; updatePos(); } },
+    nexttrack: () => { const t = tracks(); if (!t.length) return; const now = current.au.currentTime; const n = t.find(li => +li.dataset.start > now + 0.5); if (n) { current.au.currentTime = +n.dataset.start; updatePos(); } },
+    previoustrack: () => { const t = tracks(); if (!t.length) return; const now = current.au.currentTime; const starts = t.map(li => +li.dataset.start).filter(x => x <= now);
+      let tgt = starts.length ? starts[starts.length - 1] : 0; if (now - tgt < 3 && starts.length > 1) tgt = starts[starts.length - 2]; current.au.currentTime = tgt; updatePos(); }
+  };
+  Object.entries(handlers).forEach(([k, f]) => { try { navigator.mediaSession.setActionHandler(k, f); } catch (e) {} });
 })();
 </script>
 </body>
