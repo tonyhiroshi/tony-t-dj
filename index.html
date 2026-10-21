@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610210641">
+<meta name="site-version" content="202610210947">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -588,7 +588,8 @@
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
             mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%); }
   .np-eq .np-title:empty { display: none; }
-  .np-eq .np-title .np-track { display: inline-block; padding-left: 100%; animation: npMarquee var(--dur, 12s) linear infinite; }
+  /* 右端の外から入り、文字が左端から全部消えきってから、また右端から入り直す（距離はJSで実寸を測って設定） */
+  .np-eq .np-title .np-track { display: inline-block; will-change: transform; transform: translateX(var(--from, 300px)); animation: npMarquee var(--dur, 12s) linear infinite; }
   .np-eq:not(.playing) .np-title .np-track { animation-play-state: paused; }
   /* 曲名・区切り・アーティスト名を同じ書体・同じ大きさ・同じ太さに統一（英字と日本語の見た目の差も揃える） */
   .np-eq .np-title, .np-eq .np-title * { -webkit-text-size-adjust: none; text-size-adjust: none; font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', 'Segoe UI', sans-serif;
@@ -596,9 +597,9 @@
   .np-eq .np-title .t { color: #fff; }
   .np-eq .np-title .a { color: var(--accent-ink); }
   .np-eq .np-title .sep { color: var(--text-dim); margin: 0 0.5em; }
-  @keyframes npMarquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  @keyframes npMarquee { from { transform: translateX(var(--from, 300px)); } to { transform: translateX(var(--to, -100%)); } }
   @media (max-width: 600px) { .np-eq .np-title { max-width: none; } }
-  @media (prefers-reduced-motion: reduce) { .np-eq .np-title .np-track { animation: none; padding-left: 0; } }
+  @media (prefers-reduced-motion: reduce) { .np-eq .np-title .np-track { animation: none; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .np-eq.playing .bars i { animation: none; height: 12px; } }
 
   .update-mini { position: fixed; right: 16px; bottom: 16px; z-index: 2600; width: 46px; height: 46px; border-radius: 50%;
@@ -3202,8 +3203,17 @@ document.querySelectorAll('.featured-player').forEach(fp => {
           const t = li.querySelector('.tl-title')?.textContent || '', a = li.querySelector('.tl-artist')?.textContent || '';
           box.innerHTML = '<span class="np-track"><span class="t">' + esc(t) + '</span>' + (a ? '<span class="sep">／</span><span class="a">' + esc(a) + '</span>' : '') + '</span>';
           const tr = box.firstChild;
-          // 文字の長さに合わせて流れる速さを一定に（1秒あたり約45px）
-          requestAnimationFrame(() => { tr.style.setProperty('--dur', Math.max(6, (tr.offsetWidth) / 45).toFixed(1) + 's'); });
+          // 表示枠の幅と文字の長さを実際に測り、「右端の外 → 文字が左端から全部消える位置」まで流す
+          // 速さは文字の長さに関係なく一定（1秒あたり約45px）
+          const fit = () => {
+            const W = box.clientWidth, T = tr.scrollWidth; if (!W || !T) return;
+            tr.style.setProperty('--from', W + 'px'); tr.style.setProperty('--to', -T + 'px');
+            tr.style.setProperty('--dur', Math.max(6, (W + T) / 45).toFixed(1) + 's');
+            tr.style.animation = 'none'; void tr.offsetWidth; tr.style.animation = '';
+          };
+          requestAnimationFrame(fit);
+          if (window.ResizeObserver) { if (box._ro) box._ro.disconnect(); let lw = 0;
+            box._ro = new ResizeObserver(() => { if (box.clientWidth !== lw) { lw = box.clientWidth; fit(); } }); box._ro.observe(box); }
         }
       }
     };
