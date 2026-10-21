@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610210529">
+<meta name="site-version" content="202610210641">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -3356,11 +3356,16 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   const canSetVolume = !isIOS && Math.abs(probe.volume - 0.5) < 0.01;
   // iPhone・iPadでは音量を直接変えられないため、スライダーを動かしたときだけ
   // Web Audioの「音量つまみ（GainNode）」を通して音量を下げる（動かさなければ普段どおり再生）
+  // iOS 16.4以降：このページは「音楽再生」だとiPhoneに伝える（画面ロック中・消音スイッチONでも鳴らし続けるため）
+  const setPlaybackSession = () => { try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {} };
+  setPlaybackSession();
   let actx = null;
+  const anyPlaying = () => [...document.querySelectorAll('audio')].some(a => a._gain && !a.paused);
+  const keepAlive = () => { if (actx && actx.state !== 'running' && anyPlaying()) { setPlaybackSession(); actx.resume().catch(() => {}); } };
   const ensureGain = au => {
     if (au._gain) return au._gain;
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
-    if (!actx) actx = new AC();
+    if (!actx) { setPlaybackSession(); actx = new AC(); actx.addEventListener('statechange', keepAlive); }
     try {
       const src = actx.createMediaElementSource(au), g = actx.createGain();
       src.connect(g); g.connect(actx.destination); au._gain = g;
@@ -3368,7 +3373,14 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     } catch (e) { return null; }
     return au._gain;
   };
-  document.addEventListener('visibilitychange', () => { if (actx && document.visibilityState === 'visible' && actx.state !== 'running') actx.resume(); });
+  // 画面ロック・アプリ切替で止められても、再生中なら音の通り道（Web Audio）をすぐ再開する
+  document.addEventListener('visibilitychange', () => {
+    if (!actx) return;
+    if (document.visibilityState === 'visible') { if (actx.state !== 'running') actx.resume().catch(() => {}); }
+    else keepAlive();
+  });
+  window.addEventListener('pageshow', keepAlive);
+  window.addEventListener('focus', keepAlive);
   const ICON_ON = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>';
   const ICON_OFF = '<path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>';
   document.querySelectorAll('.featured-player').forEach(fp => {
