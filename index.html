@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610210947">
+<meta name="site-version" content="202610211051">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -568,6 +568,13 @@
     color: #0a0a14; background: var(--neon-blue); border-radius: 999px; padding: 0.5rem 1rem; }
   .update-bar .ub-close { background: none; border: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; padding: 0 0.2rem; }
 
+  /* ===== 前回の続きから（iPhoneで再読み込みされても聴いていた位置に戻れるように） ===== */
+  .resume-bar .rb-art { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+  .resume-bar .ub-text { min-width: 0; }
+  .resume-bar .rb-head { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 1px; }
+  .resume-bar .rb-sub { font-size: 0.86rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .resume-bar .rb-sub b { color: var(--accent-ink); font-weight: 600; }
+  .mini-player.show ~ .resume-bar { bottom: 96px; }
   /* ===== NOW PLAYING EQ（Shareの横） ===== */
   .np-row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.9rem; }
   .player-info { min-width: 0; }   /* 流れる曲名が長くても枠からはみ出さないように */
@@ -2396,6 +2403,12 @@
 <button class="update-mini" id="updateMini" aria-label="新しい情報があります。押すと更新します" title="新しい情報があります（押すと更新）">
   <svg viewBox="0 0 24 24"><path d="M5 18v-6M9 18V7M13 18v-9M17 18V5M21 18v-4"/></svg>
 </button>
+<div class="update-bar resume-bar" id="resumeBar" role="status">
+  <img class="rb-art" id="rbArt" alt="">
+  <div class="ub-text"><div class="rb-head">前回の続きから聴く</div><div class="rb-sub" id="rbSub"></div></div>
+  <button class="ub-btn" id="rbPlay">▶ 続きから</button>
+  <button class="ub-close" id="rbClose" aria-label="閉じる">&times;</button>
+</div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">TONY-T</div>
@@ -3473,6 +3486,62 @@ document.querySelectorAll('.featured-player').forEach(fp => {
       let tgt = starts.length ? starts[starts.length - 1] : 0; if (now - tgt < 3 && starts.length > 1) tgt = starts[starts.length - 2]; current.au.currentTime = tgt; updatePos(); }
   };
   Object.entries(handlers).forEach(([k, f]) => { try { navigator.mediaSession.setActionHandler(k, f); } catch (e) {} });
+})();
+
+// ===== 前回の続きから再生：聴いている位置を保存し、ページが読み込み直されても続きから聴けるようにする =====
+// （iPhoneはほかのアプリを使っている間にページを閉じてしまうことがあり、戻ると最初からになるため）
+(function(){
+  const KEY = 'tonyt-resume', MAX_AGE = 14 * 864e5;
+  const players = [...document.querySelectorAll('.featured-player')].map(el => ({ el, au: el.querySelector('audio') })).filter(p => p.au && p.el.id);
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
+  const save = v => { try { v ? localStorage.setItem(KEY, JSON.stringify(v)) : localStorage.removeItem(KEY); } catch (e) {} };
+  const fmt = t => { t = Math.floor(t); const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = String(t % 60).padStart(2, '0'); return h ? h + ':' + String(m).padStart(2, '0') + ':' + s : m + ':' + s; };
+  const titleOf = el => (el.querySelector('.player-info h3')?.childNodes[0]?.textContent || 'DJ Tony-T Mix').trim();
+  let lastSave = 0;
+  const record = (p, force) => {
+    const t = p.au.currentTime, d = p.au.duration || 0;
+    if (!force && Date.now() - lastSave < 3000) return;
+    lastSave = Date.now();
+    if (t < 10) return;
+    if (d && t > d - 15) { save(null); return; }
+    save({ id: p.el.id, t, ts: Date.now() });
+  };
+  const playing = () => players.find(p => !p.au.paused);
+  players.forEach(p => {
+    p.au.addEventListener('timeupdate', () => { if (!p.au.paused) record(p, false); });
+    p.au.addEventListener('pause', () => record(p, true));
+    p.au.addEventListener('ended', () => save(null));
+    p.au.addEventListener('play', hide);
+  });
+  const flush = () => { const p = playing(); if (p) record(p, true); };
+  window.addEventListener('pagehide', flush);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flush(); });
+
+  // ---- 読み込み時：保存があれば「前回の続きから聴く」を表示 ----
+  const bar = document.getElementById('resumeBar');
+  function hide(){ bar && bar.classList.remove('show'); }
+  const v = load();
+  if (!bar || !v || Date.now() - v.ts > MAX_AGE) return;
+  const p = players.find(x => x.el.id === v.id); if (!p) return;
+  // その位置で流れている曲名も添える
+  const lis = [...p.el.querySelectorAll('.tracklist li[data-start]')].filter(li => +li.dataset.start <= v.t);
+  const li = lis[lis.length - 1];
+  const song = li ? (li.querySelector('.tl-title')?.textContent || '') : '';
+  const esc = x => x.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  document.getElementById('rbSub').innerHTML = esc(titleOf(p.el)) + '　<b>' + fmt(v.t) + '〜</b>' + (song ? '　' + esc(song) : '');
+  const img = p.el.querySelector('.player-artwork img'); const art = document.getElementById('rbArt');
+  if (img) art.src = img.getAttribute('src'); else art.remove();
+  setTimeout(() => { if (!playing()) bar.classList.add('show'); }, 800);
+  document.getElementById('rbClose').addEventListener('click', () => { hide(); save(null); });
+  document.getElementById('rbPlay').addEventListener('click', () => {
+    hide();
+    const au = p.au, t = v.t;
+    const seek = () => { try { if (Math.abs(au.currentTime - t) > 2) au.currentTime = t; } catch (e) {} };
+    try { au.currentTime = t; } catch (e) {}
+    if (au.readyState >= 1) seek(); else { au.addEventListener('loadedmetadata', seek, { once: true }); au.addEventListener('canplay', seek, { once: true }); }
+    const b = p.el.querySelector('.play-btn'); if (au.paused) { b ? b.click() : au.play(); }
+    p.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 })();
 </script>
 </body>
