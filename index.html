@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610210358">
+<meta name="site-version" content="202610210525">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -630,6 +630,11 @@
   .gear-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   @media (max-width: 900px) { .gear-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .gear-grid { grid-template-columns: 1fr; } }
+  .gear-groups { display: flex; flex-direction: column; gap: 1.8rem; }
+  .gear-group-title { display: flex; align-items: baseline; gap: 0.7rem; margin-bottom: 0.8rem; padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(180,74,255,0.25); }
+  .gear-group-title span { font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; color: var(--accent-ink); }
+  .gear-group-title small { font-size: 0.78rem; color: var(--text-dim); }
   .gear-card { display: flex; align-items: center; gap: 0.9rem; padding: 1rem 1.1rem; border-radius: 14px; text-decoration: none; color: inherit;
     background: var(--dark-card); border: 1px solid rgba(180,74,255,0.18); transition: border-color .25s, transform .25s, box-shadow .25s; }
   .gear-card:hover { border-color: rgba(0,212,255,0.5); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(180,74,255,0.15); }
@@ -2040,37 +2045,52 @@
     <div class="studio-gear reveal">
       <h3 class="gear-title">Studio Gear</h3>
       <p class="gear-lead">オリジナルトラックの制作に使っているソフト・機材・サンプル音源</p>
-      <div class="gear-grid">
-        <a class="gear-card" href="https://www.image-line.com/fl-studio/" target="_blank" rel="noopener">
-          <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M7 9v6M11 8v8M15 10v4M19 9v6"/></svg></span>
-          <span class="gear-body"><span class="gear-cat">DAW</span><span class="gear-name">FL Studio</span><span class="gear-maker">Image-Line</span><span class="gear-desc">ビートの打ち込み・作曲のメイン</span></span>
-          <span class="gear-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="gear-card" href="https://www.avid.com/pro-tools" target="_blank" rel="noopener">
-          <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M7 9v6M11 8v8M15 10v4M19 9v6"/></svg></span>
-          <span class="gear-body"><span class="gear-cat">DAW</span><span class="gear-name">Pro Tools</span><span class="gear-maker">Avid</span><span class="gear-desc">録音・ミックス・仕上げ</span></span>
-          <span class="gear-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="gear-card" href="https://novationmusic.com/products/flkey-37" target="_blank" rel="noopener">
-          <span class="gear-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M6 7v6M10 7v6M14 7v6M18 7v6"/></svg></span>
-          <span class="gear-body"><span class="gear-cat">KEYBOARD</span><span class="gear-name">FLkey 37</span><span class="gear-maker">Novation</span><span class="gear-desc">FL Studio専用のMIDIキーボード</span></span>
-          <span class="gear-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="gear-card" href="https://splice.com/" target="_blank" rel="noopener">
-          <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
-          <span class="gear-body"><span class="gear-cat">SAMPLES</span><span class="gear-name">Splice</span><span class="gear-maker">Splice</span><span class="gear-desc">ドラム・ループ・ボーカル素材</span></span>
-          <span class="gear-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="gear-card" href="https://www.image-line.com/fl-cloud/sounds" target="_blank" rel="noopener">
-          <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
-          <span class="gear-body"><span class="gear-cat">SAMPLES</span><span class="gear-name">FL Cloud Sounds</span><span class="gear-maker">Image-Line</span><span class="gear-desc">FL Studioのサブスク音源</span></span>
-          <span class="gear-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="gear-card" href="https://www.loopcloud.com/" target="_blank" rel="noopener">
-          <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
-          <span class="gear-body"><span class="gear-cat">SAMPLES</span><span class="gear-name">Loopcloud</span><span class="gear-maker">Loopmasters</span><span class="gear-desc">DAWとテンポを合わせて使えるサンプル</span></span>
-          <span class="gear-go" aria-hidden="true">↗</span>
-        </a>
+      <div class="gear-groups">
+        <div class="gear-group">
+          <h4 class="gear-group-title"><span>DAW</span><small>作曲・録音ソフト</small></h4>
+          <div class="gear-grid">
+          <a class="gear-card" href="https://www.image-line.com/fl-studio/" target="_blank" rel="noopener">
+            <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M7 9v6M11 8v8M15 10v4M19 9v6"/></svg></span>
+            <span class="gear-body"><span class="gear-name">FL Studio</span><span class="gear-maker">Image-Line</span><span class="gear-desc">ビートの打ち込み・作曲のメイン</span></span>
+            <span class="gear-go" aria-hidden="true">↗</span>
+          </a>
+          <a class="gear-card" href="https://www.avid.com/pro-tools" target="_blank" rel="noopener">
+            <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M7 9v6M11 8v8M15 10v4M19 9v6"/></svg></span>
+            <span class="gear-body"><span class="gear-name">Pro Tools</span><span class="gear-maker">Avid</span><span class="gear-desc">録音・ミックス・仕上げ</span></span>
+            <span class="gear-go" aria-hidden="true">↗</span>
+          </a>
+          </div>
+        </div>
+        <div class="gear-group">
+          <h4 class="gear-group-title"><span>KEYBOARD</span><small>キーボード</small></h4>
+          <div class="gear-grid">
+          <a class="gear-card" href="https://novationmusic.com/products/flkey-37" target="_blank" rel="noopener">
+            <span class="gear-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M6 7v6M10 7v6M14 7v6M18 7v6"/></svg></span>
+            <span class="gear-body"><span class="gear-name">FLkey 37</span><span class="gear-maker">Novation</span><span class="gear-desc">FL Studio専用のMIDIキーボード</span></span>
+            <span class="gear-go" aria-hidden="true">↗</span>
+          </a>
+          </div>
+        </div>
+        <div class="gear-group">
+          <h4 class="gear-group-title"><span>SAMPLES</span><small>サンプル音源</small></h4>
+          <div class="gear-grid">
+          <a class="gear-card" href="https://splice.com/" target="_blank" rel="noopener">
+            <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+            <span class="gear-body"><span class="gear-name">Splice</span><span class="gear-maker">Splice</span><span class="gear-desc">ドラム・ループ・ボーカル素材</span></span>
+            <span class="gear-go" aria-hidden="true">↗</span>
+          </a>
+          <a class="gear-card" href="https://www.image-line.com/fl-cloud/sounds" target="_blank" rel="noopener">
+            <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+            <span class="gear-body"><span class="gear-name">FL Cloud Sounds</span><span class="gear-maker">Image-Line</span><span class="gear-desc">FL Studioのサブスク音源</span></span>
+            <span class="gear-go" aria-hidden="true">↗</span>
+          </a>
+          <a class="gear-card" href="https://www.loopcloud.com/" target="_blank" rel="noopener">
+            <span class="gear-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+            <span class="gear-body"><span class="gear-name">Loopcloud</span><span class="gear-maker">Loopmasters</span><span class="gear-desc">DAWとテンポを合わせて使えるサンプル</span></span>
+            <span class="gear-go" aria-hidden="true">↗</span>
+          </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
