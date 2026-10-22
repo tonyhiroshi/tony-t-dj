@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610222018">
+<meta name="site-version" content="202610222023">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -1313,6 +1313,8 @@
 <script>
   // 更新ボタンで付く「?v=数字」などを外し、同じページは1つにまとめて数える
   window.goatcounter = { path: function () { return location.pathname; } };
+  // 本人の端末（ロゴ5秒長押しで設定）は、ページの訪問も数えない
+  try { if (localStorage.getItem('skipgc') === 't') window.goatcounter.no_onload = true; } catch (e) {}
 </script>
 <script data-goatcounter="https://tony-t.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
@@ -3553,7 +3555,29 @@ document.querySelectorAll('.featured-player').forEach(fp => {
 // ===== アクセス解析：再生数・どこまで聴かれたか・Share／リンクのクリックをGoatCounterに記録（サイト上には表示しない） =====
 (function(){
   const queue = [];
+  const skipped = () => { try { return localStorage.getItem('skipgc') === 't'; } catch (e) { return false; } };
+  // 隠し操作：TONY-Tのロゴを5秒長押しすると「この端末は数えない」を切り替える（ホーム画面アイコンから見る本人用）
+  const logo = document.querySelector('.nav-logo');
+  if (logo) {
+    let timer = 0;
+    const start = () => { clearTimeout(timer); timer = setTimeout(() => {
+      const off = !skipped();
+      try { off ? localStorage.setItem('skipgc', 't') : localStorage.removeItem('skipgc'); } catch (e) {}
+      if (navigator.vibrate) navigator.vibrate(60);
+      if (typeof showToast === 'function') showToast(off ? 'この端末のアクセスは数えません' : 'この端末のアクセスを数えます');
+    }, 5000); };
+    const cancel = () => clearTimeout(timer);
+    logo.style.webkitUserSelect = 'none'; logo.style.userSelect = 'none'; logo.style.webkitTouchCallout = 'none';
+    let sx = 0, sy = 0;
+    logo.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; start(); }, { passive: true });
+    // 指が少しぶれただけでは取り消さない（10px以上動いたら取り消し）
+    logo.addEventListener('touchmove', e => { const t = e.touches[0]; if (Math.hypot(t.clientX - sx, t.clientY - sy) > 10) cancel(); }, { passive: true });
+    logo.addEventListener('mousedown', start);
+    ['touchend', 'touchcancel', 'mouseup', 'mouseleave'].forEach(ev => logo.addEventListener(ev, cancel, { passive: true }));
+    logo.addEventListener('contextmenu', e => e.preventDefault());
+  }
   const send = (path, title) => {
+    if (skipped()) return;
     const ev = { path, title: title || path, event: true };
     if (window.goatcounter && window.goatcounter.count) window.goatcounter.count(ev); else queue.push(ev);
   };
