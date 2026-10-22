@@ -7,8 +7,13 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
+<!-- ホーム画面・タブのアイコン（ヘッドホンのサボテン） -->
+<link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610222023">
+<meta name="site-version" content="202610222037">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -119,6 +124,17 @@
     background: var(--neon-blue);
     transition: 0.3s;
   }
+
+  /* ===== iPhone・iPad向けの軽量化 =====
+     ・背景の粒子が毎フレーム動くため、その上の「すりガラス（ぼかし）」は毎回計算し直しになり重い
+       → タッチ端末では、ぼかしをやめて濃い半透明の背景にする（見た目はほぼ同じ）
+     ・画面外のアニメーションは止める（.anim-paused はJSで付け外し） */
+  @media (hover: none), (pointer: coarse) {
+    nav, .mini-player, .update-bar, .lightbox { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+    nav { background: rgba(10,10,20,0.94); }
+    .genre-tag { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  }
+  .anim-paused, .anim-paused *, .anim-paused::before, .anim-paused *::before, .anim-paused *::after { animation-play-state: paused !important; }
 
   /* ===== HERO ===== */
   .hero {
@@ -2457,8 +2473,14 @@ class Particle {
     ctx.fillStyle = `rgba(${this.color},${this.opacity})`; ctx.fill();
   }
 }
-for (let i = 0; i < 100; i++) particles.push(new Particle());
-function animateParticles() {
+// iPhone・iPadは粒子を減らし、描き直しも1秒30回に抑える（PCは今までどおり）
+const COARSE = matchMedia('(hover: none), (pointer: coarse)').matches;
+const P_COUNT = COARSE ? 40 : 100, P_STEP = COARSE ? 1000 / 30 : 0;
+let pLast = 0;
+for (let i = 0; i < P_COUNT; i++) particles.push(new Particle());
+function animateParticles(now) {
+  if (P_STEP && now && now - pLast < P_STEP - 2) { requestAnimationFrame(animateParticles); return; }
+  pLast = now || 0;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles.forEach(p => { p.update(); p.draw(); });
   for (let i = 0; i < particles.length; i++) {
@@ -2558,7 +2580,9 @@ window.addEventListener('blur', () => { if (document.activeElement && document.a
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.querySelectorAll('audio').forEach(warm);
-    if (typeof e.target._eqLoad === 'function') e.target._eqLoad();
+    // 曲に合わせて動く棒のデータは、ページの表示が落ち着いてから読む（再生ボタンを押したときは即読み込み）
+    if (typeof e.target._eqLoad === 'function') { const f = e.target._eqLoad; const go = () => (window.requestIdleCallback ? requestIdleCallback(f, { timeout: 4000 }) : setTimeout(f, 1500));
+      document.readyState === 'complete' ? setTimeout(go, 1500) : window.addEventListener('load', () => setTimeout(go, 1500), { once: true }); }
     io.unobserve(e.target);
   }), { rootMargin: '400px 0px' });
   document.querySelectorAll('.featured-player').forEach(fp => io.observe(fp));
@@ -3616,6 +3640,13 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     const a = e.target.closest('a[href^="http"]');
     if (a) { try { const u = new URL(a.href); if (u.host !== location.host) send('link/' + u.host.replace(/^www\./, ''), 'リンク：' + u.host.replace(/^www\./, '')); } catch (_) {} }
   }, true);
+})();
+
+// ===== 画面外のアニメーションを止めて軽くする（見えるところに来たら再開） =====
+(function(){
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('anim-paused', !e.isIntersecting)), { rootMargin: '100px 0px' });
+  document.querySelectorAll('section, .hero').forEach(el => io.observe(el));
 })();
 </script>
 </body>
