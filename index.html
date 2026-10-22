@@ -13,7 +13,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610222100">
+<meta name="site-version" content="202610222122">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -135,6 +135,25 @@
     .genre-tag { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
   }
   .anim-paused, .anim-paused *, .anim-paused::before, .anim-paused *::before, .anim-paused *::after { animation-play-state: paused !important; }
+
+  /* ===== ACCESS（会場の地図とアクセス） ===== */
+  .access-lead { text-align: center; color: var(--text-dim); margin: -1rem 0 2rem; }
+  .venue-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; align-items: start; }
+  .venue-card { background: var(--dark-card); border: 1px solid rgba(180,74,255,0.15); border-radius: 16px; padding: 1.4rem; display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+  .venue-head { display: flex; align-items: center; gap: 0.8rem; }
+  .venue-head h3 { font-family: 'Orbitron', sans-serif; font-size: 1rem; letter-spacing: 1px; }
+  .venue-note { font-size: 0.8rem; color: var(--accent-ink); margin-top: 0.15rem; }
+  .venue-pin { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); }
+  .venue-pin svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; stroke-linejoin: round; }
+  .venue-info { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 0.9rem; font-size: 0.9rem; margin: 0; }
+  .venue-info dt { color: var(--text-dim); font-size: 0.8rem; padding-top: 0.1rem; }
+  .venue-info dd { margin: 0; color: #fff; }
+  .venue-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .venue-btn { font: inherit; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; color: #fff; text-decoration: none; cursor: pointer;
+    padding: 0.5rem 0.9rem; border-radius: 999px; border: 1px solid rgba(0,212,255,0.4); background: rgba(0,212,255,0.08); }
+  .venue-btn.venue-map-toggle { border-color: rgba(180,74,255,0.5); background: rgba(180,74,255,0.12); }
+  @media (hover: hover) and (pointer: fine) { .venue-btn:hover { background: rgba(0,212,255,0.2); } }
+  .venue-map iframe { display: block; width: 100%; height: 240px; border: 0; border-radius: 12px; }
 
   /* ===== HERO ===== */
   .hero {
@@ -1349,6 +1368,7 @@
     <li><a href="#playlists">Spotify</a></li>
     <li><a href="#events">Events</a></li>
     <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#access">Access</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -2254,6 +2274,65 @@
           <p>OPEN 20:00 / ¥1000+1D / Guest: MR.MILLIONAIRE, NAO, TBC-G</p>
         </div>
         <span class="event-status upcoming">Upcoming</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS（会場の地図とアクセス） -->
+<section id="access">
+  <div class="container">
+    <h2 class="section-title reveal">Access</h2>
+    <div class="section-line reveal"></div>
+    <p class="access-lead reveal">Tony-Tがプレイしている会場です。</p>
+    <div class="venue-grid">
+      <div class="venue-card reveal">
+        <div class="venue-head">
+          <span class="venue-pin"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <div><h3>AJITO</h3><div class="venue-note">FUN TIME（毎月第3土曜）の本拠地</div></div>
+        </div>
+        <dl class="venue-info">
+          <dt>住所</dt><dd>東京都目黒区原町1-9-7 タジリハイム102</dd>
+          <dt>アクセス</dt><dd>東急目黒線「西小山」駅</dd>
+        </dl>
+        <div class="venue-btns">
+          <a class="venue-btn" href="https://www.google.com/maps/search/?api=1&query=AjiTo%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%9B%AE%E9%BB%92%E5%8C%BA%E5%8E%9F%E7%94%BA1-9-7%20%E3%82%BF%E3%82%B8%E3%83%AA%E3%83%8F%E3%82%A4%E3%83%A0102" target="_blank" rel="noopener">Googleマップ</a>
+          <a class="venue-btn" href="https://maps.apple.com/?q=AjiTo&amp;address=%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%9B%AE%E9%BB%92%E5%8C%BA%E5%8E%9F%E7%94%BA1-9-7%20%E3%82%BF%E3%82%B8%E3%83%AA%E3%83%8F%E3%82%A4%E3%83%A0102" target="_blank" rel="noopener">Appleマップ</a>
+          <button class="venue-btn venue-map-toggle" type="button" data-src="https://maps.google.com/maps?q=AjiTo%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%9B%AE%E9%BB%92%E5%8C%BA%E5%8E%9F%E7%94%BA1-9-7%20%E3%82%BF%E3%82%B8%E3%83%AA%E3%83%8F%E3%82%A4%E3%83%A0102&amp;z=17&amp;output=embed">地図を表示</button>
+        </div>
+        <div class="venue-map"></div>
+      </div>
+      <div class="venue-card reveal">
+        <div class="venue-head">
+          <span class="venue-pin"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <div><h3>Craft Village NISHIKOYAMA</h3></div>
+        </div>
+        <dl class="venue-info">
+          <dt>住所</dt><dd>東京都目黒区原町1-7-8</dd>
+          <dt>アクセス</dt><dd>東急目黒線「西小山」駅から徒歩1分</dd>
+        </dl>
+        <div class="venue-btns">
+          <a class="venue-btn" href="https://www.google.com/maps/search/?api=1&query=Craft%20Village%20NISHIKOYAMA%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%9B%AE%E9%BB%92%E5%8C%BA%E5%8E%9F%E7%94%BA1-7-8" target="_blank" rel="noopener">Googleマップ</a>
+          <a class="venue-btn" href="https://maps.apple.com/?q=Craft%20Village%20NISHIKOYAMA&amp;address=%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%9B%AE%E9%BB%92%E5%8C%BA%E5%8E%9F%E7%94%BA1-7-8" target="_blank" rel="noopener">Appleマップ</a>
+          <button class="venue-btn venue-map-toggle" type="button" data-src="https://maps.google.com/maps?q=Craft%20Village%20NISHIKOYAMA%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%9B%AE%E9%BB%92%E5%8C%BA%E5%8E%9F%E7%94%BA1-7-8&amp;z=17&amp;output=embed">地図を表示</button>
+        </div>
+        <div class="venue-map"></div>
+      </div>
+      <div class="venue-card reveal">
+        <div class="venue-head">
+          <span class="venue-pin"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <div><h3>BAR TRIO</h3></div>
+        </div>
+        <dl class="venue-info">
+          <dt>住所</dt><dd>東京都品川区西五反田5-9-6 矢崎ビル B1F</dd>
+          <dt>アクセス</dt><dd>東急目黒線「不動前」駅から徒歩3分</dd>
+        </dl>
+        <div class="venue-btns">
+          <a class="venue-btn" href="https://www.google.com/maps/search/?api=1&query=BAR%20TRIO%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%93%81%E5%B7%9D%E5%8C%BA%E8%A5%BF%E4%BA%94%E5%8F%8D%E7%94%B05-9-6%20%E7%9F%A2%E5%B4%8E%E3%83%93%E3%83%AB%20B1F" target="_blank" rel="noopener">Googleマップ</a>
+          <a class="venue-btn" href="https://maps.apple.com/?q=BAR%20TRIO&amp;address=%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%93%81%E5%B7%9D%E5%8C%BA%E8%A5%BF%E4%BA%94%E5%8F%8D%E7%94%B05-9-6%20%E7%9F%A2%E5%B4%8E%E3%83%93%E3%83%AB%20B1F" target="_blank" rel="noopener">Appleマップ</a>
+          <button class="venue-btn venue-map-toggle" type="button" data-src="https://maps.google.com/maps?q=BAR%20TRIO%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%93%81%E5%B7%9D%E5%8C%BA%E8%A5%BF%E4%BA%94%E5%8F%8D%E7%94%B05-9-6%20%E7%9F%A2%E5%B4%8E%E3%83%93%E3%83%AB%20B1F&amp;z=17&amp;output=embed">地図を表示</button>
+        </div>
+        <div class="venue-map"></div>
       </div>
     </div>
   </div>
@@ -3648,6 +3727,16 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('anim-paused', !e.isIntersecting)), { rootMargin: '100px 0px' });
   document.querySelectorAll('section, .hero').forEach(el => io.observe(el));
 })();
+
+// ===== ACCESS：「地図を表示」を押したときだけ地図を読み込む（ページを重くしないため） =====
+document.querySelectorAll('.venue-map-toggle').forEach(btn => btn.addEventListener('click', () => {
+  const box = btn.closest('.venue-card').querySelector('.venue-map');
+  if (box.firstChild) { box.innerHTML = ''; btn.textContent = '地図を表示'; return; }
+  const f = document.createElement('iframe');
+  f.src = btn.dataset.src; f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade';
+  f.title = btn.closest('.venue-card').querySelector('h3').textContent + 'の地図';
+  box.appendChild(f); btn.textContent = '地図を閉じる';
+}));
 </script>
 </body>
 </html>
