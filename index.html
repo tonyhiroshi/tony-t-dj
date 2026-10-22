@@ -8,7 +8,7 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>DJ Tony-T | Official Website</title>
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610211051">
+<meta name="site-version" content="202610222008">
 <meta name="description" content="DJ Tony-T オフィシャルサイト。R&B・Amapiano・HipHop・House・Reggae。西小山 AJITO / BAR TRIO / Craft Village NISHIKOYAMA でプレイ。ミックス・オリジナルトラック・イベント情報。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DJ Tony-T">
@@ -1309,6 +1309,8 @@
   ::-webkit-scrollbar-thumb { background: linear-gradient(var(--neon-purple), var(--neon-blue)); border-radius: 3px; }
 
 </style>
+<!-- アクセス解析（GoatCounter：数字は管理画面だけで見られ、サイトには表示しない。Cookie不使用） -->
+<script data-goatcounter="https://tony-t.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -3542,6 +3544,50 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     const b = p.el.querySelector('.play-btn'); if (au.paused) { b ? b.click() : au.play(); }
     p.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
+})();
+
+// ===== アクセス解析：再生数・どこまで聴かれたか・Share／リンクのクリックをGoatCounterに記録（サイト上には表示しない） =====
+(function(){
+  const queue = [];
+  const send = (path, title) => {
+    const ev = { path, title: title || path, event: true };
+    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count(ev); else queue.push(ev);
+  };
+  // 解析の読み込みが遅れても取りこぼさないように、読み込み後にまとめて送る
+  const flushQ = () => { if (window.goatcounter && window.goatcounter.count) while (queue.length) window.goatcounter.count(queue.shift()); else if (queue.length) setTimeout(flushQ, 1500); };
+  window.addEventListener('load', () => setTimeout(flushQ, 1500));
+
+  // ミックス：再生開始（1回の訪問で1回）と、25%・50%・75%・最後まで聴かれたか
+  document.querySelectorAll('.featured-player').forEach(el => {
+    const au = el.querySelector('audio'); if (!au || !el.id) return;
+    const name = el.id.replace(/^playlist-/, '');
+    const title = (el.querySelector('.player-info h3')?.childNodes[0]?.textContent || name).trim();
+    const meta = (el.querySelector('.player-meta')?.textContent || '').replace(/^Tony-T\s*\/\s*/, '').trim();
+    const label = title + (meta ? '（' + meta + '）' : '');
+    let started = false; const done = {};
+    au.addEventListener('play', () => { if (!started) { started = true; send('mix/' + name + '/play', '▶ 再生：' + label); } });
+    au.addEventListener('timeupdate', () => {
+      if (!au.duration) return;
+      const r = au.currentTime / au.duration;
+      [25, 50, 75].forEach(m => { if (r >= m / 100 && !done[m]) { done[m] = 1; send('mix/' + name + '/' + m, m + '%まで聴いた：' + label); } });
+    });
+    au.addEventListener('ended', () => { if (!done[100]) { done[100] = 1; send('mix/' + name + '/100', '最後まで聴いた：' + label); } });
+  });
+  // オリジナル曲（ビート）の再生
+  if (typeof originals !== 'undefined') originals.forEach((t, i) => {
+    let started = false; const el = document.getElementById('originalPlayer' + (i + 1));
+    const title = el?.querySelector('.original-title')?.textContent.trim() || ('beat ' + (i + 1));
+    t.audio && t.audio.addEventListener('play', () => { if (!started) { started = true; send('beat/' + (t.src.split('/').pop().replace(/\.mp3$/, '')), '▶ ビート再生：' + title); } });
+  });
+  // 「前回の続きから」が使われた回数
+  document.getElementById('rbPlay')?.addEventListener('click', () => send('resume', '前回の続きから再生'));
+  // Shareボタンと、外部リンク（Instagram・Spotifyなど）のクリック
+  document.addEventListener('click', e => {
+    const sb = e.target.closest('.share-btn');
+    if (sb) { const fp = sb.closest('.featured-player'); send('share/' + (fp ? fp.id.replace(/^playlist-/, '') : 'site'), 'Share：' + (fp?.querySelector('.player-info h3')?.childNodes[0]?.textContent.trim() || 'サイト')); return; }
+    const a = e.target.closest('a[href^="http"]');
+    if (a) { try { const u = new URL(a.href); if (u.host !== location.host) send('link/' + u.host.replace(/^www\./, ''), 'リンク：' + u.host.replace(/^www\./, '')); } catch (_) {} }
+  }, true);
 })();
 </script>
 </body>
