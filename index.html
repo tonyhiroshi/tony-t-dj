@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610262305">
+<meta name="site-version" content="202610262356">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -3065,18 +3065,18 @@ function filterGallery(category) {
 
 // ===== ORIGINAL TRACKS PLAYER =====
 const originals = [
-  { src: 'audio/tony-t-beat-hiphop.mp3', audio: null },
-  { src: 'audio/tony-t-beat-sakura.mp3', audio: null },
-  { src: 'audio/tony-t-beat-star.mp3', audio: null },
-  { src: 'audio/tony-t-beat-sea.mp3', audio: null },
-  { src: 'audio/tony-t-beat-haruwomatsuhito.mp3', audio: null },
-  { src: 'audio/tony-t-beat-kizuna-remix.mp3', audio: null },
-  { src: 'audio/tony-t-beat-drinking-by-myself.mp3', audio: null },
-  { src: 'audio/tony-t-beat-on-the-street.mp3', audio: null },
-  { src: 'audio/tony-t-beat-looking-back.mp3', audio: null },
-  { src: 'audio/tony-t-beat-deep-sea.mp3', audio: null },
-  { src: 'audio/tony-t-beat-the-open-road.mp3', audio: null },
-  { src: 'audio/tony-t-beat-the-wasteland.mp3', audio: null }
+  { src: 'audio/tony-t-beat-hiphop.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-sakura.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-star.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-sea.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-haruwomatsuhito.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-kizuna-remix.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-drinking-by-myself.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-on-the-street.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-looking-back.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-deep-sea.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-the-open-road.mp3?v=2', audio: null },
+  { src: 'audio/tony-t-beat-the-wasteland.mp3?v=2', audio: null }
 ];
 originals.forEach((t, i) => {
   t.audio = new Audio(); t.audio.preload = 'none'; t.audio.src = t.src;   // 再生するまで音源を読み込まない（表示を速くする）
@@ -3757,7 +3757,7 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   if (typeof originals !== 'undefined') originals.forEach((t, i) => {
     let started = false; const el = document.getElementById('originalPlayer' + (i + 1));
     const title = el?.querySelector('.original-title')?.textContent.trim() || ('beat ' + (i + 1));
-    t.audio && t.audio.addEventListener('play', () => { if (!started) { started = true; send('beat/' + (t.src.split('/').pop().replace(/\.mp3$/, '')), '▶ ビート再生：' + title); } });
+    t.audio && t.audio.addEventListener('play', () => { if (!started) { started = true; send('beat/' + (t.src.split('?')[0].split('/').pop().replace(/\.mp3$/, '')), '▶ ビート再生：' + title); } });
   });
   // 「前回の続きから」が使われた回数
   document.getElementById('rbPlay')?.addEventListener('click', () => send('resume', '前回の続きから再生'));
