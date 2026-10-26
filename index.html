@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610261012">
+<meta name="site-version" content="202610261017">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -3403,14 +3403,16 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     const loop = () => {
       cancelAnimationFrame(raf);
       if (!spec) return;
-      const t = au.currentTime * spec.fps, f0 = Math.min(spec.frames - 1, Math.floor(t)), fr = t - f0;
+      // 音より少し遅れて見えるのを防ぐため、約0.1秒先の音の強さを表示する
+      // （曲データは1秒12コマで粗く、立ち上がりが後ろにずれて見えやすい）
+      const t = (au.currentTime + 0.1) * spec.fps, f0 = Math.min(spec.frames - 1, Math.floor(t)), fr = t - f0;
       const f1 = Math.min(spec.frames - 1, f0 + 1), B = spec.bands, N = bars.length;
       for (let k = 0; k < N; k++) {
         const pos = k / (N - 1) * (B - 1), b0 = Math.floor(pos), b1 = Math.min(B - 1, b0 + 1), bf = pos - b0;
         const val = (x => (spec.v[f0 * B + x] * (1 - fr) + spec.v[f1 * B + x] * fr))(b0) * (1 - bf)
                   + (x => (spec.v[f0 * B + x] * (1 - fr) + spec.v[f1 * B + x] * fr))(b1) * bf;
         const target = au.paused ? 0 : Math.pow(val / 35, 1.8);   // メリハリを強める
-        levels[k] += (target - levels[k]) * (target > levels[k] ? 0.6 : 0.25);   // 上がりは速く、下がりはゆっくり
+        levels[k] += (target - levels[k]) * (target > levels[k] ? 0.95 : 0.3);   // 上がりはほぼ一瞬で、下がりは少しゆっくり
         // 高さを変えると毎回レイアウトの計算が走って重いので、拡大縮小（transform）で動かす
         bars[k].style.transform = 'scaleY(' + ((3 + levels[k] * 23) / 26).toFixed(3) + ')';
       }
