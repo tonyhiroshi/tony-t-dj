@@ -8,15 +8,15 @@
 <link rel="canonical" href="https://tonyhiroshi.github.io/tony-t-dj/">
 <!-- Google Search Console の所有確認 -->
 <meta name="google-site-verification" content="HPsws17DNqw1evVMpI3Khp-btnQ_XLBoGxRxL3Raulk" />
-<title>DJ Tony-T（トニーティー）｜西小山のDJ オフィシャルサイト</title>
+<title>DJ Tony-T（トニーティー）｜オフィシャルサイト</title>
 <!-- ホーム画面・タブのアイコン（サボテン＋TONY-Tロゴ＋イコライザー） -->
 <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="images/icon/favicon-32.png?v=2">
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610260237">
-<meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。西小山 AJITO の月例パーティ「FUN TIME」を拠点に、R&B・Amapiano・HipHop・House・Reggaeをプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
+<meta name="site-version" content="202610261012">
+<meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
 [
@@ -32,18 +32,14 @@
   "url": "https://tonyhiroshi.github.io/tony-t-dj/",
   "image": "https://tonyhiroshi.github.io/tony-t-dj/images/og-image.jpg",
   "logo": "https://tonyhiroshi.github.io/tony-t-dj/images/icon/icon-512.png",
-  "description": "西小山 AJITO の月例パーティ「FUN TIME」を拠点に活動するDJ。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。",
+  "description": "R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味のDJ。月例パーティ「FUN TIME」などでプレイ。",
   "genre": [
    "R&B",
    "Amapiano",
    "Hip Hop",
    "House",
    "Reggae"
-  ],
-  "foundingLocation": {
-   "@type": "Place",
-   "name": "西小山, 東京都目黒区"
-  }
+  ]
  },
  {
   "@context": "https://schema.org",
@@ -69,7 +65,9 @@
 <meta name="twitter:image" content="https://tonyhiroshi.github.io/tony-t-dj/images/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap">
+<!-- 文字の読み込みを待たずに画面を出す（読み込めたら書体が切り替わる） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"></noscript>
 <style>
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -663,7 +661,7 @@
     background: linear-gradient(to top, var(--neon-purple), var(--neon-blue)); }
   /* 曲データが読めなかった時だけ、代わりの動きを出す（読み込み中に関係ない動きをしないように） */
   .np-eq.playing.fallback .bars i { animation: npEq 0.9s ease-in-out infinite; }
-  .np-eq.live .bars i { animation: none !important; transition: none; }
+  .np-eq.live .bars i { animation: none !important; transition: none; height: 26px; transform-origin: 50% 100%; transform: scaleY(0.115); will-change: transform; }
   @keyframes npEq { 0%,100% { height: 3px; } 50% { height: var(--h, 26px); } }
   /* 曲名＋アーティストを右から左へ流す（電光掲示板風） */
   .np-eq .np-title { position: relative; flex: 1 1 auto; width: auto; min-width: 0; max-width: 300px; overflow: hidden; white-space: nowrap; font-size: 0.82rem;
@@ -1549,7 +1547,7 @@
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork4" style="cursor:pointer" onclick="openArtwork4()">
-          <img src="images/play-20261011-artwork.webp" alt="DJ PLAY 2026.10.11 Artwork">
+          <img loading="lazy" decoding="async" src="images/play-20261011-artwork.webp" alt="DJ PLAY 2026.10.11 Artwork">
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
@@ -1607,7 +1605,7 @@
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork3" style="cursor:pointer" onclick="openArtwork3()">
-          <img src="images/play-rnb-artwork.webp" alt="DJ PLAY R&B Artwork">
+          <img loading="lazy" decoding="async" src="images/play-rnb-artwork.webp" alt="DJ PLAY R&B Artwork">
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
@@ -1664,7 +1662,7 @@
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork2" style="cursor:pointer" onclick="openArtwork2()">
-          <img src="images/90srnb-artwork.webp" alt="DJ TONY-T MIX 90s R&B Artwork">
+          <img loading="lazy" decoding="async" src="images/90srnb-artwork.webp" alt="DJ TONY-T MIX 90s R&B Artwork">
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
@@ -1721,7 +1719,7 @@
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork" style="cursor:pointer" onclick="openArtwork()">
-          <img src="images/amapiano-artwork.webp" alt="DJ TONY-T MIX AMAPIANO Artwork">
+          <img loading="lazy" decoding="async" src="images/amapiano-artwork.webp" alt="DJ TONY-T MIX AMAPIANO Artwork">
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
@@ -1755,7 +1753,7 @@
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork5" style="cursor:pointer" onclick="openArtwork5()">
-          <img src="images/japanese-artwork.webp" alt="DJ TONY-T JAPANESE MIX Artwork">
+          <img loading="lazy" decoding="async" src="images/japanese-artwork.webp" alt="DJ TONY-T JAPANESE MIX Artwork">
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
@@ -1813,7 +1811,7 @@
     <div class="about-grid">
       <div class="about-visual reveal">
         <div class="about-circle">
-          <img src="images/tony-t-profile.jpg" alt="DJ TONY-T" class="about-profile-img">
+          <img loading="lazy" decoding="async" src="images/tony-t-profile.jpg" alt="DJ TONY-T" class="about-profile-img">
         </div>
       </div>
       <div class="about-text reveal">
@@ -1851,7 +1849,7 @@
         <div class="original-player" id="originalPlayer1">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/hiphop-artwork.webp" alt="HIP-HOP Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/hiphop-artwork.webp" alt="HIP-HOP Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl1"></div>
           </div>
@@ -1875,7 +1873,7 @@
         <div class="original-player" id="originalPlayer2">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/sakura-artwork.webp" alt="SAKURA Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/sakura-artwork.webp" alt="SAKURA Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl2"></div>
           </div>
@@ -1899,7 +1897,7 @@
         <div class="original-player" id="originalPlayer3">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/star-artwork.webp" alt="Star Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/star-artwork.webp" alt="Star Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl3"></div>
           </div>
@@ -1923,7 +1921,7 @@
         <div class="original-player" id="originalPlayer4">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/sea-artwork.webp" alt="Sea Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/sea-artwork.webp" alt="Sea Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl4"></div>
           </div>
@@ -1947,7 +1945,7 @@
         <div class="original-player" id="originalPlayer5">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/haruwomatsuhito-artwork.webp" alt="HARUWOMATSUHITO Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/haruwomatsuhito-artwork.webp" alt="HARUWOMATSUHITO Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl5"></div>
           </div>
@@ -1971,7 +1969,7 @@
         <div class="original-player" id="originalPlayer6">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/kizuna-remix-artwork.webp" alt="KIZUNA Remix Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/kizuna-remix-artwork.webp" alt="KIZUNA Remix Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl6"></div>
           </div>
@@ -1995,7 +1993,7 @@
         <div class="original-player" id="originalPlayer7">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/drinking-artwork.webp" alt="Drinking by myself Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/drinking-artwork.webp" alt="Drinking by myself Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl7"></div>
           </div>
@@ -2019,7 +2017,7 @@
         <div class="original-player" id="originalPlayer8">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/onthestreet-artwork.webp" alt="On the street Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/onthestreet-artwork.webp" alt="On the street Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl8"></div>
           </div>
@@ -2043,7 +2041,7 @@
         <div class="original-player" id="originalPlayer9">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/lookingback-artwork.webp" alt="Looking back Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/lookingback-artwork.webp" alt="Looking back Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl9"></div>
           </div>
@@ -2067,7 +2065,7 @@
         <div class="original-player" id="originalPlayer10">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/deepsea-artwork.webp" alt="Deep Sea Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/deepsea-artwork.webp" alt="Deep Sea Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl10"></div>
           </div>
@@ -2091,7 +2089,7 @@
         <div class="original-player" id="originalPlayer11">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/openroad-artwork.webp" alt="The Open Road Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/openroad-artwork.webp" alt="The Open Road Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl11"></div>
           </div>
@@ -2115,7 +2113,7 @@
         <div class="original-player" id="originalPlayer12">
           <div class="original-artwork">
             <div class="original-artwork-bg">
-              <img src="images/wasteland-artwork.webp" alt="The Wasteland Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+              <img loading="lazy" decoding="async" src="images/wasteland-artwork.webp" alt="The Wasteland Artwork" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
             <div class="original-vinyl" id="originalVinyl12"></div>
           </div>
@@ -2701,7 +2699,7 @@ window.addEventListener('blur', () => { if (document.activeElement && document.a
     e.target.querySelectorAll('audio').forEach(warm);
     // 曲に合わせて動く棒のデータは、ページの表示が落ち着いてから読む（再生ボタンを押したときは即読み込み）
     if (typeof e.target._eqLoad === 'function') { const f = e.target._eqLoad; const go = () => (window.requestIdleCallback ? requestIdleCallback(f, { timeout: 4000 }) : setTimeout(f, 1500));
-      document.readyState === 'complete' ? setTimeout(go, 1500) : window.addEventListener('load', () => setTimeout(go, 1500), { once: true }); }
+      document.readyState === 'complete' ? setTimeout(go, 6000) : window.addEventListener('load', () => setTimeout(go, 6000), { once: true }); }
     io.unobserve(e.target);
   }), { rootMargin: '400px 0px' });
   document.querySelectorAll('.featured-player').forEach(fp => io.observe(fp));
@@ -3371,9 +3369,13 @@ document.querySelectorAll('.featured-player').forEach(fp => {
           // 速さは文字の長さに関係なく一定（1秒あたり約45px）
           const fit = () => {
             const W = box.clientWidth, T = tr.scrollWidth; if (!W || !T) return;
-            tr.style.setProperty('--from', W + 'px'); tr.style.setProperty('--to', -T + 'px');
-            tr.style.setProperty('--dur', Math.max(6, (W + T) / 45).toFixed(1) + 's');
-            tr.style.animation = 'none'; void tr.offsetWidth; tr.style.animation = '';
+            // iPadのSafariは「変数入りの動き」を滑らかに処理できずカクつくため、実際の数値を書いた動きをその都度作る
+            const id = 'npm' + (window.__npmSeq = (window.__npmSeq || 0) + 1);
+            let st = box._kf; if (!st) { st = box._kf = document.createElement('style'); document.head.appendChild(st); }
+            st.textContent = '@keyframes ' + id + '{from{transform:translate3d(' + W + 'px,0,0)}to{transform:translate3d(' + (-T) + 'px,0,0)}}';
+            tr.style.transform = 'translate3d(' + W + 'px,0,0)';
+            tr.style.animationName = id;
+            tr.style.animationDuration = Math.max(6, (W + T) / 45).toFixed(1) + 's';
           };
           requestAnimationFrame(fit);
           if (window.ResizeObserver) { if (box._ro) box._ro.disconnect(); let lw = 0;
@@ -3409,7 +3411,8 @@ document.querySelectorAll('.featured-player').forEach(fp => {
                   + (x => (spec.v[f0 * B + x] * (1 - fr) + spec.v[f1 * B + x] * fr))(b1) * bf;
         const target = au.paused ? 0 : Math.pow(val / 35, 1.8);   // メリハリを強める
         levels[k] += (target - levels[k]) * (target > levels[k] ? 0.6 : 0.25);   // 上がりは速く、下がりはゆっくり
-        bars[k].style.height = (3 + levels[k] * 23).toFixed(1) + 'px';
+        // 高さを変えると毎回レイアウトの計算が走って重いので、拡大縮小（transform）で動かす
+        bars[k].style.transform = 'scaleY(' + ((3 + levels[k] * 23) / 26).toFixed(3) + ')';
       }
       if (!au.paused || levels.some(x => x > 0.02)) raf = requestAnimationFrame(loop);
     };
@@ -3485,7 +3488,8 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   async function check(){
     if (Date.now() - last < 60000) return; last = Date.now();
     try {
-      const res = await fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store' });
+      // ページ全体ではなく先頭の4KB（版番号が書いてある部分）だけ取りに行く
+      const res = await fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store', headers: { Range: 'bytes=0-4095' } });
       if (!res.ok) return;
       const m = (await res.text()).match(/<meta name="site-version" content="(\d+)"/);
       latest = m ? m[1] : '';
@@ -3498,7 +3502,7 @@ document.querySelectorAll('.featured-player').forEach(fp => {
   document.getElementById('updateClose').addEventListener('click', () => {
     minimized = true; bar.classList.remove('show'); mini.classList.add('show');
   });
-  setTimeout(check, 3000);
+  setTimeout(check, 8000);   // 開いた直後は表示を優先し、少し待ってから確認
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
   window.addEventListener('pageshow', e => { if (e.persisted) check(); });
 })();
