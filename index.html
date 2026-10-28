@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202610262356">
+<meta name="site-version" content="202610281027">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -1745,7 +1745,7 @@
           </div>
         </div>
       </div>
-      <audio id="audioPlayer" preload="none" src="audio/dj-mix-amapiano.mp3"></audio>
+      <audio id="audioPlayer" preload="none" src="audio/dj-mix-amapiano.mp3?v=2"></audio>
     </div>
 
     <!-- Featured Player 5: JAPANESE MIX -->
@@ -3389,7 +3389,7 @@ document.querySelectorAll('.featured-player').forEach(fp => {
     ['play','pause','ended','timeupdate','seeked'].forEach(ev => au.addEventListener(ev, sync));
     // ---- 曲の音に合わせて棒を動かす（事前に解析したスペクトルデータを再生位置に合わせて表示） ----
     const bars = [...eq.querySelectorAll('.bars i')];
-    const src = (au.getAttribute('src') || '').replace(/^audio\//, 'audio/eq/').replace(/\.mp3$/, '.json');
+    const src = (au.getAttribute('src') || '').split('?')[0].replace(/^audio\//, 'audio/eq/').replace(/\.mp3$/, '.json');
     let spec = null, loading = false, raf = 0;
     const levels = new Float32Array(bars.length);
     const load = () => {
