@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202611150925">
+<meta name="site-version" content="202611160127">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -3866,6 +3866,29 @@ document.querySelectorAll('.venue-map-toggle').forEach(btn => btn.addEventListen
   const wd = ['SUN','MON','TUE','WED','THU','FRI','SAT'][new Date(y, m - 1, d).getDay()];
   lab.innerHTML = 'Next Event <span class="hero-cta-date">' + m + '/' + d + ' ' + wd + '</span>';
   // ジャンプ先は最新のフライヤー（href="#latest-flyer" のまま）
+})();
+
+// ===== 「NEXT EVENT」ボタン：最新フライヤーの位置にぴったり止める =====
+// iPhoneでは、途中の画像の読み込みやフェードイン（下から浮き上がる動き）でスクロール後に位置がずれるため、
+// 動きの影響を受けない本来の位置を計算し、着いたあとにもう一度位置を確かめて合わせ直す
+(function(){
+  const btn = document.querySelector('a[href="#latest-flyer"]');
+  const target = document.getElementById('latest-flyer');
+  if (!btn || !target) return;
+  const navH = () => (document.querySelector('nav')?.offsetHeight || 70) + 16;
+  const topOf = el => { let y = 0; for (let e = el; e; e = e.offsetParent) y += e.offsetTop; return y; };   // transformを無視した位置
+  const want = () => Math.max(0, topOf(target) - navH());
+  const go = smooth => window.scrollTo({ top: want(), behavior: smooth ? 'smooth' : 'auto' });
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    target.classList.add('active');                          // 着く前に表示状態にしておく
+    target.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; });
+    go(true);
+    let n = 0;
+    const fix = () => { if (Math.abs(window.scrollY - want()) > 4) go(false); if (++n < 4) setTimeout(fix, 450); };
+    setTimeout(fix, 900);
+    try { history.replaceState(null, '', '#latest-flyer'); } catch (_) {}
+  });
 })();
 </script>
 </body>
