@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202611160127">
+<meta name="site-version" content="202611160604">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -1407,6 +1407,9 @@
     .about-grid { grid-template-columns: 1fr; text-align: center; }
     .about-visual { order: -1; }
     .event-card { grid-template-columns: 80px 1fr; gap: 1rem; }
+    /* 日付の枠が狭く「20」などの2桁が見切れるため、余白と文字の大きさを調整 */
+    .event-date { padding: 0.8rem 0.25rem; overflow: visible; }
+    .event-day { font-size: 1.6rem; letter-spacing: -0.5px; line-height: 1.15; white-space: nowrap; }
     .event-status { grid-column: 2; }
     .contact-grid { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
