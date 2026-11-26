@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202611170425">
+<meta name="site-version" content="202611261235">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -1593,8 +1593,42 @@
     <h2 class="section-title reveal">Music</h2>
     <div class="section-line reveal"></div>
 
+    <!-- Featured Player 6: NISHI KOYAMA NIGHT VOL.4 2026.11.21 -->
+    <div class="featured-player reveal" id="playlist-nishikoyama-night-mix">
+      <div class="featured-label">&#9654; Now Playing</div>
+      <div class="player-layout">
+        <div class="player-artwork" id="playerArtwork6" style="cursor:pointer" onclick="openArtwork6()">
+          <img loading="lazy" decoding="async" src="images/nishikoyama-night-artwork.webp" alt="NISHI KOYAMA NIGHT VOL.4 Artwork">
+          <div class="vinyl-spin"></div>
+        </div>
+        <div class="player-info">
+          <h3>NISHI KOYAMA NIGHT <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- VOL.4</span></h3>
+          <div class="player-meta">Tony-T / Recorded 2026.11.21 @ AJITO / 49:44</div>
+          <div class="player-controls">
+            <button class="play-btn" id="playBtn6" onclick="togglePlay6()">
+              <svg id="playIcon6" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar6">
+                <div class="progress-fill" id="progressFill6"></div>
+              </div>
+              <div class="time-display">
+                <span id="currentTime6">00:00</span>
+                <span id="totalTime6">49:44</span>
+              </div>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" class="volume-slider" id="volumeSlider6" min="0" max="1" step="0.05" value="1" oninput="setVolume6(this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio id="audioPlayer6" preload="none" src="audio/dj-mix-nishikoyama-night-2026-11-21.mp3"></audio>
+    </div>
+
     <!-- Featured Player 4: DJ PLAY 2026.10.11 -->
-    <div class="featured-player reveal" id="playlist-play-20261011-mix">
+    <div class="featured-player reveal" id="playlist-play-20261011-mix" style="margin-top:2rem;">
       <div class="featured-label">&#9654; Now Playing</div>
       <div class="player-layout">
         <div class="player-artwork" id="playerArtwork4" style="cursor:pointer" onclick="openArtwork4()">
@@ -3032,6 +3066,63 @@ function openArtwork5() {
   lb.classList.add('active');
 }
 
+// ===== AUDIO PLAYER 6 (NISHI KOYAMA NIGHT VOL.4) =====
+const audio6 = document.getElementById('audioPlayer6');
+const playIcon6 = document.getElementById('playIcon6');
+const progressFill6 = document.getElementById('progressFill6');
+const currentTimeEl6 = document.getElementById('currentTime6');
+const totalTimeEl6 = document.getElementById('totalTime6');
+const playerArtwork6 = document.getElementById('playerArtwork6');
+
+function pauseCustomPlayer6() {
+  if (!audio6.paused) audio6.pause();
+  playIcon6.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+  playerArtwork6.classList.remove('playing');
+}
+
+function togglePlay6() {
+  if (audio6.paused) {
+    stopAllSpotify();
+    pauseCustomPlayer(); pauseCustomPlayer2(); pauseCustomPlayer3(); pauseCustomPlayer4(); pauseCustomPlayer5();
+    originals.forEach((t, i) => {
+      if (!t.audio.paused) {
+        t.audio.pause();
+        document.getElementById('origPlayIcon' + (i+1)).innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+        document.getElementById('originalPlayer' + (i+1)).classList.remove('playing');
+      }
+    });
+    audio6.play();
+    playIcon6.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    playerArtwork6.classList.add('playing');
+  } else {
+    pauseCustomPlayer6();
+  }
+}
+// 他のプレイヤーが再生を始めたらこのプレイヤーは止める
+document.addEventListener('play', e => { if (e.target !== audio6 && !audio6.paused) pauseCustomPlayer6(); }, true);
+
+audio6.addEventListener('timeupdate', () => {
+  if (audio6.duration && !seekDragging.has(audio6)) {
+    progressFill6.style.width = (audio6.currentTime / audio6.duration * 100) + '%';
+    currentTimeEl6.textContent = formatTime(audio6.currentTime);
+  }
+});
+audio6.addEventListener('loadedmetadata', () => { totalTimeEl6.textContent = formatTime(audio6.duration); });
+audio6.addEventListener('ended', () => {
+  pauseCustomPlayer6();
+  progressFill6.style.width = '0%';
+  currentTimeEl6.textContent = '00:00';
+});
+function setVolume6(v) { audio6.volume = v; }
+audio6.volume = 1.0;
+
+// Artwork lightbox for NISHI KOYAMA NIGHT
+function openArtwork6() {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightboxImg').src = 'images/nishikoyama-night-artwork.webp';
+  lb.classList.add('active');
+}
+
 // Artwork lightbox for 90s R&B
 function openArtwork2() {
   const lb = document.getElementById('lightbox');
@@ -3293,6 +3384,7 @@ enableSeek(document.getElementById('progressBar2'), audio2, progressFill2, curre
 enableSeek(document.getElementById('progressBar3'), audio3, progressFill3, currentTimeEl3);
 enableSeek(document.getElementById('progressBar4'), audio4, progressFill4, currentTimeEl4);
 enableSeek(document.getElementById('progressBar5'), audio5, progressFill5, currentTimeEl5);
+enableSeek(document.getElementById('progressBar6'), audio6, progressFill6, currentTimeEl6);
 originals.forEach((t, i) => {
   const fill = document.getElementById('origProgress' + (i+1));
   enableSeek(fill.parentElement, t.audio, fill, document.getElementById('origTime' + (i+1)));
@@ -3843,7 +3935,7 @@ document.querySelectorAll('.venue-map-toggle').forEach(btn => btn.addEventListen
 (function(){
   const mixes = [
     ['audioPlayer', 'pauseCustomPlayer'], ['audioPlayer2', 'pauseCustomPlayer2'], ['audioPlayer3', 'pauseCustomPlayer3'],
-    ['audioPlayer4', 'pauseCustomPlayer4'], ['audioPlayer5', 'pauseCustomPlayer5']
+    ['audioPlayer4', 'pauseCustomPlayer4'], ['audioPlayer5', 'pauseCustomPlayer5'], ['audioPlayer6', 'pauseCustomPlayer6']
   ].map(([id, fn]) => ({ au: document.getElementById(id), stop: () => { const f = window[fn]; if (typeof f === 'function') f(); else document.getElementById(id)?.pause(); } }))
    .filter(m => m.au);
   const origs = (typeof originals !== 'undefined' ? originals : []).map((t, i) => ({ au: t.audio, stop: () => {
