@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202611261336">
+<meta name="site-version" content="202611261338">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -988,6 +988,10 @@
   .mix-card:hover .mix-play-btn { opacity: 1; }
   .mix-play-btn svg { width: 60px; height: 60px; fill: #fff; filter: drop-shadow(0 0 20px rgba(180,74,255,0.5)); }
   .mix-info { padding: 1.5rem; }
+  /* ミックスのジャンル表示（タイトルの上の小さなラベル） */
+  .mix-genre-tag { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--neon-pink); border: 1px solid rgba(255,0,170,0.45); background: rgba(255,0,170,0.08);
+    border-radius: 999px; padding: 0.2rem 0.75rem; margin-bottom: 0.6rem; }
   .mix-genre { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 0.5rem; }
   .mix-title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
   .mix-duration { font-size: 0.85rem; color: var(--text-dim); }
@@ -1602,6 +1606,7 @@
           <div class="vinyl-spin"></div>
         </div>
         <div class="player-info">
+          <div class="mix-genre-tag">New Jack Swing</div>
           <h3>NISHI KOYAMA NIGHT VOL.4 <span style="font-size:0.55em;color:#00d4ff;font-weight:400;letter-spacing:0.1em;">- One take</span></h3>
           <div class="player-meta">Tony-T / Recorded 2026.11.21 @ AJITO / 49:44</div>
           <div class="player-controls">
