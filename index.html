@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202611270012">
+<meta name="site-version" content="202611270129">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -2498,13 +2498,6 @@
     </div>
     <div class="gallery-grid">
       <!-- Newest first -->
-      <div class="gallery-item reveal" data-category="nishikoyama" onclick="openLightbox(0)">
-        <img src="images/nishikoyama-night-vol4.webp" alt="NISHI KOYAMA NIGHT VOL.4" loading="lazy">
-        <div class="gallery-overlay">
-          <div class="gallery-label">NISHI KOYAMA NIGHT VOL.4</div>
-          <div class="gallery-date">2026.11.21 @ AJITO</div>
-        </div>
-      </div>
       <div class="gallery-item reveal" data-category="funtime" onclick="openLightbox(1)">
         <img src="images/funtime-vol9.webp" alt="FUN TIME VOL.9" loading="lazy">
         <div class="gallery-overlay">
@@ -3168,6 +3161,32 @@ function openArtwork3() {
 
 // ===== LIGHTBOX =====
 let currentIdx = 0;
+// ===== イベントのフライヤー一覧：開催日が過ぎたものは自動でGalleryに追加される =====
+// 新しいフライヤーを載せるときは、ここに1行足すだけ（cat: funtime / ozisans / nishikoyama / other）
+const EVENT_FLYERS = [
+  { date: '2026-10-11', title: 'FUNTIME SPECIAL — AjiTo 4th Anniversary', venue: 'AJITO', cat: 'funtime', img: 'images/event-funtime-special.webp' },
+  { date: '2026-11-21', title: 'NISHI KOYAMA NIGHT VOL.4', venue: 'AJITO', cat: 'nishikoyama', img: 'images/event-nishikoyama-night-vol4.webp', bg: '#298974' },
+];
+(function addPastFlyersToGallery(){
+  const grid = document.querySelector('.gallery-grid'); if (!grid) return;
+  const now = new Date();
+  const dateOf = el => { const m = (el.querySelector('.gallery-date')?.textContent || '').match(/(\d{4})\.(\d{1,2})\.(\d{1,2})/); return m ? new Date(+m[1], m[2] - 1, +m[3]) : new Date(0); };
+  const have = new Set([...grid.querySelectorAll('.gallery-item img')].map(i => i.getAttribute('src')));
+  EVENT_FLYERS.filter(f => new Date(f.date + 'T23:59:59+09:00') < now && !have.has(f.img)).forEach(f => {
+    const [y, mo, d] = f.date.split('-').map(Number);
+    const item = document.createElement('div');
+    item.className = 'gallery-item'; item.dataset.category = f.cat;
+    item.innerHTML = '<img loading="lazy" alt=""><div class="gallery-overlay"><div class="gallery-label"></div><div class="gallery-date"></div></div>';
+    const img = item.querySelector('img'); img.src = f.img; img.alt = f.title;
+    img.style.objectFit = 'contain'; img.style.background = f.bg || '#0a0a14';   // 縦長のフライヤーも切れずに全体が見えるように
+    item.querySelector('.gallery-label').textContent = f.title;
+    item.querySelector('.gallery-date').textContent = y + '.' + mo + '.' + d + ' @ ' + f.venue;
+    const when = new Date(y, mo - 1, d);
+    const after = [...grid.querySelectorAll('.gallery-item')].find(el => dateOf(el) < when);   // 新しい順に並べる
+    grid.insertBefore(item, after || null);
+  });
+  [...grid.querySelectorAll('.gallery-item')].forEach((el, i) => el.setAttribute('onclick', 'openLightbox(' + i + ')'));
+})();
 const galleryItems = document.querySelectorAll('.gallery-item');
 function getVisibleItems() { return [...galleryItems].filter(item => item.style.display !== 'none'); }
 function openLightbox(idx) {
