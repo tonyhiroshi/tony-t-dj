@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon/icon-192.png?v=2">
 <meta name="apple-mobile-web-app-title" content="TONY-T">
 <!-- 更新お知らせ用の版番号：サイトを更新したら数字を新しくする（変えなければお知らせは出ない） -->
-<meta name="site-version" content="202611270005">
+<meta name="site-version" content="202611270010">
 <meta name="description" content="DJ Tony-T（トニーティー）のオフィシャルサイト。R&B・Amapiano・HipHop・House・Reggaeをクロスオーバーさせるプレイが持ち味。月例パーティ「FUN TIME」をはじめ各地でプレイ。DJミックス、オリジナルビート、イベント情報、会場へのアクセスを掲載。">
 <!-- Googleに「DJ Tony-T」というアーティストのサイトだと伝える情報 -->
 <script type="application/ld+json">
@@ -368,15 +368,14 @@
   .hero-ctas { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
   .hero-ctas .hero-cta { width: 340px; justify-content: center; box-sizing: border-box; padding-left: 1.2rem; padding-right: 1.2rem; }
   .hero-cta.hero-cta-event {
-    background: rgba(10,10,20,0.55);
-    border: 2px solid transparent;
-    background-image: linear-gradient(rgba(14,10,30,0.92), rgba(14,10,30,0.92)), linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
-    background-origin: border-box; background-clip: padding-box, border-box;
+    /* Listen to Mixes と同じ塗りのボタン。色はピンク〜オレンジで目立たせる */
+    background: linear-gradient(135deg, var(--neon-pink), #ff8a3d);
     animation-delay: 1.1s;
   }
+  .hero-cta.hero-cta-event::before { background: linear-gradient(135deg, var(--neon-pink), #ff8a3d, var(--neon-purple)); }
   /* NEXT EVENT の下の行に日程を表示 */
   .hero-cta-event .hero-cta-label { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.25; }
-  .hero-cta-event .hero-cta-date { display: block; color: var(--neon-blue); font-size: 0.82em; letter-spacing: 2px; margin-top: 0.15rem; }
+  .hero-cta-event .hero-cta-date { display: block; color: #fff3e6; font-size: 0.82em; letter-spacing: 2px; margin-top: 0.15rem; opacity: 0.92; }
   .event-card, .event-flyer { scroll-margin-top: 90px; }
   @media (max-width: 400px) { .hero-ctas { width: 100%; padding: 0 24px; box-sizing: border-box; } .hero-ctas .hero-cta { min-width: 0; width: 100%; max-width: 320px; padding: 1rem 1.2rem; } }
   .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(180,74,255,0.4); }
